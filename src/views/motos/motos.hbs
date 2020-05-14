@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">EDICION MOTOS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <input class="btn btn-primary mr-2" value="Ingresar Moto" onclick="Moto.ingresar();" readonly/>
+                <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
+                    <option>todos</option>
+                    <option>honda</option>
+                    <option>yamaha</option>
+                    <option>zanella</option>
+                    <option>beta</option>
+                </select>
+                <input class="btn btn-success" onclick="Moto.obtener();" value="Buscar" readonly/>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container" id="contenedor">
+    <div class="row pt-5" id="App">
+        <div class="col-md-12 text-center" id="insertar"></div>
+    </div>
+</div>
+<script type="module" src="js/motos.js"></script>
