@@ -31,7 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 //Routes
 app.use('/users', require('./routes/users'))
 app.use('/motos', require('./routes/moto'));
-app.use('/tareas', require('./routes/tareas'))
+app.use('/tareas', require('./routes/tareas'));
+app.use('/alquileres', require('./routes/alquiler'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));
