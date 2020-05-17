@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const alquilerSchema = new Schema({
     fechaEntrega:{
@@ -15,19 +14,19 @@ const alquilerSchema = new Schema({
         type: Date
     },
     usuario: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'user'
     },
     motocicleta: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'moto'
     },
     sedeEntrega: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'sede'
     },
     sedeDevolucion: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'sede'
     },
 });
