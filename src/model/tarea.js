@@ -4,14 +4,24 @@ const { model, Schema } = require('mongoose');
 const tareaSchema = new Schema({
     titulo: String,
     descripcion: String,
-    avance: String,
+    avance: [{
+        msg: String,
+        fecha: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     id_reserva: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'reserva'
-    } ,
+    },
     estado: {
         type: Boolean,
         default: false
+    },
+    id_user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
     }
 })
 
