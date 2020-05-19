@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="card-deck">
+        {{#each result}}
+        <div id="{{_id}}" class="card">
+            <img class="card-img-top"
+                src="https://img2.freepng.es/20190806/ogq/kisspng-scooter-motorcycle-transparency-drawing-scooter-drawing-free-download-on-omaha-5d48fc5adf0c95.3741451815650642829136.jpg"
+                alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{marca}} {{modelo}}</h5>
+                <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted"></small>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script src="./index.js"></script>

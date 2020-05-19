@@ -4,7 +4,6 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const multer = require('multer');
 
-//Inicialar Servidor
 const app = express();
 require('./lib/database')
 
@@ -29,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 //Variables Globales
 
 //Routes
+app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 app.use('/motos', require('./routes/moto'));
 app.use('/tareas', require('./routes/tareas'));
