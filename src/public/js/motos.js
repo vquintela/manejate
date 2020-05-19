@@ -2,7 +2,10 @@ import { message, Modal } from './message.js';
 
 window.Moto = class Moto {
     static ingresar(moto) {
-        document.getElementById('insertar').innerHTML =`
+        const contenedor = document.getElementById('insertar')
+        const insert = document.getElementById('insertar-filas')
+        contenedor.removeChild(insert)
+        const texto =`
             <div class="card-header" id="formulario-titulo">
                 <h4>${moto ? 'Editar Moto' : 'Ingresar Moto'}</h4>
             </div>
@@ -47,6 +50,7 @@ window.Moto = class Moto {
                 </div>
             </div>
         `;
+        contenedor.insertAdjacentHTML('beforeend', texto)
     }
 
     static async insertar(id, imagen) {
@@ -82,7 +86,11 @@ window.Moto = class Moto {
 
     static async obtener() {
         const filtro = document.getElementById('rol-buscar').value;
-        document.getElementById('insertar').innerHTML = `
+        const contenedor = document.getElementById('App')
+        const insert = document.getElementById('insertar')
+        contenedor.removeChild(insert)
+        const texto = `
+            <div class="col-md-12 text-center" id="insertar">
                 <table class="table" id="insertar-filas">
                     <thead class="thead-dark">
                       <tr>
@@ -94,7 +102,10 @@ window.Moto = class Moto {
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
+                </table>
+            </div>
         `;
+        contenedor.insertAdjacentHTML( 'beforeend', texto)
         const userJSON = await fetch('motos/todos', { method: 'GET' });
         let motos = JSON.parse(await userJSON.text());
         let i = 0
@@ -102,23 +113,23 @@ window.Moto = class Moto {
             motos = motos.filter(moto => moto.marca === filtro)
         } 
         motos.map((moto, index) => {
-            document.getElementById('insertar-filas').innerHTML += `
-                    <tbody >
-                        <tr>
-                            <td scope="row">${index +1}</td>
-                            <td>${moto.patente}</td>
-                            <td>${moto.precio}</td>
-                            <td>${moto.marca}</td>
-                            <td>${moto.modelo}</td>
-                            <td><buton class="btn btn-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></buton>
-                            <buton class="btn btn-primary" onclick="Moto.editar('${moto._id}')"><i class="far fa-edit"></i></buton>
-                            <buton class="btn btn-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
-                            ${moto.service ? '<i class="fas fa-motorcycle"></i>' : '<i class="fas fa-wrench"></i>'}
-                            </buton></td>
-                        </tr>
-                    </tbody>
-                </table>
+            const fila = `
+                <tbody >
+                    <tr>
+                        <td scope="row">${index +1}</td>
+                        <td>${moto.patente}</td>
+                        <td>${moto.precio}</td>
+                        <td>${moto.marca}</td>
+                        <td>${moto.modelo}</td>
+                        <td><buton class="btn btn-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></buton>
+                        <buton class="btn btn-primary" onclick="Moto.editar('${moto._id}')"><i class="far fa-edit"></i></buton>
+                        <buton class="btn btn-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
+                        ${moto.service ? '<i class="fas fa-motorcycle"></i>' : '<i class="fas fa-wrench"></i>'}
+                        </buton></td>
+                    </tr>
+                </tbody>
             `;
+            document.getElementById('insertar-filas').insertAdjacentHTML('beforeend', fila)
         })
     }
 

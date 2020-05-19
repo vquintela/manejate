@@ -4,7 +4,11 @@ window.Usuarios = class Usuarios {
     static async obtenerUsuarios() {
         const rol = document.getElementById('rol-buscar').value;
         const estado = JSON.parse(document.getElementById('estado-buscar').value);
-        document.getElementById('insertar').innerHTML = `
+        const contenedor = document.getElementById('App')
+        const insert = document.getElementById('insertar')
+        contenedor.removeChild(insert)
+        const texto = `
+            <div class="col-md-12 text-center" id="insertar">
                 <table class="table" id="insertar-filas">
                     <thead class="thead-dark">
                       <tr>
@@ -16,7 +20,10 @@ window.Usuarios = class Usuarios {
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
+                </table>
+            </div>
         `;
+        contenedor.insertAdjacentHTML( 'beforeend', texto)
         const userJSON = await fetch('users/obtener', { method: 'GET' });
         let users = JSON.parse(await userJSON.text());
         if(rol !== 'todos') {
@@ -25,23 +32,23 @@ window.Usuarios = class Usuarios {
             users = users.filter(user => user.state === estado)
         }
         users.map((user, index) => {
-            document.getElementById('insertar-filas').innerHTML += `
-                    <tbody >
-                        <tr>
-                            <td scope="row">${index + 1}</td>
-                            <td>${user.nombre}</td>
-                            <td>${user.apellido}</td>
-                            <td>${user.email}</td>
-                            <td>${user.rol}</td>
-                            <td><buton class="btn btn-danger" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></buton>
-                            <buton class="btn btn-primary" onclick="Usuarios.update('${user._id}')"><i class="far fa-edit"></i></buton>
-                            <buton class="btn btn-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
-                            ${user.state ? '<i class="fas fa-user-slash"></i>' : '<i class="far fa-user"></i>'}
-                            </buton></td>
-                        </tr>
-                    </tbody>
-                </table>
+            const fila = `
+                <tbody >
+                    <tr>
+                        <td scope="row">${index + 1}</td>
+                        <td>${user.nombre}</td>
+                        <td>${user.apellido}</td>
+                        <td>${user.email}</td>
+                        <td>${user.rol}</td>
+                        <td><buton class="btn btn-danger" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></buton>
+                        <buton class="btn btn-primary" onclick="Usuarios.update('${user._id}')"><i class="far fa-edit"></i></buton>
+                        <buton class="btn btn-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
+                        ${user.state ? '<i class="fas fa-user-slash"></i>' : '<i class="far fa-user"></i>'}
+                        </buton></td>
+                    </tr>
+                </tbody>
             `;
+            document.getElementById('insertar-filas').insertAdjacentHTML('beforeend', fila)
         })
     }
 
@@ -68,7 +75,10 @@ window.Usuarios = class Usuarios {
     }
 
     static async ingresar(usuario) {
-        document.getElementById('insertar').innerHTML =`
+        const contenedor = document.getElementById('insertar')
+        const insert = document.getElementById('insertar-filas')
+        contenedor.removeChild(insert)
+        const texto =`
             <div class="row justify-content-md-center"
                 <div class="card col-md-4" id="product-form">
                     <form class="card-body col-md-4" id="formulario">
@@ -104,6 +114,7 @@ window.Usuarios = class Usuarios {
                 </div>
             </div>
         `;
+        contenedor.insertAdjacentHTML('beforeend', texto)
     }
 
     static async editar(id) {
