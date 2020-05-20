@@ -79,39 +79,37 @@ window.Usuarios = class Usuarios {
         const insert = document.getElementById('insertar-filas')
         contenedor.removeChild(insert)
         const texto =`
-            <div class="row justify-content-md-center"
-                <div class="card col-md-4" id="product-form">
-                    <form class="card-body col-md-4" id="formulario">
-                        <div class="card-header" id="formulario-titulo">
-                            <h4>${usuario ? 'Editar Usuario' : 'Ingresar Usuario'}</h4>
-                        </div>
-                        <div class="form-group mt-4">
-                            <input type="text" id="nombre" ${usuario ? `value="${usuario.nombre}"` : 'placeholder="Nombre"'} class="form-control">
-                            <span id="nombreError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="apellido" ${usuario ? `value="${usuario.apellido}"` : 'placeholder="Apellido"'} class="form-control">
-                            <span id="apellidoError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="email" ${usuario ? `value="${usuario.email}" readonly` : 'placeholder="Email"'} class="form-control">
-                            <span id="emailError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="telefono" ${usuario ? `value="${usuario.telefono}"` : 'placeholder="Telefono"'} class="form-control">
-                            <span id="telefonoError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <select name="rol" id="rol" class="form-control">
-                                <option>${usuario ? usuario.rol : 'rol'}</option>
-                                <option>administrador</option>
-                                <option>cliente</option>
-                            </select>
-                            <span id="rolError" class="text-danger"></span>
-                        </div>
-                        <input value="${usuario ? 'Editar' : 'Ingresar'}" class="btn btn-primary btn-block" ${usuario ? `onclick="Usuarios.editar('${usuario._id}');"` : `onclick="Usuarios.editar();"`} readonly>
-                    </form>
-                </div>
+            <div class="row justify-content-md-center" id="insertar-filas">
+                <form class="card-body col-md-4" id="formulario">
+                    <div class="card-header" id="formulario-titulo">
+                        <h4>${usuario ? 'Editar Usuario' : 'Ingresar Usuario'}</h4>
+                    </div>
+                    <div class="form-group mt-4">
+                        <input type="text" id="nombre" ${usuario ? `value="${usuario.nombre}"` : 'placeholder="Nombre"'} class="form-control">
+                        <span id="nombreError" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="apellido" ${usuario ? `value="${usuario.apellido}"` : 'placeholder="Apellido"'} class="form-control">
+                        <span id="apellidoError" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="email" ${usuario ? `value="${usuario.email}" readonly` : 'placeholder="Email"'} class="form-control">
+                        <span id="emailError" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="telefono" ${usuario ? `value="${usuario.telefono}"` : 'placeholder="Telefono"'} class="form-control">
+                        <span id="telefonoError" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <select name="rol" id="rol" class="form-control">
+                            <option>${usuario ? usuario.rol : 'rol'}</option>
+                            <option>administrador</option>
+                            <option>cliente</option>
+                        </select>
+                        <span id="rolError" class="text-danger"></span>
+                    </div>
+                    <input value="${usuario ? 'Editar' : 'Ingresar'}" class="btn btn-primary btn-block" ${usuario ? `onclick="Usuarios.editar('${usuario._id}');"` : `onclick="Usuarios.editar();"`} readonly>
+                </form>
             </div>
         `;
         contenedor.insertAdjacentHTML('beforeend', texto)

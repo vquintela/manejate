@@ -54,12 +54,10 @@ window.Tarea = class Tarea {
         const insert = document.getElementById('insertar-filas')
         contenedor.removeChild(insert)
         const texto =`
-            <div class="col-md-12 text-center" id="insertar">
-                <div class="card-header" id="formulario-titulo">
-                    <h4>${tarea ? 'Editar Tarea' : 'Ingresar Tarea'}</h4>
-                </div>
+            <div class="col-md-12 text-center" id="insertar-filas">
                 <div class="row justify-content-md-center">
                     <div class="col-md-4">
+                        <h4>${tarea ? 'Editar Tarea' : 'Ingresar Tarea'}</h4>
                         <form class="card-body" id="formulario">
                             <div class="form-group">
                                 <input type="text" id="titulo" ${ tarea ? `value=${tarea.titulo}` : 'placeholder="Titulo"'} class="form-control">

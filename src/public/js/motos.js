@@ -6,11 +6,9 @@ window.Moto = class Moto {
         const insert = document.getElementById('insertar-filas')
         contenedor.removeChild(insert)
         const texto =`
-            <div class="card-header" id="formulario-titulo">
-                <h4>${moto ? 'Editar Moto' : 'Ingresar Moto'}</h4>
-            </div>
-            <div class="row justify-content-md-center">
-                <div class="col-md-4">
+            <div class="row justify-content-md-center align-items-end" id="insertar-filas">
+                <div class="col-md-6">
+                    <h4>${moto ? 'Editar Moto' : 'Ingresar Moto'}</h4>
                     <form class="card-body" id="formulario">
                         <div class="form-group">
                             <input type="text" id="patente" ${ moto ? `value=${moto.patente} readonly` : 'placeholder="Patente"'} class="form-control">
@@ -19,6 +17,17 @@ window.Moto = class Moto {
                         <div class="form-group">
                             <input type="number" id="precio" ${ moto ? `value=${moto.precio}` : 'placeholder="Precio"'} class="form-control">
                             <span id="precioError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="descripcion" ${ moto ? `value=${moto.descripcion}` : 'placeholder="Descripcion"'} class="form-control">
+                            <span id="descripcionError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="modelo" ${ moto ? `value=${moto.modelo}` : 'placeholder="Modelo"'} class="form-control">
+                            <span id="modeloError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="imagen" class="form-control-file">
                         </div>
                         <div class="form-group">
                             <select id="marca" class="form-control">
@@ -31,21 +40,6 @@ window.Moto = class Moto {
                             <span id="marcaError" class="text-danger"></span>
                         </div>
                         <input value="Ingresar" class="btn btn-primary btn-block" ${ moto ? `onclick="Moto.insertar('${moto._id}', '${moto.imagen}');"` : 'onclick="Moto.insertar();"'} readonly>
-                    </form>
-                </div>
-                <div class="col-md-4">
-                    <form class="card-body" id="formulario">
-                        <div class="form-group">
-                            <input type="text" id="descripcion" ${ moto ? `value=${moto.descripcion}` : 'placeholder="Descripcion"'} class="form-control">
-                            <span id="descripcionError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="modelo" ${ moto ? `value=${moto.modelo}` : 'placeholder="Modelo"'} class="form-control">
-                            <span id="modeloError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="imagen" class="form-control-file">
-                        </div>
                     </form>
                 </div>
             </div>
