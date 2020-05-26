@@ -48,6 +48,6 @@ router.post('/delete/:id', async (req, res) => {
     const { id } = req.params;
     await alquiler.findByIdAndDelete(id);
     res.json({message: 'Alquiler eliminado de forma correcta', css: 'success', redirect: 'remove'});
-})
+});
 
 module.exports = router
