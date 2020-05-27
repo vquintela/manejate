@@ -160,7 +160,7 @@ window.Tarea = class Tarea {
                         <input value="Agregar Avance" class="btn btn-primary btn-block" id="btn-agregar" readonly />
                     </div>
                 </div>
-                <div class="col-md-4" id="msg-tareas">
+                <div class="col-md-8" id="msg-tareas">
                 </div>
             </div>
         `;
@@ -169,8 +169,10 @@ window.Tarea = class Tarea {
         const tarea = JSON.parse(await resp.text());
         tarea.avance.map(msg => {
             const parrafo = `
+                <div class="card mb-2">
                     <p>${msg.fecha.toString()}</p>
                     <p>${msg.msg}</p>
+                <div>
             `;
             document.getElementById('msg-tareas').insertAdjacentHTML('beforeend', parrafo)
         })
