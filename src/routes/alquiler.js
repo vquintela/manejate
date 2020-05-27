@@ -25,5 +25,29 @@ router.post('/nuevo', async(req, res) => {
     }
 });
 
+router.get('/editar/:id', async (req, res) => {
+    const { id } = req.params;
+    const alq = await alquiler.findById(id);
+    res.json(alq);
+});
+
+router.post('/editar/:id', async (req, res) => {
+    const { fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega } = req.body;
+
+        try {
+            await alquiler.findByIdAndUpdate({_id: req.params.id}, { fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega });
+            res.json({message: 'Alquiler actualizado de forma correcta', css: 'success', redirect: 'remove'});
+        } catch (error) {
+            const mensaje = errorMessage.crearMensaje(error);
+            res.json({message: mensaje, redirect: 'error'})
+            return
+        }
+});
+
+router.post('/delete/:id', async (req, res) => {
+    const { id } = req.params;
+    await alquiler.findByIdAndDelete(id);
+    res.json({message: 'Alquiler eliminado de forma correcta', css: 'success', redirect: 'remove'});
+});
 
 module.exports = router
