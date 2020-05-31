@@ -5,12 +5,13 @@ const path = require('path');
 const fs = require('fs-extra');
 const errorMessage = require('../lib/errorMessageValidation');
 
-router.get('/', async(req, res) => {
-    res.render('./alquiler/index');
+router.get('/', async (req, res) => {
+    const alquileres = await alquiler.find();
+    res.render('./alquiler/index', { alquileres : alquileres});
 });
 
 router.post('/nuevo', async(req, res) => {
-    const { fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega } = req.body;
+    const { fechaEntrega, fechaDevolucion, usuario, motocicleta, sedeEntrega } = req.body;
     const alquiler = new alquiler({fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega});
     let resp;
     try{
