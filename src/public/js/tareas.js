@@ -170,7 +170,7 @@ window.Tarea = class Tarea {
         tarea.avance.map(msg => {
             const parrafo = `
                 <div class="card mb-2">
-                    <p>${msg.fecha.toString()}</p>
+                    <p>${moment(msg.fecha).format('LLL')}</p>
                     <p>${msg.msg}</p>
                 <div>
             `;
