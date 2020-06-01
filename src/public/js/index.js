@@ -1,5 +1,5 @@
 const alquilar = async (data = {}) => {
-  const url = '/alquiler/nuevo';  
+  const url = "/alquileres/nuevo";
   const respuesta = await fetch(url, {
     method: "POST",
     headers: {
@@ -11,35 +11,38 @@ const alquilar = async (data = {}) => {
   return response.json(); // parses JSON response into native JavaScript objects
 };
 
-window.onload = () => {
-  document.querySelectorAll(".card").forEach((value) => {
-    value.addEventListener("click", () => {
-      Swal.mixin({
-        html: '<input type="date"></input>',
-        confirmButtonText: "Next &rarr;",
-        showCancelButton: true,
-        progressSteps: ["1", "2"],
-      })
-        .queue([
-          {
-            title: "Fecha de retiro",
-            text: "Chaining swal2 modals is easy",
-          },
-          {
-            title: "Fecha de devolución",
-            text: "Chaining swal2 modals is easy",
-          },
-        ])
-        .then((result) => {
-          if (result.value) {
-              alquilar(result.value);
-            const answers = JSON.stringify(result.value);
-            Swal.fire({
-              title: "¡Motocicleta reservada!",
-              confirmButtonText: "OK",
-            });
-          }
-        });
-    });
+const createInput = (type, name, classes) => {
+  const input = document.createElement("input");
+  input.name = name;
+  input.type = type;
+  if (classes !== undefined) classes.forEach((c) => input.classList.add(c));
+
+  return input;
+};
+
+const getData = () => {
+  const elements = Array.from(document.querySelectorAll(".modal input"));
+  const obj = {};
+  elements.map((e) => {
+    obj[e.name] = e.value;
   });
+  return obj;
+};
+
+window.onload = async () => {
+  document
+  $('.modal').on('show.bs.modal', function (event) {
+    const target = $(event.relatedTarget);
+    const modal = $(this)
+    modal.find('.modal-title').text(`Alquilar ${target[0].innerText}`);
+    modal.find("input[name='motocicleta']").val(target[0].id);
+  })
+
+  document
+    .querySelector("[btn-alquilar]")
+    .addEventListener("click", async (event) => {
+      event.preventDefault();
+      const data = getData();
+      await alquilar(data);
+    });
 };
