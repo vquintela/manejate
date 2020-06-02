@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="form-inline my-2 my-lg-0 ml-auto">
-                <input class="btn btn-primary mr-2" value="Ingresar Usuario" onclick="Usuarios.ingresar();" readonly/>
+                <button class="btn btn-primary mr-2" type="button" onclick="Usuarios.ingresar();">Ingresar Usuario</button>
                 <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
                     <option value="true">Activos</option>
                     <option value="false">Bloqueados</option>
@@ -17,7 +17,7 @@
                     <option>administrador</option>
                     <option>cliente</option>
                 </select>
-                <input class="btn btn-success" value="Buscar" onclick="Usuarios.obtenerUsuarios()" readonly/>
+                <button type="button" class="btn btn-success" onclick="Usuarios.obtenerUsuarios()">Buscar</button>
             </form>
         </div>
     </div>

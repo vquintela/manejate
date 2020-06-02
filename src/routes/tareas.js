@@ -17,7 +17,7 @@ router.post('/insertar', async (req, res) => {
     const tarea = new Tareas ({...valores})
     try {
         await tarea.save();
-        res.json({message: 'Tarea Ingresada Correctamente', css: 'success', redirect: '/tareas'})
+        res.json({message: 'Tarea Ingresada Correctamente', css: 'success', redirect: 'remove'})
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
         res.json({message: mensaje, redirect: 'error'})
@@ -33,6 +33,7 @@ router.delete('/delete/:id', async (req, res) => {
 
 router.get('/editar/:id', async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     const tarea = await Tareas.findById(id);
     res.json(tarea);
 })
