@@ -34,7 +34,7 @@ window.onload = async () => {
   $('.modal').on('show.bs.modal', function (event) {
     const target = $(event.relatedTarget);
     const modal = $(this)
-    modal.find('.modal-title').text(`Alquilar ${target[0].innerText}`);
+    modal.find('.modal-title').text(`${target[0].innerText}`);
     modal.find("input[name='motocicleta']").val(target[0].id);
   })
 
@@ -43,6 +43,6 @@ window.onload = async () => {
     .addEventListener("click", async (event) => {
       event.preventDefault();
       const data = getData();
-      await alquilar(data);
+      const res = await alquilar(data);
     });
 };
