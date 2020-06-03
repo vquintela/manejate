@@ -36,12 +36,12 @@ window.Tarea = class Tarea {
                         <td scope="row">${index +1}</td>
                         <td>${tarea.titulo}</td>
                         <td>${tarea.descripcion}</td>
-                        <td><button class="btn btn-secondary btn-sm" onclick="Tarea.mostrar('${tarea._id}')">Ver Avances</button></td>
-                        <td><button class="btn btn-success btn-sm">Ver Reserva</button></td>
-                        <td><button ${tarea.estado ? 'class="btn btn-warning btn-sm"' : 'class="btn btn-primary btn-sm"'} onclick="Tarea.estado('${tarea._id}', ${tarea.estado})">
-                        ${tarea.estado ? 'Finalizada' : 'En Curso'}</button></td>
-                        <td><button class="btn btn-outline-danger btn-sm" onclick="Tarea.delete('${tarea._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-outline-primary btn-sm" onclick="Tarea.update('${tarea._id}')"><i class="fas fa-pen-alt"></i></button></td>
+                        <td><button class="btn btn-outline-info border-0 btn-sm" onclick="Tarea.mostrar('${tarea._id}')"><i class="far fa-comments"></i>  Avances</button></td>
+                        <td><button class="btn btn-outline-success border-0 btn-sm"><i class="fas fa-stopwatch"></i>  Reserva</button></td>
+                        <td><button class="btn btn-outline-${tarea.estado ? 'warning' : 'primary'} btn-sm border-0" onclick="Tarea.estado('${tarea._id}', ${tarea.estado})">
+                        ${tarea.estado ? '<i class="fas fa-check-double"></i> Finalizada' : '<i class="fas fa-list-ul"></i> En Curso'}</button></td>
+                        <td><button class="btn btn-outline-danger btn-sm border-0" onclick="Tarea.delete('${tarea._id}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-outline-primary btn-sm border-0" onclick="Tarea.update('${tarea._id}')"><i class="fas fa-pen-alt"></i></button></td>
                     </tr>
                 </tbody>
             `;

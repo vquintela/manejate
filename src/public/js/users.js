@@ -17,6 +17,7 @@ window.Usuarios = class Usuarios {
                         <th scope="col">Apellido</th>
                         <th scope="col">Email</th>
                         <th scope="col">Rol</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
@@ -40,11 +41,12 @@ window.Usuarios = class Usuarios {
                         <td>${user.apellido}</td>
                         <td>${user.email}</td>
                         <td>${user.rol}</td>
-                        <td><button class="btn btn-outline-danger btn-sm" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-outline-primary btn-sm" onclick="Usuarios.update('${user._id}')"><i class="fas fa-pen-alt"></i></button>
-                        <button class="btn btn-sm btn-outline-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
-                            ${user.state ? '<i class="fas fa-user-slash"></i>' : '<i class="far fa-user"></i>'}
+                        <td><button class="btn btn-sm border-0 btn-outline-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
+                        ${user.state ? '<i class="fas fa-user-slash"></i> Bloquear' : '<i class="far fa-user"></i> Activar'}
                         </button></td>
+                        <td><button class="btn btn-outline-danger btn-sm border-0" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-outline-primary btn-sm border-0" onclick="Usuarios.update('${user._id}')"><i class="fas fa-pen-alt"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             `;

@@ -95,6 +95,7 @@ window.Moto = class Moto {
                         <th scope="col">Precio</th>
                         <th scope="col">Marca</th>
                         <th scope="col">Modelo</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
@@ -117,11 +118,12 @@ window.Moto = class Moto {
                         <td>${moto.precio}</td>
                         <td>${moto.marca}</td>
                         <td>${moto.modelo}</td>
-                        <td><button class="btn btn-sm btn-outline-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-sm btn-outline-primary" onclick="Moto.editar('${moto._id}')"><i class="fas fa-pen-alt"></i></button>
-                        <button class="btn btn-sm btn-outline-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
-                        ${moto.service ? '<i class="fas fa-motorcycle"></i>' : '<i class="fas fa-wrench"></i>'}
+                        <td><button class="btn btn-sm border-0 btn-outline-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
+                        ${moto.service ? '<i class="fas fa-wrench"></i> Reparacion' : '<i class="fas fa-motorcycle"></i> Activa'}
                         </button></td>
+                        <td><button class="btn btn-sm btn-outline-danger border-0" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-primary border-0" onclick="Moto.editar('${moto._id}')"><i class="fas fa-pen-alt"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             `;

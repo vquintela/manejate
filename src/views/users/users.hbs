@@ -1,27 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">EDICION USUARIOS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0 ml-auto">
-                <button class="btn btn-primary mr-2" type="button" onclick="Usuarios.ingresar();">Ingresar Usuario</button>
-                <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
-                    <option value="true">Activos</option>
-                    <option value="false">Bloqueados</option>
-                </select>
-                <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
-                    <option>todos</option>
-                    <option>administrador</option>
-                    <option>cliente</option>
-                </select>
-                <button type="button" class="btn btn-outline-success" onclick="Usuarios.obtenerUsuarios()"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
+<div class="container d-flex align-items-center">
+    <div>
+        <h1>USUARIOS</h1>
     </div>
-</nav>
+    <div class="d-flex ml-auto">
+        <button class="btn btn-primary mr-2 btn-block" type="button" onclick="Usuarios.ingresar();"><i class="fas fa-tasks"></i> Usuario</button>
+        <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
+            <option value="true">Activos</option>
+            <option value="false">Bloqueados</option>
+        </select>
+        <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
+            <option>todos</option>
+            <option>administrador</option>
+            <option>cliente</option>
+        </select>
+        <button type="button" class="btn btn-outline-success" onclick="Usuarios.obtenerUsuarios()"><i class="fas fa-search"></i></button>
+    </div>
+</div>
 <div class="container" id="contenedor">
     <div class="row pt-5" id="App">
         <div class="col-md-12 text-center" id="insertar"></div>
