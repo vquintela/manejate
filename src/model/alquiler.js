@@ -5,17 +5,17 @@ module.exports = model(
   new Schema({
     fechaEntrega: {
       type: Date,
-      required,
+      required: true,
       default: Date.now
     },
     fechaDevolucion: {
       type: Date,
-      required,
+      required: true,
       default: Date.now
     },
     fechaReserva: {
       type: Date,
-      required,
+      required: true,
       default: Date.now
     },
     fechaCancelacion: {
@@ -25,12 +25,10 @@ module.exports = model(
     usuario: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required
     },
     motocicleta: {
       type: Schema.Types.ObjectId,
       ref: "moto",
-      required
     },
     sedeEntrega: {
       type: Schema.Types.ObjectId,

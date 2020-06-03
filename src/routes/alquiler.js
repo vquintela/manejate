@@ -12,10 +12,18 @@ router.get('/', async (req, res) => {
 
 router.post('/nuevo', async(req, res) => {
     const { fechaEntrega, fechaDevolucion, usuario, motocicleta, sedeEntrega } = req.body;
-    const alquiler = new alquiler({fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega});
+    const fechaReserva = Date.now();
+    const alq = new alquiler({
+        fechaEntrega,
+        fechaDevolucion,
+        fechaReserva,
+        motocicleta
+    });
+    alq.fechaReserva instanceof Date;
+
     let resp;
     try{
-        resp = await alquiler.save();
+        resp = await alq.save();
     } catch (error) {
         if(req.file){
             await fs.unlink(req.file.path);
