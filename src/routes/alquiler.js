@@ -1,54 +1,58 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const alquiler = require('../model/alquiler');
-const path = require('path');
-const fs = require('fs-extra');
-const errorMessage = require('../lib/errorMessageValidation');
+const Alquiler = require("../model/alquiler");
+const path = require("path");
+const errorMessage = require("../lib/errorMessageValidation");
 
-router.get('/', async (req, res) => {
-    const alquileres = await alquiler.find();
-    res.render('./alquiler/index', { alquileres : alquileres});
+router.get("/", async (req, res) => {
+  const alquileres = await Alquiler.find();
+  res.render("./alquiler/index", { alquileres: alquileres });
 });
 
-router.post('/nuevo', async(req, res) => {
-    const { fechaEntrega, fechaDevolucion, usuario, motocicleta, sedeEntrega } = req.body;
-    const alquiler = new alquiler({fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega});
-    let resp;
-    try{
-        resp = await alquiler.save();
-    } catch (error) {
-        if(req.file){
-            await fs.unlink(req.file.path);
-        }
-        const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, redirect: 'error'})
-        return;
-    }
+router.post("/nuevo", async (req, res) => {
+  const fechaReserva = Date.now();
+
+  let alquiler = new Alquiler({
+    fechaEntrega: req.body.fechaEntrega,
+    fechaDevolucion: req.body.fechaDevolucion,
+    motocicleta: req.body.motocicleta,
+  });
+
+  alquiler = await alquiler.save();
+
+  res.json(alquiler);
 });
 
-router.get('/editar/:id', async (req, res) => {
-    const { id } = req.params;
-    const alq = await alquiler.findById(id);
-    res.json(alq);
+router.put('/editar/:id', async (req, res) => {
+  const alquiler = await Alquiler.findByIdAndUpdate(
+    req.params.id,
+    {
+      fechaEntrega: req.body.fechaEntrega,
+      fechaDevolucion: req.body.fechaDevolucion,
+      motocicleta: req.body.motocicleta,
+    },
+    { new: true }
+  );
+
+  if(!alquiler) return status(404);
+
+  res.json(alquiler);
 });
 
-router.post('/editar/:id', async (req, res) => {
-    const { fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega } = req.body;
+router.delete('/eliminar/:id', async (req, res) => {
+    const alquiler = await Alquiler.findByIdAndDelete(req.params.id);
 
-        try {
-            await alquiler.findByIdAndUpdate({_id: req.params.id}, { fechaEntrega, fechaDevolucion, fechaReserva, usuario, motocicleta, sedeEntrega });
-            res.json({message: 'Alquiler actualizado de forma correcta', css: 'success', redirect: 'remove'});
-        } catch (error) {
-            const mensaje = errorMessage.crearMensaje(error);
-            res.json({message: mensaje, redirect: 'error'})
-            return
-        }
+    if(!alquiler) return status(404);
+
+    res.json(alquiler);
 });
 
-router.post('/delete/:id', async (req, res) => {
-    const { id } = req.params;
-    await alquiler.findByIdAndDelete(id);
-    res.json({message: 'Alquiler eliminado de forma correcta', css: 'success', redirect: 'remove'});
+router.get('/:id', async (req, res) => {
+    const alquiler = Alquiler.find(req.params.id);
+
+    if(!alquiler) return status(404);
+
+    res.json(alquiler);
 });
 
-module.exports = router
+module.exports = router;
