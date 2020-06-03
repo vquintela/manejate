@@ -39,7 +39,9 @@ window.Moto = class Moto {
                             </select>
                             <span id="marcaError" class="text-danger"></span>
                         </div>
-                        <input value="Ingresar" class="btn btn-primary btn-block" ${ moto ? `onclick="Moto.insertar('${moto._id}', '${moto.imagen}');"` : 'onclick="Moto.insertar();"'} readonly>
+                        <button type="button" class="btn btn-primary btn-block" ${ moto ? `onclick="Moto.insertar('${moto._id}', '${moto.imagen}');"` : 'onclick="Moto.insertar();"'}>
+                            ${moto ? 'Editar' : 'Ingresar'}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -115,11 +117,11 @@ window.Moto = class Moto {
                         <td>${moto.precio}</td>
                         <td>${moto.marca}</td>
                         <td>${moto.modelo}</td>
-                        <td><buton class="btn btn-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></buton>
-                        <buton class="btn btn-primary" onclick="Moto.editar('${moto._id}')"><i class="far fa-edit"></i></buton>
-                        <buton class="btn btn-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
+                        <td><button class="btn btn-sm btn-outline-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-primary" onclick="Moto.editar('${moto._id}')"><i class="fas fa-pen-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
                         ${moto.service ? '<i class="fas fa-motorcycle"></i>' : '<i class="fas fa-wrench"></i>'}
-                        </buton></td>
+                        </button></td>
                     </tr>
                 </tbody>
             `;

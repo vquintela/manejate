@@ -2,8 +2,14 @@ const { model, Schema } = require('mongoose');
 // const reserva = mongoose.model('reserva');
 
 const tareaSchema = new Schema({
-    titulo: String,
-    descripcion: String,
+    titulo: {
+        type: String,
+        required: [true, '¡Campo requerido!']
+    },
+    descripcion: {
+        type: String, 
+        required: [true, '¡Campo requerido!']
+    },
     avance: [{
         msg: String,
         fecha: {

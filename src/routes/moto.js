@@ -38,13 +38,13 @@ router.post('/insertar', async (req, res) => {
             const nombArch = resp._id + ext;
             moto.imagen = nombArch
             await moto.updateOne({imagen: nombArch});
-            res.json({message: 'Moto ingresada de forma correcta', css: 'success', redirect: '/motos'});
+            res.json({message: 'Moto ingresada de forma correcta', css: 'success', redirect: 'remove'});
         } else {
             await fs.unlink(imagePath);
             res.json({message: 'Moto guardada, imagen no soportada', css: 'danger', redirect: 'remove'});
         }
     } else {
-        res.json({message: 'Moto ingresada sin imagen', css: 'success', redirect: '/motos'});
+        res.json({message: 'Moto ingresada sin imagen', css: 'success', redirect: 'remove'});
     }
 })
 
