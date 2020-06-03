@@ -40,9 +40,9 @@ window.Usuarios = class Usuarios {
                         <td>${user.apellido}</td>
                         <td>${user.email}</td>
                         <td>${user.rol}</td>
-                        <td><button class="btn btn-danger" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-primary" onclick="Usuarios.update('${user._id}')"><i class="far fa-edit"></i></button>
-                        <button class="btn btn-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
+                        <td><button class="btn btn-outline-danger btn-sm" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-outline-primary btn-sm" onclick="Usuarios.update('${user._id}')"><i class="fas fa-pen-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
                             ${user.state ? '<i class="fas fa-user-slash"></i>' : '<i class="far fa-user"></i>'}
                         </button></td>
                     </tr>

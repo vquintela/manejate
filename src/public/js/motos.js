@@ -117,9 +117,9 @@ window.Moto = class Moto {
                         <td>${moto.precio}</td>
                         <td>${moto.marca}</td>
                         <td>${moto.modelo}</td>
-                        <td><button class="btn btn-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-primary" onclick="Moto.editar('${moto._id}')"><i class="far fa-edit"></i></button>
-                        <button class="btn btn-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
+                        <td><button class="btn btn-sm btn-outline-danger" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-primary" onclick="Moto.editar('${moto._id}')"><i class="fas fa-pen-alt"></i></button>
+                        <button class="btn btn-sm btn-outline-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
                         ${moto.service ? '<i class="fas fa-motorcycle"></i>' : '<i class="fas fa-wrench"></i>'}
                         </button></td>
                     </tr>

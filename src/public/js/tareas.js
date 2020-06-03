@@ -36,12 +36,12 @@ window.Tarea = class Tarea {
                         <td scope="row">${index +1}</td>
                         <td>${tarea.titulo}</td>
                         <td>${tarea.descripcion}</td>
-                        <td><button class="btn btn-info" onclick="Tarea.mostrar('${tarea._id}')">Ver Avances</button></td>
-                        <td><button class="btn btn-alert">Ver Reserva</button></td>
-                        <td><button ${tarea.estado ? 'class="btn btn-info"' : 'class="btn btn-alert"'} onclick="Tarea.estado('${tarea._id}', ${tarea.estado})">
+                        <td><button class="btn btn-secondary btn-sm" onclick="Tarea.mostrar('${tarea._id}')">Ver Avances</button></td>
+                        <td><button class="btn btn-success btn-sm">Ver Reserva</button></td>
+                        <td><button ${tarea.estado ? 'class="btn btn-warning btn-sm"' : 'class="btn btn-primary btn-sm"'} onclick="Tarea.estado('${tarea._id}', ${tarea.estado})">
                         ${tarea.estado ? 'Finalizada' : 'En Curso'}</button></td>
-                        <td><button class="btn btn-danger" onclick="Tarea.delete('${tarea._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-primary" onclick="Tarea.update('${tarea._id}')"><i class="far fa-edit"></i></button></td>
+                        <td><button class="btn btn-outline-danger btn-sm" onclick="Tarea.delete('${tarea._id}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-outline-primary btn-sm" onclick="Tarea.update('${tarea._id}')"><i class="fas fa-pen-alt"></i></button></td>
                     </tr>
                 </tbody>
             `;
