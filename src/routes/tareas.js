@@ -17,10 +17,10 @@ router.post('/insertar', async (req, res) => {
     const tarea = new Tareas ({...valores})
     try {
         await tarea.save();
-        res.json({message: 'Tarea Ingresada Correctamente', css: 'success', redirect: 'remove'})
+        res.json({message: 'Tarea Ingresada Correctamente', css: 'success', type: true})
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, redirect: 'error'})
+        res.json({message: mensaje, type: false})
         return;
     }
 })
@@ -28,7 +28,7 @@ router.post('/insertar', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     const { id } = req.params;
     await Tareas.findByIdAndDelete(id);
-    res.json({message: 'Tarea eliminada de forma correcta', css: 'success', redirect: 'remove'});
+    res.json({message: 'Tarea eliminada de forma correcta', css: 'success', type: true});
 })
 
 router.get('/editar/:id', async (req, res) => {
@@ -42,10 +42,10 @@ router.post('/editar/:id', async (req, res) => {
     const valores = req.body
     try {
         await Tareas.findByIdAndUpdate({_id: req.params.id}, { ...valores }, { runValidators: true });
-        res.json({message: 'Tarea actualizada de forma correcta', css: 'success', redirect: 'remove'});
+        res.json({message: 'Tarea actualizada de forma correcta', css: 'success', type: true});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, redirect: 'error'})
+        res.json({message: mensaje, type: false})
         return;
     }
 })
@@ -54,7 +54,7 @@ router.put('/estado/:id', async (req, res) => {
     const { id } = req.params;
     const { state } = req.body;
     await Tareas.findByIdAndUpdate({_id: id}, { estado: state });
-    res.json({message: 'Estado modificado', css: 'success', redirect: 'remove'});
+    res.json({message: 'Estado modificado', css: 'success', type: true});
 })
 
 module.exports = router

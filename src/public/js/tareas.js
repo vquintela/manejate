@@ -98,10 +98,10 @@ window.Tarea = class Tarea {
             });
             datotexto = JSON.parse(await add.text());
         }
-        if(datotexto.redirect === 'error') {
+        if(!datotexto.type) {
             message.errorMessage(datotexto.message)
         } else {
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Tarea.obtener();
         }
     }
@@ -123,7 +123,7 @@ window.Tarea = class Tarea {
         if (acept) {
             const resp = await fetch("/tareas/delete/" + id, {method: 'DELETE'});
             const datotexto = JSON.parse(await resp.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Tarea.obtener();
         }
     }
@@ -141,7 +141,7 @@ window.Tarea = class Tarea {
                 body: tareaJSON
             });
             const datotexto = JSON.parse(await add.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Tarea.obtener();
         }
     }
@@ -195,14 +195,3 @@ window.Tarea = class Tarea {
 }
 
 Tarea.obtener()
-
-/*
- tarea.avance = []
-        document.querySelectorAll('.avance').forEach(mensaje => {
-            const ava = {}
-            ava.msg = mensaje.value
-            ava.fecha = Date.now()
-            tarea.avance.push(ava)
-        });
-
-*/

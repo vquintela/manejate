@@ -59,7 +59,7 @@ static async  obtenerSede ()  {
                         <span id="codigoPostalError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="provincia" ${sede ? `value="${sede.provincia}" readonly` : 'placeholder="Provincia"'} class="form-control">
+                        <input type="text" id="provincia" ${sede ? `value="${sede.provincia}"` : 'placeholder="Provincia"'} class="form-control">
                         <span id="provinciaError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -120,7 +120,7 @@ static async  editarSede(id) {
         });
         datotexto = JSON.parse(await add.text());
     }
-    if(datotexto.redirect === 'error') {
+    if(!datotexto.type) {
         message.errorMessage(datotexto.message)
     } else {
         message.showMessage(datotexto.message, datotexto.css);

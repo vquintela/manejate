@@ -21,7 +21,7 @@ router.delete('/delete/:id', async (req, res) => {
     if(resp.img != 'avatar.jpg') {
         await fs.unlink(path.resolve('./src/public/img/' + resp.img));
     }
-    res.json({message: 'Usuario eliminado de forma correcta', css: 'success', redirect: 'remove'});
+    res.json({message: 'Usuario eliminado de forma correcta', css: 'success', type: true});
 });
 
 router.get('/editar/:id', async (req, res) => {
@@ -34,10 +34,10 @@ router.post('/editar/:id', async (req, res) => {
     const { nombre, apellido, rol, telefono } = req.body;
     try {
         await User.findByIdAndUpdate({_id: req.params.id}, { nombre, apellido, rol, telefono }, { runValidators: true });
-        res.json({message: 'Usuario actualizado de forma correcta', css: 'success', redirect: 'remove'});
+        res.json({message: 'Usuario actualizado de forma correcta', css: 'success', type: true});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, redirect: 'error'})
+        res.json({message: mensaje, type: false})
         return;
     }
 });
@@ -46,7 +46,7 @@ router.put('/estado/:id', async (req, res) => {
     const { id } = req.params;
     const { state } = req.body;
     await User.findByIdAndUpdate({_id: id}, { state });
-    res.json({message: 'Estado modificado', css: 'success', redirect: 'remove'});
+    res.json({message: 'Estado modificado', css: 'success', type: true});
 })
 
 router.get('/newpass', async (req, res) => {
@@ -62,12 +62,12 @@ router.post('/newpass/:id', async (req, res) => {
         if(pass) {
             const password = await user.encryptPassword(nuevaPass);
             await user.updateOne({password: password})
-            res.json({message: 'Password cambiada', css: 'success', redirect: '/profile'})
+            res.json({message: 'Password cambiada', css: 'success', type: true})
         } else {
-            res.json({message: 'La password ingresada no es correcta', css: 'danger', redirect: 'remove'})
+            res.json({message: 'La password ingresada no es correcta', css: 'danger', type: true})
         }
     } else{
-        res.json({message: 'Las password no coinciden',css: 'danger', redirect: 'remove'})
+        res.json({message: 'Las password no coinciden',css: 'danger', type: true})
     }
 })
 
@@ -86,10 +86,10 @@ router.post('/avatar/:id', async (req, res) => {
         await fs.rename(imagePath, targetPath);
         const nombArch = id + ext;
         await user.updateOne({ img: nombArch });
-        res.json({ message: 'Imagen ingresada de forma correcta', css: 'success', redirect: '/profile' });
+        res.json({message: 'Imagen ingresada de forma correcta', css: 'success', type: true});
     } else {
         await fs.unlink(imagePath);
-        res.json({ message: 'Imagen no soportada', css: 'danger', redirect: '/profile' });
+        res.json({message: 'Imagen no soportada', css: 'danger', type: true});
     }
 })
 
@@ -102,10 +102,10 @@ router.post('/insertar', async (req, res) => {
     try {
         await user.save()
         // await mailer.renew(user.email, user.nombre, user.apellido, password)
-        res.json({message: 'Usuario ingresado de forma correcta', css: 'success', redirect: 'remove'});
+        res.json({message: 'Usuario ingresado de forma correcta', css: 'success', type: true});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
-        return res.json({message: mensaje, redirect: 'error'})
+        return res.json({message: mensaje, type: false})
     }
 })
 

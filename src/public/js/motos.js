@@ -72,10 +72,10 @@ window.Moto = class Moto {
             })
             mensaje = JSON.parse(await text.text());
         }
-        if(mensaje.redirect === 'error') {
+        if(!mensaje.type) {
             message.errorMessage(mensaje.message)
         } else {
-            message.showMessage(mensaje.message, mensaje.css, mensaje.redirect);
+            message.showMessage(mensaje.message, mensaje.css);
             Moto.obtener()   
         }
     }
@@ -154,7 +154,7 @@ window.Moto = class Moto {
                 body: dataJSON
             });
             const datotexto = JSON.parse(await resp.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Moto.obtener();
         }
     }
@@ -172,7 +172,7 @@ window.Moto = class Moto {
                 body: motoJSON
             });
             const datotexto = JSON.parse(await add.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Moto.obtener();
         }
     }

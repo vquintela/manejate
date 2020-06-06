@@ -16,6 +16,7 @@ window.Usuarios = class Usuarios {
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Telefono</th>
                         <th scope="col">Rol</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Accion</th>
@@ -40,6 +41,7 @@ window.Usuarios = class Usuarios {
                         <td>${user.nombre}</td>
                         <td>${user.apellido}</td>
                         <td>${user.email}</td>
+                        <td>${user.telefono}</td>
                         <td>${user.rol}</td>
                         <td><button class="btn btn-sm border-0 btn-outline-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
                         ${user.state ? '<i class="fas fa-user-slash"></i> Bloquear' : '<i class="far fa-user"></i> Activar'}
@@ -60,7 +62,7 @@ window.Usuarios = class Usuarios {
         if (acept) {
             const user = await fetch("/users/delete/" + id, {method: 'DELETE'});
             const datotexto = JSON.parse(await user.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Usuarios.obtenerUsuarios();
         }
     }
@@ -144,10 +146,10 @@ window.Usuarios = class Usuarios {
             });
             datotexto = JSON.parse(await add.text());
         }
-        if(datotexto.redirect === 'error') {
+        if(!datotexto.type) {
             message.errorMessage(datotexto.message)
         } else {
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Usuarios.obtenerUsuarios();
         }
     }
@@ -165,7 +167,7 @@ window.Usuarios = class Usuarios {
                 body: userJSON
             });
             const datotexto = JSON.parse(await add.text());
-            message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+            message.showMessage(datotexto.message, datotexto.css);
             Usuarios.obtenerUsuarios();
         }
     }
