@@ -8,11 +8,7 @@ class message {
         const app = document.querySelector('#App');
         container.insertBefore(div, app);
         setTimeout( () => {
-            if(redirect === 'remove') {
-                document.querySelector('.alert').remove();
-            } else {
-                location.href = redirect;
-            }
+            document.querySelector('.alert').remove();
         }, 1000)
     }
 
