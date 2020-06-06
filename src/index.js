@@ -32,6 +32,7 @@ app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 app.use('/motos', require('./routes/moto'));
 app.use('/tareas', require('./routes/tareas'));
+app.use('/sedes', require('./routes/sedes'));
 app.use('/alquileres', require('./routes/alquiler'));
 
 //Archivos Publicos
