@@ -7,7 +7,8 @@
         {{#each result}}
         <div id="{{_id}}" class="card mb-4 shadow-sm" data-toggle="modal" data-target=".modal">
             <img class="card-img-top"
-                src="https://img2.freepng.es/20190806/ogq/kisspng-scooter-motorcycle-transparency-drawing-scooter-drawing-free-download-on-omaha-5d48fc5adf0c95.3741451815650642829136.jpg"
+            src="img/{{imagen}}"
+                {{!-- src="https://img2.freepng.es/20190806/ogq/kisspng-scooter-motorcycle-transparency-drawing-scooter-drawing-free-download-on-omaha-5d48fc5adf0c95.3741451815650642829136.jpg" --}}
                 alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{marca}} {{modelo}}</h5>
@@ -21,8 +22,8 @@
     </div>
 </div>
 
-{{! MODAL }}
-<div class="modal fade" tabindex="-1" role="dialog">
+{{! MODAL ALQUILER }}
+<div id="modal-alquiler" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -51,7 +52,26 @@
         </div>
     </div>
 </div>
-{{! END MODAL }}
+{{! FIN MODAL ALQUILER }}
 
+{{! MODAL RESPUESTA ALQUILER }}
+<div id="modal-respuesta" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{! MODAL RESPUESTA ALQUILER }}
 
 <script src="/js/index.js"></script>

@@ -1,6 +1,7 @@
-// import { message, Modal } from './message.js';
+ import { message, Modal } from './message.js';
 
-const  obtenerSede = async () => {
+window.Sede = class Sede {
+static async  obtenerSede ()  {
         const contenedor = document.getElementById('App')
         const insert = document.getElementById('insertar')
         contenedor.removeChild(insert)  
@@ -14,6 +15,7 @@ const  obtenerSede = async () => {
                     <th scope="col">Codigo Postal</th>
                     <th scope="col">Provincia</th>
                     <th scope="col">Ciudad</th>
+                    <th scope="col">Accion</th>
                   </tr>
                 </thead>
             </table>
@@ -30,12 +32,15 @@ const  obtenerSede = async () => {
             <td>${sede.codigoPostal}</td>
             <td>${sede.provincia}</td>
             <td>${sede.ciudad}</td>
+            <td><button class="btn btn-outline-danger btn-sm border-0" onclick="Sede.deleteSede('${sede._id}')"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-outline-primary btn-sm border-0" onclick="Sede.updateSede('${sede._id}')"><i class="fas fa-pen-alt"></i></button>
+                        </td>
     `;
     document.getElementById("insertar-filas").insertAdjacentHTML("beforeend",texto)
         })
     }
 
-        const ingresarSede = async (sede) =>{
+    static async  ingresarSede (sede) {
         const contenedor = document.getElementById('insertar')
         const insert = document.getElementById('insertar-filas')
         contenedor.removeChild(insert)
@@ -46,7 +51,7 @@ const  obtenerSede = async () => {
                         <h4>${sede ? 'Editar Sede' : 'Ingresar Sede'}</h4>
                     </div>
                     <div class="form-group mt-4">
-                        <input type="text" id="domicilio" ${sede ? `value="${sede.domicilio}"` : 'placeholder="Direccion"'} class="form-control">
+                        <input type="text" id="domicilio" ${sede ? `value="${sede.domicilio}"` : 'placeholder="Domiclio"'} class="form-control">
                         <span id="domicilioError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -61,7 +66,7 @@ const  obtenerSede = async () => {
                         <input type="text" id="ciudad" ${sede ? `value="${sede.ciudad}"` : 'placeholder="Ciudad"'} class="form-control">
                         <span id="ciudadError" class="text-danger"></span>
                     </div>
-                    <button type="button" class="btn btn-primary btn-block" ${sede ? `onclick="editarSede('${sede._id}');"` : `onclick="editarSede();"`}>
+                    <button type="button" class="btn btn-primary btn-block" ${sede ? `onclick="Sede.editarSede('${sede._id}');"` : `onclick="Sede.editarSede();"`}>
                         ${sede ? 'Editar' : 'Ingresar'}
                     </button>
                 </form>
@@ -70,28 +75,28 @@ const  obtenerSede = async () => {
         contenedor.insertAdjacentHTML('beforeend', texto)
 
     }
-const deleteSede = async (id) => {
+    static async  deleteSede (id) {
     const modal = new Modal('ELIMINAR SEDE', '¿Seguro desea eliminar esta sede?')
     const acept = await modal.confirm();
     if (acept) {
         const sede = await fetch("/sedes/delete/" + id, { method: 'DELETE' });
         const datotexto = JSON.parse(await sede.text());
-        message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
+        message.showMessage(datotexto.message, datotexto.css);
         Sede.obtenerSede();
     }
 }
-const updateSede = async (id) => {
-    const modal = new Modal('EDITAR SEDE', '¿Seguro desea editar esta sede?')
-    const acept = await modal.confirm();
-    let sede;
-    if (acept) {
-        let sede = await fetch("/sedes/editar/" + id, {method: 'GET'});
-        sede = JSON.parse(await sede.text());
-        Sede.ingresar(sede)
+    static async updateSede(id) {
+        const modal = new Modal('EDITAR SEDE', '¿Seguro desea editar esta sede?')
+        const acept = await modal.confirm();
+        let sede;
+        if (acept) {
+            let sede = await fetch("/sedes/editar/" + id, { method: 'GET' });
+            sede = JSON.parse(await sede.text());
+            Sede.ingresarSede(sede)
+        }
     }
-}
 
-const editarSede = async (id) => {
+static async  editarSede(id) {
     const sede = {};
     sede.domicilio = document.getElementById('domicilio').value;
     sede.codigoPostal = document.getElementById('codigoPostal').value;
@@ -118,10 +123,10 @@ const editarSede = async (id) => {
     if(datotexto.redirect === 'error') {
         message.errorMessage(datotexto.message)
     } else {
-        message.showMessage(datotexto.message, datotexto.css, datotexto.redirect);
-        Sedes.obtenerSede();
+        message.showMessage(datotexto.message, datotexto.css);
+        Sede.obtenerSede();
     }
 }
        
-
-obtenerSede()
+}
+Sede.obtenerSede()

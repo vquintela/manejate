@@ -20,31 +20,35 @@ router.post('/insertar', async(req, res) => {
     let resp = null;
     try{
         resp = await sede.save();
-        res.json(resp);
-    } catch (error) {
+        res.json({message: "Ingresado con exito"})
+        } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, redirect: 'error'})
+        res.json({message: mensaje})
         return;
     }
-})
- /*   router.post('/editar/:id', async (req, res) => {
+}) 
+    router.get('/editar/:id', async (req, res) => {
+        const sede = await Sede.findById({_id:req.params.id})
+        res.json(sede)
+    
+    }) 
+    router.delete('/delete/:id', async (req, res) => {
+        const sede = await Sede.findByIdAndDelete({_id:req.params.id})
+        res.json({message: "Eliminado con exito"})
+
+    }) 
+
+    router.post('/editar/:id', async (req, res) => {
     const { domicilio, codigoPostal, provincia, ciudad } = req.body;
 
         try {
             await Sede.findByIdAndUpdate({_id: req.params.id}, { domicilio, codigoPostal, provincia, ciudad });
-            res.json({message: 'Sede actualizada de forma correcta', css: 'success', redirect: 'remove'});
+            res.json({message: 'Sede actualizada de forma correcta', css: 'success'});
         } catch (error) {
             const mensaje = errorMessage.crearMensaje(error);
-            res.json({message: mensaje, redirect: 'error'})
+            res.json({message: mensaje})
             return
         }
 });
-router.post('/delete/:id', async (req, res) => {
-    const { id } = req.params;
-    await Sede.findByIdAndDelete(id);
-    res.json({message: 'Sede eliminada de forma correcta', css: 'success', redirect: 'remove'});
-})
-
-});*/
 
 module.exports = router
