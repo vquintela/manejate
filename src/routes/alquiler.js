@@ -18,9 +18,14 @@ router.post("/nuevo", async (req, res) => {
     motocicleta: req.body.motocicleta,
   });
 
+  const mensaje = {
+    titulo: 'FELICITACIONES',
+    cuerpo: 'Alquiler realizado correctamente'
+  }
+
   alquiler = await alquiler.save();
 
-  res.json(alquiler);
+  res.json({mensaje, alquiler});
 });
 
 router.put('/editar/:id', async (req, res) => {

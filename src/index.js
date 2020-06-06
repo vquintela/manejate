@@ -34,6 +34,7 @@ app.use('/motos', require('./routes/moto'));
 app.use('/tareas', require('./routes/tareas'));
 app.use('/sedes', require('./routes/sede'));
 app.use('/alquileres', require('./routes/alquiler'));
+app.use('/sedes', require('./routes/sede'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));
