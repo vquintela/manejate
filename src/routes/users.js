@@ -101,7 +101,7 @@ router.post('/insertar', async (req, res) => {
     user.password = await user.encryptPassword(user.password);
     try {
         await user.save()
-        await mailer.renew(user.email, user.nombre, user.apellido, password)
+        // await mailer.renew(user.email, user.nombre, user.apellido, password)
         res.json({message: 'Usuario ingresado de forma correcta', css: 'success', redirect: 'remove'});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
