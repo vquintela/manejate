@@ -20,20 +20,14 @@ router.post('/insertar', async(req, res) => {
     let resp = null;
     try{
         resp = await sede.save();
+        res.json(resp);
     } catch (error) {
-        if(req.file){
-            await fs.unlink(req.file.path);
-        }
         const mensaje = errorMessage.crearMensaje(error);
         res.json({message: mensaje, redirect: 'error'})
         return;
     }
-    router.get('/editar/:id', async (req, res) => {
-    const { id } = req.params;
-    const sede = await Sede.findById(id);
-    res.json(sede);
 })
-    router.post('/editar/:id', async (req, res) => {
+ /*   router.post('/editar/:id', async (req, res) => {
     const { domicilio, codigoPostal, provincia, ciudad } = req.body;
 
         try {
@@ -51,6 +45,6 @@ router.post('/delete/:id', async (req, res) => {
     res.json({message: 'Sede eliminada de forma correcta', css: 'success', redirect: 'remove'});
 })
 
-});
+});*/
 
 module.exports = router

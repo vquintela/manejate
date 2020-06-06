@@ -4,8 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const sedeSchema = new Schema ({
     domicilio: {
         type: String,
-        required: [true, '¡Campo Obligatorio!'],
-            message: '¡Domicilio incorrecto!'
+        required: [true, '¡Campo Obligatorio!']
     },
     codigoPostal: {
         type: String,
