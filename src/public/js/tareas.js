@@ -15,11 +15,12 @@ window.Tarea = class Tarea {
                         <th scope="col">Titulo</th>
                         <th scope="col">Descripcion</th>
                         <th scope="col">Avance</th>
-                        <th scope="col">Detalle Reserva</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
+                    <tbody id="filas">
+                    </tbody>
                 </table>
             </div>
         `;
@@ -29,24 +30,54 @@ window.Tarea = class Tarea {
         if(filtro !== 'todos') {
             tareas = tareas.filter(tarea => tarea.estado === JSON.parse(filtro))
         } 
+        const fragmento = new DocumentFragment()
         tareas.map((tarea, index) => {
-            const fila = `
-                <tbody >
-                    <tr>
-                        <td scope="row">${index +1}</td>
-                        <td>${tarea.titulo}</td>
-                        <td>${tarea.descripcion}</td>
-                        <td><button class="btn btn-outline-info border-0 btn-sm" onclick="Tarea.mostrar('${tarea._id}')"><i class="far fa-comments"></i>  Avances</button></td>
-                        <td><button class="btn btn-outline-success border-0 btn-sm"><i class="fas fa-stopwatch"></i>  Reserva</button></td>
-                        <td><button class="btn btn-outline-${tarea.estado ? 'warning' : 'primary'} btn-sm border-0" onclick="Tarea.estado('${tarea._id}', ${tarea.estado})">
-                        ${tarea.estado ? '<i class="fas fa-check-double"></i> Finalizada' : '<i class="fas fa-list-ul"></i> En Curso'}</button></td>
-                        <td><button class="btn btn-outline-danger btn-sm border-0" onclick="Tarea.delete('${tarea._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-outline-primary btn-sm border-0" onclick="Tarea.update('${tarea._id}')"><i class="fas fa-pen-alt"></i></button></td>
-                    </tr>
-                </tbody>
-            `;
-            document.getElementById('insertar-filas').insertAdjacentHTML('beforeend', fila)
+            const tr = document.createElement('tr');
+            const tdIndex = document.createElement('td')
+            tdIndex.innerText = index + 1;
+            const tdTitulo = document.createElement('td')
+            tdTitulo.innerText = tarea.titulo
+            const tdDescripcion = document.createElement('td')
+            tdDescripcion.innerText = tarea.descripcion
+            //td Avances
+            const tdAvances = document.createElement('td')
+            const btnAvance = document.createElement('button')
+            btnAvance.setAttribute('class', `btn btn-sm border-0 btn-outline-info`)
+            btnAvance.setAttribute('onclick', `Tarea.mostrar('${tarea._id}')`)
+            btnAvance.insertAdjacentHTML ('beforeend', '<i class="far fa-comments"></i>  Avances')
+            tdAvances.appendChild(btnAvance)
+            //td estado
+            const tdEstado = document.createElement('td')
+            const btnEstado = document.createElement('button')
+            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${tarea.estado ? 'warning' : 'primary'}`)
+            btnEstado.setAttribute('onclick', `Tarea.estado('${tarea._id}', ${tarea.estado})`)
+            btnEstado.insertAdjacentHTML ('beforeend', `${tarea.estado ? '<i class="fas fa-check-double"></i> Finalizada' : '<i class="fas fa-list-ul"></i> En Curso'}`)
+            tdEstado.appendChild(btnEstado)
+            //tdAcciones
+            // boton Eliminar
+            const tdAcciones = document.createElement('td')
+            const btnEliminar = document.createElement('button')
+            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
+            btnEliminar.setAttribute('onclick', `Tarea.delete('${tarea._id}')`)
+            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            tdAcciones.appendChild(btnEliminar)
+            //boton Editar
+            const btnEditar = document.createElement('button')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
+            btnEditar.setAttribute('onclick', `Tarea.update('${tarea._id}')`)
+            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            tdAcciones.appendChild(btnEditar)
+            //Agrego los elementos td al elemento tr
+            tr.appendChild(tdIndex)
+            tr.appendChild(tdTitulo)
+            tr.appendChild(tdDescripcion)
+            tr.appendChild(tdAvances)
+            tr.appendChild(tdEstado)
+            tr.appendChild(tdAcciones)
+            // document.getElementById('filas').appendChild(tr)
+            fragmento.appendChild(tr)
         })
+        document.getElementById('filas').appendChild(fragmento)
     }
 
     static ingresar(tarea) {
@@ -60,14 +91,17 @@ window.Tarea = class Tarea {
                         <h4>${tarea ? 'Editar Tarea' : 'Ingresar Tarea'}</h4>
                         <form class="card-body" id="formulario">
                             <div class="form-group">
-                                <input type="text" id="titulo" ${ tarea ? `value=${tarea.titulo}` : 'placeholder="Titulo"'} class="form-control">
+                                <input type="text" id="titulo" ${ tarea ? `value="${tarea.titulo}"` : 'placeholder="Titulo"'} class="form-control">
                                 <span id="tituloError" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="descripcion" ${ tarea ? `value=${tarea.descripcion}` : 'placeholder="Descripcion"'} class="form-control">
+                                <input type="text" id="descripcion" ${ tarea ? `value="${tarea.descripcion}"` : 'placeholder="Descripcion"'} class="form-control">
                                 <span id="descripcionError" class="text-danger"></span>
                             </div>
                             <button type="button" class="btn btn-primary btn-block" ${ tarea ? `onclick="Tarea.insertar('${tarea._id}');"` : 'onclick="Tarea.insertar();"'}>${tarea ? 'Editar' : 'Ingresar'}</button>
+                            <button type="button" class="btn btn-light btn-sm btn-block mt-2" onclick="Tarea.obtener();">
+                                Cancelar
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -159,6 +193,9 @@ window.Tarea = class Tarea {
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" id="btn-agregar" type="button">Agregar Avance</button>
                     </div>
+                    <button type="button" class="btn btn-light btn-sm btn-block mt-2" onclick="Tarea.obtener();">
+                        Cancelar
+                    </button>
                 </div>
                 <div class="col-md-8" id="msg-tareas">
                 </div>
@@ -167,15 +204,19 @@ window.Tarea = class Tarea {
         contenedor.insertAdjacentHTML('beforeend', insertTarea)
         const resp = await fetch("/tareas/editar/" + id, {method: 'GET'});
         const tarea = JSON.parse(await resp.text());
+        const fragmento = new DocumentFragment()
         tarea.avance.map(msg => {
-            const parrafo = `
-                <div class="card mb-2">
-                    <p>${moment(msg.fecha).format('LLL')}</p>
-                    <p>${msg.msg}</p>
-                <div>
-            `;
-            document.getElementById('msg-tareas').insertAdjacentHTML('beforeend', parrafo)
+            const div = document.createElement('div')
+            div.setAttribute('class', 'card mb-2')
+            const fecha = document.createElement('p')
+            fecha.innerText = moment(msg.fecha).format('LLL')
+            const mensaje = document.createElement('p')
+            mensaje.innerText = msg.msg
+            div.appendChild(fecha)
+            div.appendChild(mensaje)
+            fragmento.appendChild(div)
         })
+        document.getElementById('msg-tareas').appendChild(fragmento)
         document.getElementById('btn-agregar').addEventListener('click', async () => {
             const ava = {}
             ava.msg = document.getElementById('mensaje-tarea').value

@@ -9,7 +9,7 @@ class message {
         container.insertBefore(div, app);
         setTimeout( () => {
             document.querySelector('.alert').remove();
-        }, 1000)
+        }, 1500)
     }
 
     static errorMessage(errors) {

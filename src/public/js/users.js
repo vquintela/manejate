@@ -9,7 +9,7 @@ window.Usuarios = class Usuarios {
         contenedor.removeChild(insert)
         const texto = `
             <div class="col-md-12 text-center" id="insertar">
-                <table class="table" id="insertar-filas">
+                <table class="table" id="filas">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">ID</th>
@@ -22,6 +22,8 @@ window.Usuarios = class Usuarios {
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
+                    <tbody  id="insertar-filas">
+                    </tbody>
                 </table>
             </div>
         `;
@@ -33,27 +35,54 @@ window.Usuarios = class Usuarios {
         } else {
             users = users.filter(user => user.state === estado)
         }
+        const fragmento = new DocumentFragment()
         users.map((user, index) => {
-            const fila = `
-                <tbody >
-                    <tr>
-                        <td scope="row">${index + 1}</td>
-                        <td>${user.nombre}</td>
-                        <td>${user.apellido}</td>
-                        <td>${user.email}</td>
-                        <td>${user.telefono}</td>
-                        <td>${user.rol}</td>
-                        <td><button class="btn btn-sm border-0 btn-outline-${user.state ? "success" : "danger"}" onclick="Usuarios.estado('${user._id}', ${user.state})">
-                        ${user.state ? '<i class="fas fa-user-slash"></i> Bloquear' : '<i class="far fa-user"></i> Activar'}
-                        </button></td>
-                        <td><button class="btn btn-outline-danger btn-sm border-0" onclick="Usuarios.delete('${user._id}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-outline-primary btn-sm border-0" onclick="Usuarios.update('${user._id}')"><i class="fas fa-pen-alt"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            `;
-            document.getElementById('insertar-filas').insertAdjacentHTML('beforeend', fila)
+            const tr = document.createElement('tr');
+            const tdIndex = document.createElement('td')
+            tdIndex.innerText = index + 1;
+            const tdNombre = document.createElement('td')
+            tdNombre.innerText = user.nombre
+            const tdApellido = document.createElement('td')
+            tdApellido.innerText = user.apellido
+            const tdEmail = document.createElement('td')
+            tdEmail.innerText = user.email
+            const tdTelefono = document.createElement('td')
+            tdTelefono.innerText = user.telefono
+            const tdRol = document.createElement('td')
+            //td estado
+            tdRol.innerText = user.rol
+            const tdEstado = document.createElement('td')
+            const btnEstado = document.createElement('button')
+            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${user.state ? "success" : "danger"}`)
+            btnEstado.setAttribute('onclick', `Usuarios.estado('${user._id}', ${user.state})`)
+            btnEstado.insertAdjacentHTML ('beforeend', `${user.state ? '<i class="fas fa-user-slash"></i> Bloquear' : '<i class="far fa-user"></i> Activar'}`)
+            tdEstado.appendChild(btnEstado)
+            //tdAcciones
+            const tdAcciones = document.createElement('td')
+            // boton Eliminar
+            const btnEliminar = document.createElement('button')
+            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
+            btnEliminar.setAttribute('onclick', `Usuarios.delete('${user._id}')`)
+            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            tdAcciones.appendChild(btnEliminar)
+            //boton Editar
+            const btnEditar = document.createElement('button')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
+            btnEditar.setAttribute('onclick', `Usuarios.update('${user._id}')`)
+            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            tdAcciones.appendChild(btnEditar)
+            //Agrego los elementos td al elemento tr
+            tr.appendChild(tdIndex)
+            tr.appendChild(tdNombre)
+            tr.appendChild(tdApellido)
+            tr.appendChild(tdEmail)
+            tr.appendChild(tdTelefono)
+            tr.appendChild(tdRol)
+            tr.appendChild(tdEstado)
+            tr.appendChild(tdAcciones)
+            fragmento.appendChild(tr)
         })
+        document.getElementById('insertar-filas').appendChild(fragmento)
     }
 
     static async delete(id) {
@@ -80,7 +109,7 @@ window.Usuarios = class Usuarios {
 
     static async ingresar(usuario) {
         const contenedor = document.getElementById('insertar')
-        const insert = document.getElementById('insertar-filas')
+        const insert = document.getElementById('filas')
         contenedor.removeChild(insert)
         const texto =`
             <div class="row justify-content-md-center" id="insertar-filas">
@@ -114,6 +143,9 @@ window.Usuarios = class Usuarios {
                     </div>
                     <button type="button" class="btn btn-primary btn-block" ${usuario ? `onclick="Usuarios.editar('${usuario._id}');"` : `onclick="Usuarios.editar();"`}>
                         ${usuario ? 'Editar' : 'Ingresar'}
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm btn-block mt-2" onclick="Usuarios.obtenerUsuarios();">
+                        Cancelar
                     </button>
                 </form>
             </div>

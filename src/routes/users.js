@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/obtener', async (req, res) => {
-    const users = await User.find();
+    const users = await User.find().select('-password');
     res.json(users);
 });
 
@@ -26,7 +26,7 @@ router.delete('/delete/:id', async (req, res) => {
 
 router.get('/editar/:id', async (req, res) => {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-password');
     res.json(user);
 });
 

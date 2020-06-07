@@ -6,24 +6,24 @@ window.Moto = class Moto {
         const insert = document.getElementById('insertar-filas')
         contenedor.removeChild(insert)
         const texto =`
-            <div class="row justify-content-md-center align-items-end" id="insertar-filas">
+            <div class="row justify-content-md-center align-items-center" id="insertar-filas">
                 <div class="col-md-6">
                     <h4>${moto ? 'Editar Moto' : 'Ingresar Moto'}</h4>
                     <form class="card-body" id="formulario">
                         <div class="form-group">
-                            <input type="text" id="patente" ${ moto ? `value=${moto.patente} readonly` : 'placeholder="Patente"'} class="form-control">
+                            <input type="text" id="patente" ${ moto ? `value="${moto.patente}" readonly` : 'placeholder="Patente"'} class="form-control">
                             <span id="patenteError" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="number" id="precio" ${ moto ? `value=${moto.precio}` : 'placeholder="Precio"'} class="form-control">
+                            <input type="number" id="precio" ${ moto ? `value="${moto.precio}"` : 'placeholder="Precio"'} class="form-control">
                             <span id="precioError" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="descripcion" ${ moto ? `value=${moto.descripcion}` : 'placeholder="Descripcion"'} class="form-control">
+                            <input type="text" id="descripcion" ${ moto ? `value="${moto.descripcion}"` : 'placeholder="Descripcion"'} class="form-control">
                             <span id="descripcionError" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="modelo" ${ moto ? `value=${moto.modelo}` : 'placeholder="Modelo"'} class="form-control">
+                            <input type="text" id="modelo" ${ moto ? `value="${moto.modelo}"` : 'placeholder="Modelo"'} class="form-control">
                             <span id="modeloError" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -42,11 +42,32 @@ window.Moto = class Moto {
                         <button type="button" class="btn btn-primary btn-block" ${ moto ? `onclick="Moto.insertar('${moto._id}', '${moto.imagen}');"` : 'onclick="Moto.insertar();"'}>
                             ${moto ? 'Editar' : 'Ingresar'}
                         </button>
+                        <button type="button" class="btn btn-light btn-sm btn-block mt-2" onclick="Moto.obtener();">
+                            Cancelar
+                        </button>
                     </form>
+                </div>
+                <div class="col-md-4" id="preview">
+                    ${moto ? `<img src="img/${moto.imagen}" class="img-fluid" alt=""/>` : `<img src="img/sinimagen.png" class="img-fluid" alt=""/>`}
                 </div>
             </div>
         `;
         contenedor.insertAdjacentHTML('beforeend', texto)
+        document.getElementById("imagen").onchange = function (e) {
+            // Creamos el objeto de la clase FileReader
+            let reader = new FileReader();
+            // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+            reader.readAsDataURL(e.target.files[0]);
+            // Le decimos que cuando este listo ejecute el código interno
+            reader.onload = function () {
+                let preview = document.getElementById('preview'),
+                    image = document.createElement('img');
+                image.src = reader.result;
+                image.setAttribute('class', 'img-fluid')
+                preview.innerHTML = '';
+                preview.append(image);
+            };
+        }
     }
 
     static async insertar(id, imagen) {
@@ -99,6 +120,8 @@ window.Moto = class Moto {
                         <th scope="col">Accion</th>
                       </tr>
                     </thead>
+                    <tbody id="filas">
+                    </tbody>
                 </table>
             </div>
         `;
@@ -110,24 +133,47 @@ window.Moto = class Moto {
             motos = motos.filter(moto => moto.marca === filtro)
         } 
         motos.map((moto, index) => {
-            const fila = `
-                <tbody >
-                    <tr>
-                        <td scope="row">${index +1}</td>
-                        <td>${moto.patente}</td>
-                        <td>${moto.precio}</td>
-                        <td>${moto.marca}</td>
-                        <td>${moto.modelo}</td>
-                        <td><button class="btn btn-sm border-0 btn-outline-${moto.service ? "success" : "danger"}" onclick="Moto.estado('${moto._id}', ${moto.service})">
-                        ${moto.service ? '<i class="fas fa-wrench"></i> Reparacion' : '<i class="fas fa-motorcycle"></i> Activa'}
-                        </button></td>
-                        <td><button class="btn btn-sm btn-outline-danger border-0" onclick="Moto.delete('${moto._id}', '${moto.imagen}')"><i class="far fa-trash-alt"></i></button>
-                        <button class="btn btn-sm btn-outline-primary border-0" onclick="Moto.editar('${moto._id}')"><i class="fas fa-pen-alt"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            `;
-            document.getElementById('insertar-filas').insertAdjacentHTML('beforeend', fila)
+            const tr = document.createElement('tr');
+            const tdIndex = document.createElement('td')
+            tdIndex.innerText = index + 1;
+            const tdPatente = document.createElement('td')
+            tdPatente.innerText = moto.patente
+            const tdPrecio = document.createElement('td')
+            tdPrecio.innerText = moto.precio
+            const tdMarca = document.createElement('td')
+            tdMarca.innerText = moto.marca
+            const tdModelo = document.createElement('td')
+            tdModelo.innerText = moto.modelo
+            //td estado
+            const tdEstado = document.createElement('td')
+            const btnEstado = document.createElement('button')
+            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${moto.service ? "success" : "danger"}`)
+            btnEstado.setAttribute('onclick', `Moto.estado('${moto._id}', ${moto.service})`)
+            btnEstado.insertAdjacentHTML ('beforeend', `${moto.service ? '<i class="fas fa-wrench"></i> Reparacion' : '<i class="fas fa-motorcycle"></i> Activa'}`)
+            tdEstado.appendChild(btnEstado)
+            //tdAcciones
+            // boton Eliminar
+            const tdAcciones = document.createElement('td')
+            const btnEliminar = document.createElement('button')
+            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
+            btnEliminar.setAttribute('onclick', `Moto.delete('${moto._id}', '${moto.imagen}')`)
+            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            tdAcciones.appendChild(btnEliminar)
+            //boton Editar
+            const btnEditar = document.createElement('button')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
+            btnEditar.setAttribute('onclick', `Moto.editar('${moto._id}')`)
+            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            tdAcciones.appendChild(btnEditar)
+            //Agrego los elementos td al elemento tr
+            tr.appendChild(tdIndex)
+            tr.appendChild(tdPatente)
+            tr.appendChild(tdPrecio)
+            tr.appendChild(tdMarca)
+            tr.appendChild(tdModelo)
+            tr.appendChild(tdEstado)
+            tr.appendChild(tdAcciones)
+            document.getElementById('filas').appendChild(tr)
         })
     }
 
