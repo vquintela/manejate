@@ -7,7 +7,11 @@ router.get("/", async (req, res) => {
     .find()
     .lean()
     .exec((error, result) => {
-      res.render("./index", { result } );
+      const data = {
+        "fechaMinima": new Date().toLocaleDateString('es-AR', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+        "motocicletas": result
+      }
+      res.render("./index", { data } );
     });
 });
 
