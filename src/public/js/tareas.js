@@ -33,6 +33,7 @@ window.Tarea = class Tarea {
         const fragmento = new DocumentFragment()
         tareas.map((tarea, index) => {
             const tr = document.createElement('tr');
+            tr.setAttribute('data-id', `${tarea._id}`)
             const tdIndex = document.createElement('td')
             tdIndex.innerText = index + 1;
             const tdTitulo = document.createElement('td')
@@ -41,31 +42,26 @@ window.Tarea = class Tarea {
             tdDescripcion.innerText = tarea.descripcion
             //td Avances
             const tdAvances = document.createElement('td')
-            const btnAvance = document.createElement('button')
-            btnAvance.setAttribute('class', `btn btn-sm border-0 btn-outline-info`)
-            btnAvance.setAttribute('onclick', `Tarea.mostrar('${tarea._id}')`)
-            btnAvance.insertAdjacentHTML ('beforeend', '<i class="far fa-comments"></i>  Avances')
+            const btnAvance = document.createElement('i')
+            btnAvance.setAttribute('class', `btn btn-sm border-0 btn-outline-info far fa-comments avances-tarea`)
+            btnAvance.innerText = ' Avances'
             tdAvances.appendChild(btnAvance)
             //td estado
             const tdEstado = document.createElement('td')
-            const btnEstado = document.createElement('button')
-            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${tarea.estado ? 'warning' : 'primary'}`)
-            btnEstado.setAttribute('onclick', `Tarea.estado('${tarea._id}', ${tarea.estado})`)
-            btnEstado.insertAdjacentHTML ('beforeend', `${tarea.estado ? '<i class="fas fa-check-double"></i> Finalizada' : '<i class="fas fa-list-ul"></i> En Curso'}`)
+            const btnEstado = document.createElement('i')
+            btnEstado.setAttribute('class', `estado-tarea btn btn-sm border-0 btn-outline-${tarea.estado ? 'warning fas fa-check-double' : 'primary fas fa-list-ul'}`)
+            btnEstado.setAttribute('estado', `${tarea.estado}`)
+            btnEstado.innerText = tarea.estado ? ' Finalizada' : ' En Curso'
             tdEstado.appendChild(btnEstado)
             //tdAcciones
             // boton Eliminar
             const tdAcciones = document.createElement('td')
-            const btnEliminar = document.createElement('button')
-            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
-            btnEliminar.setAttribute('onclick', `Tarea.delete('${tarea._id}')`)
-            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            const btnEliminar = document.createElement('i')
+            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0 far fa-trash-alt eliminar-tarea')
             tdAcciones.appendChild(btnEliminar)
             //boton Editar
-            const btnEditar = document.createElement('button')
-            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
-            btnEditar.setAttribute('onclick', `Tarea.update('${tarea._id}')`)
-            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            const btnEditar = document.createElement('i')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0 fas fa-pen-alt editar-tarea')
             tdAcciones.appendChild(btnEditar)
             //Agrego los elementos td al elemento tr
             tr.appendChild(tdIndex)
@@ -78,6 +74,7 @@ window.Tarea = class Tarea {
             fragmento.appendChild(tr)
         })
         document.getElementById('filas').appendChild(fragmento)
+        Tarea.inicialar()
     }
 
     static ingresar(tarea) {
@@ -167,7 +164,7 @@ window.Tarea = class Tarea {
         const acept = await modal.confirm();
         if (acept) {
             const body = {state}
-            body.state = !state
+            body.state = !JSON.parse(state)
             const tareaJSON = JSON.stringify(body);
             const add = await fetch("/tareas/estado/" + id, {
                 method: 'PUT',
@@ -231,6 +228,26 @@ window.Tarea = class Tarea {
             });
             const datotexto = JSON.parse(await add.text());
             this.mostrar(id)
+        })
+    }
+
+    static inicialar() {
+        const btn = document.querySelector('#filas')
+        btn.addEventListener('click', e => {
+            if(e.target.classList.contains('avances-tarea')){
+                Tarea.mostrar(e.target.parentElement.parentElement.getAttribute('data-id'))
+            }
+            if(e.target.classList.contains('editar-tarea')){
+                Tarea.update(e.target.parentElement.parentElement.getAttribute('data-id'))
+            }
+            if(e.target.classList.contains('eliminar-tarea')){
+                Tarea.delete(e.target.parentElement.parentElement.getAttribute('data-id'))
+            }
+            if(e.target.classList.contains('estado-tarea')){
+                const id = e.target.parentElement.parentElement.getAttribute('data-id')
+                const estado = e.target.getAttribute('estado')
+                Tarea.estado(id, estado)
+            }
         })
     }
 }

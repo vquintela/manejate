@@ -38,6 +38,7 @@ window.Usuarios = class Usuarios {
         const fragmento = new DocumentFragment()
         users.map((user, index) => {
             const tr = document.createElement('tr');
+            tr.setAttribute('data-id', `${user._id}`)
             const tdIndex = document.createElement('td')
             tdIndex.innerText = index + 1;
             const tdNombre = document.createElement('td')
@@ -49,27 +50,22 @@ window.Usuarios = class Usuarios {
             const tdTelefono = document.createElement('td')
             tdTelefono.innerText = user.telefono
             const tdRol = document.createElement('td')
-            //td estado
             tdRol.innerText = user.rol
+            //td estado
             const tdEstado = document.createElement('td')
-            const btnEstado = document.createElement('button')
-            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${user.state ? "success" : "danger"}`)
-            btnEstado.setAttribute('onclick', `Usuarios.estado('${user._id}', ${user.state})`)
-            btnEstado.insertAdjacentHTML ('beforeend', `${user.state ? '<i class="fas fa-user-slash"></i> Bloquear' : '<i class="far fa-user"></i> Activar'}`)
+            const btnEstado = document.createElement('i')
+            btnEstado.setAttribute('class', `user-estado border-0 btn-sm btn btn-outline-${user.state ? "success fas fa-user-slash" : "danger far fa-user"}`)
+            btnEstado.setAttribute('estado', `${user.state}`)
             tdEstado.appendChild(btnEstado)
             //tdAcciones
             const tdAcciones = document.createElement('td')
             // boton Eliminar
             const btnEliminar = document.createElement('button')
-            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
-            btnEliminar.setAttribute('onclick', `Usuarios.delete('${user._id}')`)
-            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            btnEliminar.setAttribute('class', 'usuario-delete btn btn-outline-danger btn-sm border-0 far fa-trash-alt')
             tdAcciones.appendChild(btnEliminar)
             //boton Editar
             const btnEditar = document.createElement('button')
-            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
-            btnEditar.setAttribute('onclick', `Usuarios.update('${user._id}')`)
-            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0 fas fa-pen-alt usuario-editar')
             tdAcciones.appendChild(btnEditar)
             //Agrego los elementos td al elemento tr
             tr.appendChild(tdIndex)
@@ -83,6 +79,7 @@ window.Usuarios = class Usuarios {
             fragmento.appendChild(tr)
         })
         document.getElementById('insertar-filas').appendChild(fragmento)
+        Usuarios.inicialar()
     }
 
     static async delete(id) {
@@ -191,7 +188,7 @@ window.Usuarios = class Usuarios {
         const acept = await modal.confirm();
         if (acept) {
             const body = { state }
-            body.state = !state
+            body.state = !JSON.parse(state)
             const userJSON = JSON.stringify(body);
             const add = await fetch("/users/estado/" + id, {
                 method: 'PUT',
@@ -203,6 +200,26 @@ window.Usuarios = class Usuarios {
             Usuarios.obtenerUsuarios();
         }
     }
+
+    static inicialar() {
+        const btn = document.querySelector('#insertar-filas')
+        btn.addEventListener('click', e => {
+            const id = e.target.parentElement.parentElement.getAttribute('data-id')
+            if(e.target.classList.contains('user-estado')) {
+                Usuarios.estado(id, e.target.getAttribute('estado'))
+            }
+            if(e.target.classList.contains('usuario-delete')) {
+                Usuarios.delete(id)
+            }
+            if(e.target.classList.contains('usuario-editar')) {
+                Usuarios.update(id)
+            }
+        })
+    }
 }
 
 Usuarios.obtenerUsuarios();
+const btnBuscar = document.getElementById('buscar-usuarios')
+btnBuscar.addEventListener('click', () => Usuarios.obtenerUsuarios())
+const btnIngresar = document.getElementById('buscar-ingresar')
+btnIngresar.addEventListener('click', () => Usuarios.ingresar())

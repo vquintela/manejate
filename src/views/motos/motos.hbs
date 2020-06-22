@@ -2,8 +2,8 @@
     <div>
         <h1>MOTOS</h1>
     </div>
-    <div class="d-flex ml-auto">
-        <button type="button" class="btn btn-block btn-primary mr-2" onclick="Moto.ingresar();"><i class="fas fa-tasks"></i> Moto</button>
+    <div class="d-flex ml-auto align-items-center">
+        <button type="button" class="btn btn-block btn-primary mr-2" id="ingresar-moto"><i class="fas fa-tasks"></i> Moto</button>
         <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
             <option>todos</option>
             <option>gilera</option>
@@ -12,7 +12,7 @@
             <option>zanella</option>
             <option>beta</option>
         </select>
-        <button type="button" class="btn btn-outline-success" onclick="Moto.obtener();"><i class="fas fa-search"></i></button>
+        <i class="fas fa-search btn text-success" id="buscar"></i>
     </div>
 </div>
 <div class="container" id="contenedor">

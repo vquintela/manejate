@@ -54,11 +54,8 @@ window.Moto = class Moto {
         `;
         contenedor.insertAdjacentHTML('beforeend', texto)
         document.getElementById("imagen").onchange = function (e) {
-            // Creamos el objeto de la clase FileReader
             let reader = new FileReader();
-            // Leemos el archivo subido y se lo pasamos a nuestro fileReader
             reader.readAsDataURL(e.target.files[0]);
-            // Le decimos que cuando este listo ejecute el código interno
             reader.onload = function () {
                 let preview = document.getElementById('preview'),
                     image = document.createElement('img');
@@ -132,8 +129,10 @@ window.Moto = class Moto {
         if(filtro !== 'todos') {
             motos = motos.filter(moto => moto.marca === filtro)
         } 
+        const fragmento = new DocumentFragment()
         motos.map((moto, index) => {
             const tr = document.createElement('tr');
+            tr.setAttribute('data-id', `${moto._id}`)
             const tdIndex = document.createElement('td')
             tdIndex.innerText = index + 1;
             const tdPatente = document.createElement('td')
@@ -146,24 +145,21 @@ window.Moto = class Moto {
             tdModelo.innerText = moto.modelo
             //td estado
             const tdEstado = document.createElement('td')
-            const btnEstado = document.createElement('button')
-            btnEstado.setAttribute('class', `btn btn-sm border-0 btn-outline-${moto.service ? "success" : "danger"}`)
-            btnEstado.setAttribute('onclick', `Moto.estado('${moto._id}', ${moto.service})`)
-            btnEstado.insertAdjacentHTML ('beforeend', `${moto.service ? '<i class="fas fa-wrench"></i> Reparacion' : '<i class="fas fa-motorcycle"></i> Activa'}`)
+            const btnEstado = document.createElement('i')
+            btnEstado.setAttribute('class', `estado-moto btn btn-sm border-0 btn-outline-${moto.service ? "success fas fa-wrench" : "danger fas fa-motorcycle"}`)
+            btnEstado.setAttribute('estado', `${moto.service}`)
+            btnEstado.innerText = `${moto.service ? ' Reparacion' : ' Activa'}`
             tdEstado.appendChild(btnEstado)
             //tdAcciones
             // boton Eliminar
             const tdAcciones = document.createElement('td')
-            const btnEliminar = document.createElement('button')
-            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0')
-            btnEliminar.setAttribute('onclick', `Moto.delete('${moto._id}', '${moto.imagen}')`)
-            btnEliminar.insertAdjacentHTML ('beforeend', '<i class="far fa-trash-alt"></i>')
+            const btnEliminar = document.createElement('i')
+            btnEliminar.setAttribute('class', 'btn btn-outline-danger btn-sm border-0 eliminar-moto far fa-trash-alt')
+            btnEliminar.setAttribute('imagen', `${moto.imagen}`)
             tdAcciones.appendChild(btnEliminar)
             //boton Editar
-            const btnEditar = document.createElement('button')
-            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0')
-            btnEditar.setAttribute('onclick', `Moto.editar('${moto._id}')`)
-            btnEditar.insertAdjacentHTML ('beforeend', '<i class="fas fa-pen-alt"></i>')
+            const btnEditar = document.createElement('i')
+            btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0 fas fa-pen-alt editar-moto')
             tdAcciones.appendChild(btnEditar)
             //Agrego los elementos td al elemento tr
             tr.appendChild(tdIndex)
@@ -173,8 +169,10 @@ window.Moto = class Moto {
             tr.appendChild(tdModelo)
             tr.appendChild(tdEstado)
             tr.appendChild(tdAcciones)
-            document.getElementById('filas').appendChild(tr)
+            fragmento.appendChild(tr)
         })
+        document.getElementById('filas').appendChild(fragmento)
+        Moto.inicialar()
     }
 
     static async editar(id) {
@@ -210,7 +208,7 @@ window.Moto = class Moto {
         const acept = await modal.confirm();
         if (acept) {
             const body = {}
-            body.service = !service
+            body.service = JSON.parse(service)
             const motoJSON = JSON.stringify(body);
             const add = await fetch("/motos/estado/" + id, {
                 method: 'PUT',
@@ -222,6 +220,26 @@ window.Moto = class Moto {
             Moto.obtener();
         }
     }
+
+    static inicialar() {
+        const btn = document.querySelector('#filas')
+        btn.addEventListener('click', e => {
+            const id = e.target.parentElement.parentElement.getAttribute('data-id')
+            if(e.target.classList.contains('eliminar-moto')) {
+                Moto.delete(id, e.target.getAttribute('imagen'))
+            }
+            if(e.target.classList.contains('editar-moto')) {
+                Moto.editar(id)
+            }
+            if(e.target.classList.contains('estado-moto')) {
+                Moto.estado(id, e.target.getAttribute('estado'))
+            }
+        })
+    }
 }
 
 Moto.obtener();
+const btnBuscar = document.getElementById('buscar')
+btnBuscar.addEventListener('click', () => Moto.obtener())
+const ingresarMoto = document.getElementById('ingresar-moto')
+ingresarMoto.addEventListener('click', () => Moto.ingresar())

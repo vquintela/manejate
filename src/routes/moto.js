@@ -100,7 +100,7 @@ router.post('/delete/:id', async (req, res) => {
 router.put('/estado/:id', async (req, res) => {
     const { id } = req.params;
     const { service } = req.body;
-    await Moto.findByIdAndUpdate({_id: id}, { service });
+    await Moto.findByIdAndUpdate({_id: id}, { service: !service });
     res.json({message: 'Estado modificado', css: 'success'});
 })
 

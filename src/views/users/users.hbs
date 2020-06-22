@@ -3,7 +3,7 @@
         <h1>USUARIOS</h1>
     </div>
     <div class="d-flex ml-auto">
-        <button class="btn btn-primary mr-2 btn-block" type="button" onclick="Usuarios.ingresar();"><i class="fas fa-tasks"></i> Usuario</button>
+        <button class="btn btn-primary mr-2 btn-block" type="button" id="buscar-ingresar"><i class="fas fa-tasks"></i> Usuario</button>
         <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
             <option value="true">Activos</option>
             <option value="false">Bloqueados</option>
@@ -13,7 +13,7 @@
             <option>administrador</option>
             <option>cliente</option>
         </select>
-        <button type="button" class="btn btn-outline-success" onclick="Usuarios.obtenerUsuarios()"><i class="fas fa-search"></i></button>
+        <button type="button" class="btn btn-outline-success" id="buscar-usuarios"><i class="fas fa-search"></i></button>
     </div>
 </div>
 <div class="container" id="contenedor">
