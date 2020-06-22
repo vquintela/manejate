@@ -5,8 +5,8 @@ const path = require("path");
 const errorMessage = require("../lib/errorMessageValidation");
 
 router.get("/", async (req, res) => {
-  const alquileres = await Alquiler.find();
-  res.render("./alquiler/index", { alquileres: alquileres });
+  const alquileres = await Alquiler.find().lean().exec();
+  res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 
 router.post("/nuevo", async (req, res) => {

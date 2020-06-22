@@ -38,5 +38,6 @@ module.exports = model(
       type: Schema.Types.ObjectId,
       ref: "sede",
     },
-  })
+  }),
+  "alquileres"
 );
