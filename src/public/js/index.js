@@ -20,7 +20,7 @@ const createInput = (type, name, classes) => {
   return input;
 };
 
-const getData = () => {
+const obtenerDatos = () => {
   const elements = Array.from(document.querySelectorAll("#modal-alquiler input"));
   const obj = {};
   elements.map((e) => {
@@ -28,6 +28,13 @@ const getData = () => {
   });
   return obj;
 };
+
+const filtrar = () => {
+  const rangoPrecios = document.querySelector('#precio').value;
+  const ubicacion = document.querySelector('#ubicacion').value;
+
+  fetch(`/obtenerMotos/${rangoPrecios}/ubicacion/${ubicacion}`);
+}
 
 window.onload = async () => {
 
@@ -40,7 +47,7 @@ window.onload = async () => {
 
   document.querySelector("[btn-alquilar]").addEventListener("click", (event) => {
       event.preventDefault();
-      const data = getData();
+      const data = obtenerDatos();
       alquilar(data)
         .then((res)=>{
           $('#modal-alquiler').modal('hide')
@@ -48,5 +55,11 @@ window.onload = async () => {
           $('#modal-respuesta .modal-body').text(res.mensaje.cuerpo);
           $('#modal-respuesta').modal('show')
         });
-  })
+  });
+
+  document.addEventListener('change', (event) =>{
+    if(event.target.classList.contains('filtro')){
+      filtrar();
+    }
+  }, false);
 };

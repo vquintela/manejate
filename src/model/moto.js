@@ -44,8 +44,12 @@ const motoSchema = new Schema ({
     service: {
         type: Boolean,
         default: false
+    },
+    ubicacion: {
+        type: Schema.Types.ObjectId,
+        ref: "sede"
     }
-})
+});
 
 motoSchema.plugin(uniqueValidator, { message: '¡Patente en uso ingrese otra!' });
 

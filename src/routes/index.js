@@ -15,4 +15,11 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get("/obtenerMotos/:rangoPrecios/ubicacion/:ubicacion", (req, res) => {
+  const rangoPrecios = req.params.rangoPrecios;
+  const ubicacion = req.params.ubicacion;
+  const motos = motoSchema.find({ precio: { $gte: 100}, ubicacion: ubicacion });
+  res.json(motos);
+});
+
 module.exports = router;
