@@ -1,20 +1,42 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">MANEJATE</h1>
-  <p class="lead">Ya es hora que decidas vos como querés moverte...</p>
+    <h1 class="display-4">MANEJATE</h1>
+    <p class="lead">Ya es hora que decidas vos como querés moverte...</p>
 </div>
 <div class="container">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Precio</label>
+        </div>
+        <select class="filtro" id="precio">
+            <option value="" selected>Seleccioná el rango de precio...</option>
+            <option value="1">$100~$200</option>
+            <option value="2">$200~$400</option>
+            <option value="3">$500~</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Ubicación</label>
+        </div>
+        <select class="filtro" id="ubicacion">
+            <option value="" selected>Seleccioná donde querés retirar el vehículo...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
     <div class="card-columns">
         {{#each data.motocicletas}}
         <div id="{{_id}}" class="card mb-4 shadow-sm" data-toggle="modal" data-target=".modal">
-            <img class="card-img-top"
-            src="img/{{imagen}}"
-                alt="Card image cap">
+            <img class="card-img-top" src="img/{{imagen}}" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title">{{marca}} {{modelo}}</h5>
-                <p class="card-text"></p>
+                <h5 class="card-title">{{marca}}</h5>
+                <p class="card-text">{{modelo}}</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted"></small>
+                <small class="text-muted">${{precio}}/día</small>
             </div>
         </div>
         {{/each}}
