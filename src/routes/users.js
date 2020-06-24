@@ -97,7 +97,7 @@ router.post('/insertar', async (req, res) => {
     const {nombre, apellido, email, rol, telefono} = req.body;
     const user = new User({nombre, apellido, email, rol, telefono})
     user.password = user.genPass()
-    const password = user.password
+    // console.log(user.password) 
     user.password = await user.encryptPassword(user.password);
     try {
         await user.save()

@@ -29,6 +29,28 @@ const getData = () => {
   return obj;
 };
 
+const signin = async () => {
+  const email = document.getElementById('email-sgn').value
+  const password = document.getElementById('pass-sgn').value
+  const res = await fetch('/auth/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({email, password})
+  })
+  const resp = await res.json()
+  if(resp.type){
+    document.getElementById('error-sgn').innerText = ''
+    document.getElementById('true-sgn').innerText = resp.message
+    setTimeout( () => {
+      location.reload()
+    }, 1500)
+  } else {
+    document.getElementById('error-sgn').innerText = resp.message
+  }
+}
+
 window.onload = async () => {
 
   $('#modal-alquiler').on('show.bs.modal', function (event) {
@@ -48,5 +70,14 @@ window.onload = async () => {
           $('#modal-respuesta .modal-body').text(res.mensaje.cuerpo);
           $('#modal-respuesta').modal('show')
         });
+  })
+
+  document.getElementById('btn-signin').addEventListener('click', e => {
+    if(e.target.classList.contains('signout')) {
+      fetch('auth/logout')
+    } else {
+      e.preventDefault()
+      signin()
+    }
   })
 };

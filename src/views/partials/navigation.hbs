@@ -1,0 +1,46 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-motorcycle"></i> Manejate
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {{#if user}}
+                <li class="nav-item">
+                    <a href="" class="nav-link text-white btn-lg active"><i class="fas fa-sign-out-alt signout" id="btn-signin"></i></a>
+                </li>
+                {{else}}
+                <li class="nav-item dropdown dropleft">
+                    <a class="nav-link active btn-lg" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <form class="px-4 py-3">
+                            <span class="text-center text-danger" id="error-sgn"></span>
+                            <span class="text-center text-success" id="true-sgn"></span>
+                            <div class="form-group">
+                                <label for="exampleDropdownFormEmail1">Email</label>
+                                <input type="email" class="form-control" id="email-sgn"
+                                    placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleDropdownFormPassword1">Password</label>
+                                <input type="password" class="form-control" id="pass-sgn" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btn-signin">Sign in</button>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">No tiene usuario? Registrese</a>
+                        <a class="dropdown-item" href="#">Olvido su password?</a>
+                    </div>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</nav>
