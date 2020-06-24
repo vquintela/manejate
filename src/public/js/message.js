@@ -13,10 +13,10 @@ class message {
     }
 
     static errorMessage(errors) {
-        document.querySelectorAll('.text-danger').forEach(span => span.innerHTML = '');
+        document.querySelectorAll('.text-danger').forEach(span => span.innerText = '');
         errors.forEach(error => {
             const [key, value] = error.split(':').map(err => err.trim())
-            document.getElementById(`${key}Error`).innerHTML = value
+            document.getElementById(`${key}Error`).innerText = value
         })
     }
 }
@@ -31,8 +31,8 @@ class Modal {
     _modal() {
         let mascara = document.getElementById('lamascara');
         mascara.style.display = "block";
-        document.getElementById('titulo-modal').innerHTML = this.titulo;
-        document.querySelector('#panelResultados').innerHTML = this.texto;
+        document.getElementById('titulo-modal').innerText = this.titulo;
+        document.querySelector('#panelResultados').innerText = this.texto;
     }
 
     confirm() {
