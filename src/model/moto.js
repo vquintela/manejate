@@ -34,7 +34,6 @@ const motoSchema = new Schema ({
     },
     descripcion: {
         type: String,
-        required: [true, '¡Campo requerido!'],
         maxlength:[50,"¡Descripcion muy larga, maximo 50 caracteres!"]
     },
     imagen: {

@@ -15,10 +15,23 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.get("/obtenerMotos/:rangoPrecios/ubicacion/:ubicacion", (req, res) => {
+router.get("/obtenerMotos/:rangoPrecios/ubicacion/:ubicacion", async (req, res) => {
   const rangoPrecios = req.params.rangoPrecios;
+  let motos;
+  switch(rangoPrecios){
+    case "1":
+      motos = await motoSchema.find({ precio: { $gte: 100, $lte: 200 }});
+      break;
+    case "2":
+      motos = await  motoSchema.find({ precio: { $gte: 300, $lte: 500 }});
+      break;
+    case "3":
+      motos = await motoSchema.find({ precio: { $gte: 600, $lte: 1000 }});
+      break;
+  }
+
   const ubicacion = req.params.ubicacion;
-  const motos = motoSchema.find({ precio: { $gte: 100}, ubicacion: ubicacion });
+  // motos.find( { ubicacion: ubicacion });
   res.json(motos);
 });
 
