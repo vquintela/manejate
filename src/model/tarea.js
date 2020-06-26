@@ -1,5 +1,4 @@
 const { model, Schema } = require('mongoose');
-// const reserva = mongoose.model('reserva');
 
 const tareaSchema = new Schema({
     titulo: {
@@ -10,17 +9,7 @@ const tareaSchema = new Schema({
         type: String, 
         required: [true, '¡Campo requerido!']
     },
-    avance: [{
-        msg: String,
-        fecha: {
-            type: Date,
-            default: Date.now
-        }
-    }],
-    id_reserva: {
-        type: Schema.Types.ObjectId,
-        ref: 'reserva'
-    },
+    avance: [{}],
     estado: {
         type: Boolean,
         default: false

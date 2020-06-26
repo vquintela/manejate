@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/todas', async (req, res) => {
-    const tareas = await Tareas.find();
+    const tareas = await Tareas.find().select('-avance').populate({path: 'id_user', select: 'nombre apellido'});
     res.json(tareas);
 })
 
@@ -55,6 +55,28 @@ router.put('/estado/:id', async (req, res) => {
     const { state } = req.body;
     await Tareas.findByIdAndUpdate({_id: id}, { estado: state });
     res.json({message: 'Estado modificado', css: 'success', type: true});
+})
+
+router.put('/avance/:id', async (req, res) => {
+    const { id } = req.params
+    const avance = req.body
+    let avanceUser = avance.pop()
+    avanceUser.nombre = `${req.user.apellido}, ${req.user.nombre}`
+    avance.push(avanceUser)
+    await Tareas.findByIdAndUpdate({_id: id}, { avance: req.body });
+    res.json({message: 'Avance agregado', css: 'success', type: true});
+})
+
+router.post('/asignar/:id', async (req, res) => {
+    const { id } = req.params
+    await Tareas.findByIdAndUpdate({_id: id}, { id_user: req.user._id });
+    res.json({message: 'Tarea Asignada', css: 'success', type: true});
+})
+
+router.post('/desasignar/:id', async (req, res) => {
+    const { id } = req.params
+    await Tareas.findByIdAndUpdate({_id: id}, {$unset:{"id_user":""}});
+    res.json({message: 'Tarea Desasignada', css: 'success', type: true});
 })
 
 module.exports = router

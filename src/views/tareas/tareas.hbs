@@ -3,13 +3,13 @@
         <h1>TAREAS</h1>
     </div>
     <div class="d-flex ml-auto">
-        <button type="button" class="btn btn-primary mr-2 btn-block" onclick="Tarea.ingresar();"><i class="fas fa-tasks"></i>  Tarea</button>
+        <button type="button" class="btn btn-primary mr-2 btn-block" id="ingresar-tarea"><i class="fas fa-tasks"></i>  Tarea</button>
         <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
             <option>todos</option>
             <option value="true">En Curso</option>
             <option value="false">Terminadas</option>
         </select>
-        <button type="button" class="btn btn-outline-success" onclick="Tarea.obtener()"><i class="fas fa-search"></i></button>
+        <button type="button" class="btn btn-outline-success" id="buscar-tarea"><i class="fas fa-search"></i></button>
     </div>
 </div>
 <div class="container" id="contenedor">
@@ -17,5 +17,5 @@
         <div class="col-md-12 text-center" id="insertar"></div>
     </div>
 </div>
-<script type="module" src="js/tareas.js"></script>
+<script type="module" src="js/tareas/tareas.js"></script>
 <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
