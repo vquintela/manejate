@@ -58,6 +58,27 @@ const filtrar = () => {
   fetch(`/obtenerMotos/${rangoPrecios}/ubicacion/${ubicacion}`);
 }
 
+const renewPass = async () => {
+  const email = document.getElementById('email-sgn').value
+  const res = await fetch('/auth/renew', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({email})
+  })
+  const resp = await res.json()
+  if(resp.type){
+    document.getElementById('error-sgn').innerText = ''
+    document.getElementById('true-sgn').innerText = resp.message
+    setTimeout( () => {
+      location.reload()
+    }, 1500)
+  } else {
+    document.getElementById('error-sgn').innerText = resp.message
+  }
+}
+
 window.onload = async () => {
 
   $('#modal-alquiler').on('show.bs.modal', function (event) {
@@ -79,18 +100,25 @@ window.onload = async () => {
         });
   })
 
-  document.getElementById('btn-signin').addEventListener('click', e => {
-    if(e.target.classList.contains('signout')) {
-      fetch('auth/logout')
-    } else {
+  const btnsgn = document.getElementById('btn-signin')
+  if(btnsgn){
+    btnsgn.addEventListener('click', e => {
       e.preventDefault()
       signin()
-    }
-  })
+    })
+  }
 
   document.addEventListener('change', (event) =>{
     if(event.target.classList.contains('filtro')){
       filtrar();
     }
   }, false);
+
+  const btnrnpass = document.getElementById('renew-pass')
+  if(btnrnpass) {
+    btnrnpass.addEventListener('click', e => {
+      e.preventDefault()
+      renewPass()
+    })
+  }
 };

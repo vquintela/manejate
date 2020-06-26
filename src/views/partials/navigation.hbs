@@ -11,7 +11,7 @@
             <ul class="navbar-nav ml-auto">
                 {{#if user}}
                 <li class="nav-item">
-                    <a href="" class="nav-link text-white btn-lg active"><i class="fas fa-sign-out-alt signout" id="btn-signin"></i></a>
+                    <a href="auth/logout" class="nav-link text-white btn-lg active"><i class="fas fa-sign-out-alt"></i></a>
                 </li>
                 {{else}}
                 <li class="nav-item dropdown dropleft">
@@ -33,10 +33,10 @@
                                 <input type="password" class="form-control" id="pass-sgn" placeholder="Password">
                             </div>
                             <button type="submit" class="btn btn-primary" id="btn-signin">Sign in</button>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">No tiene usuario? Registrese</a>
+                            <a class="dropdown-item" href="#" id="renew-pass">Olvido su password?</a>
                         </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">No tiene usuario? Registrese</a>
-                        <a class="dropdown-item" href="#">Olvido su password?</a>
                     </div>
                 </li>
                 {{/if}}
