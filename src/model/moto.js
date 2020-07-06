@@ -46,7 +46,8 @@ const motoSchema = new Schema ({
     },
     ubicacion: {
         type: Schema.Types.ObjectId,
-        ref: "sede"
+        ref: "sede",
+        required: [true, '¡Campo requerido!']
     }
 });
 
