@@ -56,6 +56,7 @@ router.get('/newpass', async (req, res) => {
 router.post('/newpass/:id', async (req, res) => {
     const { id } = req.params;
     const { passwordActual, nuevaPass, repNuevaPass} = req.body;
+    if(!passwordActual.trim() || !nuevaPass.trim() || !repNuevaPass.trim()) return res.json({message: 'Debe ingresar todos los campos',css: 'danger', type: false})
     if(nuevaPass === repNuevaPass){
         const user = await User.findById(id);
         const pass = await user.comparePassword(passwordActual, user.password)
@@ -64,10 +65,10 @@ router.post('/newpass/:id', async (req, res) => {
             await user.updateOne({password: password})
             res.json({message: 'Password cambiada', css: 'success', type: true})
         } else {
-            res.json({message: 'La password ingresada no es correcta', css: 'danger', type: true})
+            res.json({message: 'La password ingresada no es correcta', css: 'danger', type: false})
         }
     } else{
-        res.json({message: 'Las password no coinciden',css: 'danger', type: true})
+        res.json({message: 'Las password no coinciden',css: 'danger', type: false})
     }
 })
 
