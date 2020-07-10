@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "manejate_jwtPrivateKey",
+    "db": "manejate_db"
+}

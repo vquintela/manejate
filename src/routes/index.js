@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         "fechaMinima": new Date().toLocaleDateString('es-AR', { year: 'numeric', month: '2-digit', day: '2-digit' }),
         "motocicletas": result
       }
-      res.render("./index", { data } );
+      res.render("./index");
     });
 });
 

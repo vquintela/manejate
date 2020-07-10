@@ -8,8 +8,8 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 const app = express();
-require('./lib/database')
-require('./lib/passport')
+require('./lib/database');
+require('./lib/passport');
 
 //Settings
 app.set('port', process.env.PORT || 3000);

@@ -27,19 +27,7 @@
         </select>
     </div>
 
-    <div class="card-columns">
-        {{#each data.motocicletas}}
-        <div id="{{_id}}" class="card mb-4 shadow-sm" data-toggle="modal" data-target=".modal">
-            <img class="card-img-top" src="img/{{imagen}}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{marca}}</h5>
-                <p class="card-text">{{modelo}}</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">${{precio}}/día</small>
-            </div>
-        </div>
-        {{/each}}
+    <div id="moto-card-columns" class="card-columns">
     </div>
 </div>
 
@@ -95,4 +83,19 @@
 </div>
 {{! MODAL RESPUESTA ALQUILER }}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 <script src="/js/index.js"></script>
+<script id="motos-template" type="text/x-handlebars-template">
+\{{#each motocicletas}}
+<div id="\{{_id}}" class="card mb-4 shadow-sm" data-toggle="modal" data-target=".modal">
+    <img class="card-img-top" src="img/\{{imagen}}" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">\{{marca}}</h5>
+        <p class="card-text">\{{modelo}}</p>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">$\{{precio}}/día</small>
+    </div>
+</div>
+\{{/each}}
+</script>
