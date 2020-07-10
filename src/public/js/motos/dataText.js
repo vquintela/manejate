@@ -32,6 +32,12 @@ const ingresarText = `
                     </select>
                     <span id="marcaError" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <select id="ubicacion" class="form-control">
+                        <option>Ubicacion</option>
+                    </select>
+                    <span id="ubicacionError" class="text-danger"></span>
+                </div>
                 <button type="button" class="btn btn-primary btn-block" id="btn-insertar"></button>
                 <button type="button" class="btn btn-light btn-sm btn-block mt-2" id="btn-cancelar">
                     Cancelar
@@ -54,6 +60,7 @@ const textoFilas = `
                 <th scope="col">Precio</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Modelo</th>
+                <th scope="col">Ubicacion</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Accion</th>
             </tr>

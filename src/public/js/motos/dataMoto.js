@@ -31,6 +31,8 @@ const insertarMoto = async (id, imagen) => {
     const formData = new FormData();
     formData.append('image', document.getElementById('imagen').files[0]);
     formData.append('modelo', document.getElementById('modelo').value)
+    const ubicacion = document.getElementById('ubicacion').value
+    if(ubicacion != 'Ubicacion') formData.append('ubicacion', document.getElementById('ubicacion').value)
     formData.append('descripcion', document.getElementById('descripcion').value)
     formData.append('marca', document.getElementById('marca').value)
     formData.append('precio', document.getElementById('precio').value)
@@ -56,4 +58,9 @@ const getmoto = async (id) => {
     return JSON.parse(await motoJSON.text());
 }
 
-export { getMotos, eliminarMoto, changeState, insertarMoto, getmoto } 
+const getSedes = async () => {
+    const sedes = await fetch('/sedes/todos', {method: 'GET'});
+    return JSON.parse(await sedes.text());
+}
+
+export { getMotos, eliminarMoto, changeState, insertarMoto, getmoto, getSedes } 

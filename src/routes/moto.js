@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/todos', async (req, res) => {
-    const motos = await Moto.find();
+    const motos = await Moto.find().populate({path: 'ubicacion', select: 'domicilio'});
     res.json(motos)
 })
 
@@ -49,12 +49,12 @@ router.post('/insertar', async (req, res) => {
 
 router.get('/editar/:id', async (req, res) => {
     const { id } = req.params;
-    const moto = await Moto.findById(id);
+    const moto = await Moto.findById(id).populate({path: 'ubicacion', select: 'domicilio'});
     res.json(moto);
 })
 
 router.post('/editar/:id', async (req, res) => {
-    let { precio, marca, descripcion, modelo, imagen } = req.body;
+    let { precio, marca, descripcion, modelo, imagen, ubicacion } = req.body;
     if(req.file){
         const imagePath = req.file.path;
         const ext = path.extname(req.file.originalname).toLowerCase();
@@ -74,7 +74,7 @@ router.post('/editar/:id', async (req, res) => {
         }
     }
     try {
-        await Moto.findByIdAndUpdate({_id: req.params.id}, { precio, marca, descripcion, modelo, imagen }, { runValidators: true });
+        await Moto.findByIdAndUpdate({_id: req.params.id}, { precio, marca, descripcion, modelo, imagen, ubicacion }, { runValidators: true });
         res.json({message: 'Moto actualizada de forma correcta', css: 'success', type: true});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);

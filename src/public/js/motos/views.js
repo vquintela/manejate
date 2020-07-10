@@ -1,11 +1,12 @@
-import { getMotos, getmoto } from './dataMoto.js'
+import { getMotos, getmoto, getSedes } from './dataMoto.js'
 import { ingresarText, textoFilas } from './dataText.js'
 
-const ingresarMoto = () => {
+const ingresarMoto = async () => {
     const contenedor = document.getElementById('insertar')
     const insert = document.getElementById('insertar-filas')
     contenedor.removeChild(insert)
     contenedor.insertAdjacentHTML('beforeend', ingresarText)
+    await insertarSedes()
     document.getElementById("imagen").onchange = function (e) {
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
@@ -18,6 +19,18 @@ const ingresarMoto = () => {
             preview.append(image);
         };
     }
+}
+
+const insertarSedes = async () => {
+    const sedes = await getSedes()
+    const fragment = new DocumentFragment()
+    sedes.map(sede => {
+        const fila = document.createElement('option')
+        fila.setAttribute('value', sede._id)
+        fila.innerText = sede.domicilio
+        fragment.appendChild(fila)
+    })
+    document.getElementById('ubicacion').appendChild(fragment)
 }
 
 const listarMotos = async () => {
@@ -51,6 +64,8 @@ const generarFila = (moto, index) => {
     tdMarca.innerText = moto.marca
     const tdModelo = document.createElement('td')
     tdModelo.innerText = moto.modelo
+    const tdUbicacion = document.createElement('td')
+    tdUbicacion.innerText = moto.ubicacion.domicilio
     //td estado
     const tdEstado = document.createElement('td')
     const btnEstado = document.createElement('i')
@@ -76,6 +91,7 @@ const generarFila = (moto, index) => {
     tr.appendChild(tdPrecio)
     tr.appendChild(tdMarca)
     tr.appendChild(tdModelo)
+    tr.appendChild(tdUbicacion)
     tr.appendChild(tdEstado)
     tr.appendChild(tdAcciones)
     return tr
@@ -96,6 +112,7 @@ const insertData = async (moto) => {
     preview.append(image);
     document.getElementById('modelo').value = moto.modelo
     document.getElementById('descripcion').value = moto.descripcion
+    document.getElementById('ubicacion').value = moto.ubicacion.domicilio
     document.getElementById('marca').value = moto.marca
     document.getElementById('precio').value = moto.precio
     const patente = document.getElementById('patente')
