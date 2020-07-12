@@ -58,14 +58,14 @@ const filtrar = () => {
   const ubicacion = document.querySelector("#ubicacion").value;
 
   fetch(`/obtenerMotos/${rangoPrecios}/ubicacion/${ubicacion}`)
-    .then(res => res.json())
-    .then(json => refrescar(json));
+    .then((res) => res.json())
+    .then((json) => refrescar(json));
 };
 
 const refrescar = (motocicletas) => {
-  const source = $('#motos-template').html();
+  const source = $("#motos-template").html();
   const template = Handlebars.compile(source);
-  const html = template({motocicletas:motocicletas});
+  const html = template({ motocicletas: motocicletas });
   $("#moto-card-columns").html(html);
 };
 
@@ -91,6 +91,10 @@ const renewPass = async () => {
 };
 
 window.onload = async () => {
+  filtrar(); //trae todas las motocicletas al cargar la página
+
+  //registra al evento de mostrar el modal de alquiler la la función de adaptar
+  //los datos de dicho modal según la motocicleta
   $("#modal-alquiler").on("show.bs.modal", function (event) {
     const target = $(event.relatedTarget);
     const modal = $(this);
@@ -98,6 +102,7 @@ window.onload = async () => {
     modal.find("input[name='motocicleta']").val(target[0].id);
   });
 
+  //registra al evento de cliqueo en del botón de alquilar la función de alquilar
   document
     .querySelector("[btn-alquilar]")
     .addEventListener("click", (event) => {
@@ -119,6 +124,7 @@ window.onload = async () => {
     });
   }
 
+  //registra al evento de cambio en los filtros la función de filtrar las motocicletas
   document.addEventListener(
     "change",
     (event) => {
