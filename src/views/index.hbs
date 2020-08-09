@@ -21,9 +21,9 @@
         </div>
         <select class="filtro" id="ubicacion" style="width:22rem;">
             <option value="all" selected>Seleccioná donde querés retirar el vehículo...</option>
-            <option value="1">Agronomía</option>
-            <option value="2">Villa Pueyrredón</option>
-            <option value="3">Villa del Parque</option>
+            {{#each data.sedes}}
+            <option value="{{_id}}">{{domicilio}}</option>
+            {{/each}}
         </select>
     </div>
 
@@ -43,7 +43,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" name="motocicleta" />
-                <div class="row">
+                <div class="row align-items-end">
                     <div class="col-6 form-group">
                         <label for="fechaEntrega">Fecha de entrega</label>
                         <input class="form-control" type="date" min="{{data.fechaMinima}}" name="fechaEntrega" />
