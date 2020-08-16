@@ -116,12 +116,22 @@ window.onload = async () => {
       });
     });
 
+  //registra el evento de ingreso de usuario
   const btnsgn = document.getElementById("btn-signin");
   if (btnsgn) {
     btnsgn.addEventListener("click", (e) => {
       e.preventDefault();
+      e.target.disabled = true;
       signin();
     });
+  }
+
+  // Evento de registro de usuario
+  const btnSignup = document.getElementById('btn-signup');
+  if (btnSignup) {
+    btnSignup.addEventListener('click', () => {
+      registroUsuario()
+    })
   }
 
   //registra al evento de cambio en los filtros la función de filtrar las motocicletas
@@ -143,3 +153,19 @@ window.onload = async () => {
     });
   }
 };
+
+const registroUsuario = () => {
+  const modal = document.querySelector('.contenedor-modal')
+  modal.style.display = 'block';
+  document.getElementById('cerrarRegistro').addEventListener('click', () => {
+    modal.style.display = 'none';
+  })
+  document.querySelector('.contenido-footer').addEventListener('click', e => {
+    if(e.target.classList.contains('cancelar')) {
+      modal.style.display = 'none';
+    }
+    if(e.target.classList.contains('registrarse')) {
+      console.log('vfevefvef')
+    }
+  })
+}
