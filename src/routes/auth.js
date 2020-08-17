@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const mailer = require('../lib/mailer');
-const User = require('../model/user')
+const User = require('../model/user');
+const errorMessage = require("../lib/errorMessageValidation");
 
 router.post('/signin', (req, res, next) => {
     const { email, password } = req.body
@@ -23,6 +24,44 @@ router.post('/signin', (req, res, next) => {
         });
     })(req, res, next);
 });
+
+router.post('/signup', async (req, res) => {
+    const {nombre, apellido, email, telefono, password, verificarPassword} = req.body;
+    if(password !== verificarPassword) {
+        return res.json({message: 'Las contraseñas no coinciden', passW: true});
+    }
+    const newUser = new User({nombre, apellido, email, telefono, password});
+    if(!newUser.validatePass(password)) {
+        return res.json({message: 'Las contraseña no cumple los requisitos', passW: true});
+    }
+    newUser.password = await newUser.encryptPassword(password);
+    newUser.numAut = await newUser.genPass();
+    try {
+        await newUser.save();
+        mailer.signup(newUser.email ,newUser.nombre, newUser.apellido, newUser.numAut);
+        return res.json({message: 'Usuario Registrado, verifique su email para terminar', type: true});
+    } catch (error) {
+        const mensaje = errorMessage.crearMensaje(error);
+        res.json({message: mensaje, type: false})
+        return;
+    }
+});
+
+router.get('/verifica', async (req, res) => {
+    const {email, id } = req.query;
+    const emailUser = await User.findOne({email: email});
+    if(!emailUser) {
+        res.render('users/verificacion', {valor: false, mensaje: 'Email no registrado'});
+    } else {
+        if(emailUser.numAut === id) {
+            newNum = emailUser.genPass();
+            await emailUser.updateOne({state: true, numAut: newNum});
+            res.render('users/verificacion', {valor: true, mensaje: `${emailUser.nombre}, ${emailUser.apellido}`});
+        } else {
+            res.render('users/verificacion', {valor: false, mensaje: 'Autenticación no valida'});;
+        }
+    }
+})
 
 router.post('/renew', async (req, res) => {
     const { email } = req.body;
