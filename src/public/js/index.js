@@ -157,12 +157,15 @@ window.onload = async () => {
 const registroUsuario = () => {
   const modal = document.querySelector('.contenedor-modal')
   modal.style.display = 'block';
+  document.querySelector('body').style.overflowY = 'hidden';
   document.getElementById('cerrarRegistro').addEventListener('click', () => {
     modal.style.display = 'none';
+    document.querySelector('body').style.overflowY = 'visible';
   })
   document.querySelector('.contenido-footer').addEventListener('click', e => {
     if(e.target.classList.contains('cancelar')) {
       modal.style.display = 'none';
+      document.querySelector('body').style.overflowY = 'visible';
     }
     if(e.target.classList.contains('registrarse')) {
       registrar()

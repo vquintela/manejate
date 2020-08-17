@@ -31,6 +31,7 @@ class Modal {
     _modal() {
         let mascara = document.getElementById('lamascara');
         mascara.style.display = "block";
+        document.querySelector('body').style.overflowY = 'hidden';
         document.getElementById('titulo-modal').innerText = this.titulo;
         document.querySelector('#panelResultados').innerText = this.texto;
     }
@@ -40,11 +41,13 @@ class Modal {
             const btnCerrar = document.getElementById('cerrarModal');
             btnCerrar.addEventListener("click", () => {
                 document.getElementById('lamascara').style.display = "none";
+                document.querySelector('body').style.overflowY = 'visible';
                 resolve(false);
             });
             const btnAceptar = document.getElementById('aceptarModal');
             btnAceptar.addEventListener("click", () => {
                 document.getElementById('lamascara').style.display = "none";
+                document.querySelector('body').style.overflowY = 'visible';
                 resolve(true);
             });
         });
