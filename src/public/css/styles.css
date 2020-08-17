@@ -12,10 +12,10 @@
 }
 .contenido,
 .contenido-modal {
-    border-radius: 10px;
+    /* border-radius: 10px; */
     animation: modal 1s;
     position: fixed;
-    top: 15vh;
+    top: 5vh;
     left: 10vw;
     right: 10vw;
     margin: auto;
