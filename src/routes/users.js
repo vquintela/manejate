@@ -96,13 +96,14 @@ router.post('/avatar/:id', async (req, res) => {
 
 router.post('/insertar', async (req, res) => {
     const {nombre, apellido, email, rol, telefono} = req.body;
-    const user = new User({nombre, apellido, email, rol, telefono})
-    user.password = user.genPass()
+    const state = true;
+    const user = new User({nombre, apellido, email, rol, telefono, state})
+    const password = user.genPass()
     // console.log(user.password) 
-    user.password = await user.encryptPassword(user.password);
+    user.password = await user.encryptPassword(password);
     try {
         await user.save()
-        // await mailer.renew(user.email, user.nombre, user.apellido, password)
+        await mailer.renew(user.email, user.nombre, user.apellido, password)
         res.json({message: 'Usuario ingresado de forma correcta', css: 'success', type: true});
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
