@@ -2,7 +2,7 @@ const ingresarText = `
     <div class="row justify-content-md-center align-items-center" id="insertar-filas">
         <div class="col-md-6">
             <h4 id="titulo-motos"></h4>
-            <form class="card-body" id="formulario">
+            <form class="card-body" id="formulario" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="text" id="patente" placeholder="Patente" class="form-control">
                     <span id="patenteError" class="text-danger"></span>
