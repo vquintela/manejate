@@ -5,17 +5,18 @@ const path = require('path');
 const fs = require('fs-extra');
 const errorMessage = require('../lib/errorMessageValidation');
 const mailer = require('../lib/mailer');
+const { logAdmin, logueado } = require('../lib/auth');
 
-router.get('/', (req, res) => {
+router.get('/', logAdmin, (req, res) => {
     res.render('users/users');
 });
 
-router.get('/obtener', async (req, res) => {
+router.get('/obtener', logAdmin, async (req, res) => {
     const users = await User.find().select('-password');
     res.json(users);
 });
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const resp = await User.findByIdAndDelete(id);
     if(resp.img != 'avatar.jpg') {
@@ -24,13 +25,13 @@ router.delete('/delete/:id', async (req, res) => {
     res.json({message: 'Usuario eliminado de forma correcta', css: 'success', type: true});
 });
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id).select('-password');
     res.json(user);
 });
 
-router.post('/editar/:id', async (req, res) => {
+router.post('/editar/:id', logAdmin, async (req, res) => {
     const { nombre, apellido, rol, telefono } = req.body;
     try {
         await User.findByIdAndUpdate({_id: req.params.id}, { nombre, apellido, rol, telefono }, { runValidators: true });
@@ -42,18 +43,18 @@ router.post('/editar/:id', async (req, res) => {
     }
 });
 
-router.put('/estado/:id', async (req, res) => {
+router.put('/estado/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const { state } = req.body;
     await User.findByIdAndUpdate({_id: id}, { state });
     res.json({message: 'Estado modificado', css: 'success', type: true});
 })
 
-router.get('/newpass', async (req, res) => {
+router.get('/newpass', logueado, async (req, res) => {
     res.render('users/newpass');
 })
 
-router.post('/newpass/:id', async (req, res) => {
+router.post('/newpass/:id', logueado, async (req, res) => {
     const { id } = req.params;
     const { passwordActual, nuevaPass, repNuevaPass} = req.body;
     if(!passwordActual.trim() || !nuevaPass.trim() || !repNuevaPass.trim()) return res.json({message: 'Debe ingresar todos los campos',css: 'danger', type: false})
@@ -72,7 +73,7 @@ router.post('/newpass/:id', async (req, res) => {
     }
 })
 
-router.post('/avatar/:id', async (req, res) => {
+router.post('/avatar/:id', logueado, async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id)
     const imagePath = req.file.path;
@@ -94,7 +95,7 @@ router.post('/avatar/:id', async (req, res) => {
     }
 })
 
-router.post('/insertar', async (req, res) => {
+router.post('/insertar', logAdmin, async (req, res) => {
     const {nombre, apellido, email, rol, telefono} = req.body;
     const state = true;
     const user = new User({nombre, apellido, email, rol, telefono, state})
