@@ -22,9 +22,10 @@ router.get("/todos", async (req, res) => {
 router.post("/insertar", async (req, res) => {
   const values = req.body;
   const moto = new Moto({ ...values });
-  let imagePath;
-  if (req.file) {
-    imagePath = req.file.path;
+  // let imagePath;
+
+  // if (req.file) {
+  //   imagePath = req.file.path;
 
     // const data = new FormData();
     // data.append('image', req.file);
@@ -53,7 +54,7 @@ router.post("/insertar", async (req, res) => {
     // } else {
     //   await fs.unlink(imagePath);
     // }
-  }
+  // }
   try {
     const resp = await moto.save();
     if (resp.imagen !== "sinimagen.png") {

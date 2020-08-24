@@ -35,7 +35,6 @@ const insertarMoto = async (id, imagen) => {
 
   const CLIENT_ID = "eebc1228df88a58";
 
-  let pepe;
   await subirImagen(`https://api.imgur.com/3/image`, {
     method: "POST",
     body: imageData,
@@ -44,17 +43,20 @@ const insertarMoto = async (id, imagen) => {
     },
   })
   .then(data => {
-    formData.append("image", data.data.link);
+    formData.append("imagen", data.data.link);
   });
 
   formData.append("modelo", document.getElementById("modelo").value);
   const ubicacion = document.getElementById("ubicacion").value;
-  if (ubicacion != "Ubicacion")
+
+  if (ubicacion !== "Ubicacion")
     formData.append("ubicacion", document.getElementById("ubicacion").value);
+
   formData.append("descripcion", document.getElementById("descripcion").value);
   formData.append("marca", document.getElementById("marca").value);
   formData.append("precio", document.getElementById("precio").value);
   formData.append("patente", document.getElementById("patente").value);
+
   if (id) {
     formData.append("imagen", imagen);
     const text = await fetch("/motos/editar/" + id, {
@@ -69,12 +71,6 @@ const insertarMoto = async (id, imagen) => {
     });
     return JSON.parse(await text.text());
   }
-};
-
-const obtenerLink = (resultado) => {
-  return ({
-    data: { link },
-  } = resultado);
 };
 
 const subirImagen = async (url, options) => {
