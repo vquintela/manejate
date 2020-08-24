@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Sede = require('../model/sede');
-const path = require('path');
-const fs = require('fs-extra');
 const errorMessage = require('../lib/errorMessageValidation');
+const { logAdmin } = require('../lib/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', logAdmin, async (req, res) => {
     res.render('./sedes/sedes');
 });
 
@@ -14,7 +13,7 @@ router.get('/todos', async (req, res) => {
     res.json(sedes)
 })
 
-router.post('/insertar', async (req, res) => {
+router.post('/insertar', logAdmin, async (req, res) => {
     const { domicilio, codigoPostal, provincia, ciudad } = req.body;
     const sede = new Sede({ domicilio, codigoPostal, provincia, ciudad });
     let resp = null;
@@ -28,19 +27,19 @@ router.post('/insertar', async (req, res) => {
     }
 })
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id', logAdmin, async (req, res) => {
     const sede = await Sede.findById({ _id: req.params.id })
     res.json(sede)
 
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', logAdmin, async (req, res) => {
     const sede = await Sede.findByIdAndDelete({ _id: req.params.id })
     res.json({ message: "Eliminado con exito", css: 'danger', type: true })
 
 })
 
-router.post('/editar/:id', async (req, res) => {
+router.post('/editar/:id', logAdmin, async (req, res) => {
     const { domicilio, codigoPostal, provincia, ciudad } = req.body;
     try {
         await Sede.findByIdAndUpdate({ _id: req.params.id }, { domicilio, codigoPostal, provincia, ciudad });

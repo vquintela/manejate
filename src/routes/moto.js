@@ -4,8 +4,9 @@ const Moto = require('../model/moto')
 const path = require('path');
 const fs = require('fs-extra');
 const errorMessage = require('../lib/errorMessageValidation');
+const { logAdmin } = require('../lib/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', logAdmin, async (req, res) => {
     res.render('./motos/motos')
 })
 
@@ -14,7 +15,7 @@ router.get('/todos', async (req, res) => {
     res.json(motos)
 })
 
-router.post('/insertar', async (req, res) => {
+router.post('/insertar', logAdmin, async (req, res) => {
     const values = req.body;
     const moto = new Moto({ ...values });
     let imagePath
@@ -47,13 +48,13 @@ router.post('/insertar', async (req, res) => {
     }
 })
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const moto = await Moto.findById(id).populate({path: 'ubicacion', select: 'domicilio'});
     res.json(moto);
 })
 
-router.post('/editar/:id', async (req, res) => {
+router.post('/editar/:id', logAdmin, async (req, res) => {
     let { precio, marca, descripcion, modelo, imagen, ubicacion } = req.body;
     if(req.file){
         const imagePath = req.file.path;
@@ -83,7 +84,7 @@ router.post('/editar/:id', async (req, res) => {
     }
 })
 
-router.post('/delete/:id', async (req, res) => {
+router.post('/delete/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const { imagen } = req.body;
     if(imagen !== 'sinimagen.png') {
@@ -97,7 +98,7 @@ router.post('/delete/:id', async (req, res) => {
     res.json({message: 'Moto eliminada de forma correcta', css: 'success', type: true});
 })
 
-router.put('/estado/:id', async (req, res) => {
+router.put('/estado/:id', logAdmin, async (req, res) => {
     const { id } = req.params;
     const { service } = req.body;
     await Moto.findByIdAndUpdate({_id: id}, { service: !service });

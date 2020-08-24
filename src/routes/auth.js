@@ -4,8 +4,9 @@ const passport = require('passport')
 const mailer = require('../lib/mailer');
 const User = require('../model/user');
 const errorMessage = require("../lib/errorMessageValidation");
+const { noLogueado, logueado } = require('../lib/auth');
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', noLogueado, (req, res, next) => {
     const { email, password } = req.body
     if(!email.trim()||!password.trim()) return res.json({message: 'Debe completar los campos', type: false});
     passport.authenticate('local-signin', (err, user, info) => { 
@@ -25,7 +26,7 @@ router.post('/signin', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', noLogueado, async (req, res) => {
     const {nombre, apellido, email, telefono, password, verificarPassword} = req.body;
     if(password !== verificarPassword) {
         return res.json({message: 'Las contraseñas no coinciden', passW: true});
@@ -78,7 +79,7 @@ router.post('/renew', async (req, res) => {
     }
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', logueado, (req, res) => {
     req.logOut();
     res.redirect('/');
 })
