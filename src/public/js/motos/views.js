@@ -106,7 +106,7 @@ const editarMoto = async (id) => {
 const insertData = async (moto) => {
     const preview = document.getElementById('preview'),
     image = document.createElement('img');
-    image.src = `img/${moto.imagen}`;
+    image.src = moto.imagen;
     image.setAttribute('class', 'img-fluid')
     preview.innerHTML = '';
     preview.append(image);

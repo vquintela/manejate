@@ -30,22 +30,6 @@ const changeState = async (id, service) => {
 const insertarMoto = async (id, imagen) => {
   let formData = new FormData();
 
-  const imageData = new FormData();
-  imageData.append("image", document.getElementById("imagen").files[0]);
-
-  const CLIENT_ID = "eebc1228df88a58";
-
-  await subirImagen(`https://api.imgur.com/3/image`, {
-    method: "POST",
-    body: imageData,
-    headers: {
-      Authorization: `Client-ID ${CLIENT_ID}`,
-    },
-  })
-  .then(data => {
-    formData.append("imagen", data.data.link);
-  });
-
   formData.append("modelo", document.getElementById("modelo").value);
   const ubicacion = document.getElementById("ubicacion").value;
 
@@ -57,8 +41,26 @@ const insertarMoto = async (id, imagen) => {
   formData.append("precio", document.getElementById("precio").value);
   formData.append("patente", document.getElementById("patente").value);
 
+  if (document.getElementById("imagen").files[0]) {
+    const imageData = new FormData();
+    imageData.append("image", document.getElementById("imagen").files[0]);
+
+    const CLIENT_ID = "eebc1228df88a58";
+
+    await subirImagen(`https://api.imgur.com/3/image`, {
+      method: "POST",
+      body: imageData,
+      headers: {
+        Authorization: `Client-ID ${CLIENT_ID}`,
+      },
+    }).then((data) => {
+      formData.append("imagen", data.data.link);
+    });
+  } else if (imagen) {
+    if (imagen) formData.append("imagen", imagen);
+  }
+
   if (id) {
-    formData.append("imagen", imagen);
     const text = await fetch("/motos/editar/" + id, {
       method: "POST",
       body: formData,
