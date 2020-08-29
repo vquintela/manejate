@@ -53,11 +53,12 @@ router.delete('/eliminar/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const alquiler = Alquiler.find(req.params.id);
-
-    if(!alquiler) return status(404);
-
-    res.json(alquiler);
+  const { id } = req.params;
+  // Falta que el cliente reserve
+  const alquiler = await Alquiler.find({usuario: id});
+  console.log('aca')
+  res.json(alquiler);
+  // if(!alquiler) return status(404);
 });
 
 module.exports = router;

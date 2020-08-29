@@ -1,11 +1,24 @@
 import { texto, formIngreso } from './dataText.js'
-import { getUsers, getUser } from './dataUser.js'
+import { getUsers, getUser, getRoles } from './dataUser.js'
 
-const ingresarUsuario = () => {
+const ingresarUsuario = async () => {
     const contenedor = document.getElementById('insertar')
     const insert = document.getElementById('filas')
     contenedor.removeChild(insert)
     contenedor.insertAdjacentHTML('beforeend', formIngreso)
+    await insertarRol()
+}
+
+const insertarRol = async () => {
+    const roles = await getRoles()
+    const fragment = new DocumentFragment()
+    roles.map(rol => {
+        const fila = document.createElement('option')
+        fila.setAttribute('value', rol)
+        fila.innerText = rol
+        fragment.appendChild(fila)
+    })
+    document.getElementById('rol').appendChild(fragment)
 }
 
 const listUsers = async () => {
@@ -84,7 +97,7 @@ const insertData = user => {
     const email = document.getElementById('email')
     email.value = user.email
     email.readOnly = true
-    document.getElementById('rol').value = user.rol
+    document.getElementById('rolActual').innerText = user.rol
     document.getElementById('telefono').value = user.telefono
 }
 

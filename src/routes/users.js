@@ -11,6 +11,11 @@ router.get('/', logAdmin, (req, res) => {
     res.render('users/users');
 });
 
+router.get('/roles', logAdmin, (req, res) => {
+    const roles = User.schema.path('rol').enumValues;
+    res.json(roles)
+});
+
 router.get('/obtener', logAdmin, async (req, res) => {
     const users = await User.find().select('-password');
     res.json(users);
