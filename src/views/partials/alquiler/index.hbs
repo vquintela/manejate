@@ -3,19 +3,22 @@
         <table class="table" id="insertar-filas">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Fecha de reserva</th>
                     <th scope="col">Fecha de entrega</th>
                     <th scope="col">Fecha de devolución</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each this}}
                 <tr>
-                    <td scope="col">{{_id}}</td>
                     <td scope="col">{{fechaReserva}}</td>
                     <td scope="col">{{fechaEntrega}}</td>
                     <td scope="col">{{fechaDevolucion}}</td>
+                    <td scope="col">
+                        <button class="btn btn-sm btn-primary">Editar</button>
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>

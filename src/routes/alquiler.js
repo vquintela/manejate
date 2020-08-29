@@ -3,9 +3,20 @@ const router = express.Router();
 const Alquiler = require("../model/alquiler");
 const path = require("path");
 const errorMessage = require("../lib/errorMessageValidation");
+const moment = require('moment');
+const { logAdmin, logueado } = require('../lib/auth');
 
-router.get("/", async (req, res) => {
-  const alquileres = await Alquiler.find().lean().exec();
+router.get("/", logAdmin, async (req, res) => {
+  moment.locale('es')
+  const alquiler = await Alquiler.find().lean().exec();
+  const alquileres = []; 
+  alquiler.map(alq =>{
+    alq.fechaEntrega = moment(alq.fechaEntrega).format('l');
+    alq.fechaDevolucion = moment(alq.fechaDevolucion).format('l');
+    alq.fechaReserva = moment(alq.fechaReserva).format('l');
+    alq.fechaCancelacion = moment(alq.fechaCancelacion).format('l');
+    alquileres.push(alq)
+  })
   res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 
