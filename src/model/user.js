@@ -83,8 +83,7 @@ userSchema.methods.genPass = () => {
 
 userSchema.methods.validatePass = (password) => {
     const expReg = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/g;
-    return expReg.test(password)
-    
+    return expReg.test(password) 
 }
 
 userSchema.plugin(uniqueValidator, { message: '¡Email en uso elija otro!' });
