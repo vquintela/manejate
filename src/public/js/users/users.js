@@ -4,7 +4,7 @@ import { eliminarUser, estadoUser, insertarUsuario } from './dataUser.js'
 
 const users = async () => {
     await listUsers()
-    inicialar()
+    inicializar()
 }
 
 const ingresar = () => {
@@ -41,7 +41,7 @@ const userEstado = async (id, estado) => {
     }
 }
 
-const inicialar = () => {
+const inicializar = () => {
     const btn = document.querySelector('#insertar-filas')
     btn.addEventListener('click', e => {
         const id = e.target.parentElement.parentElement.getAttribute('data-id')

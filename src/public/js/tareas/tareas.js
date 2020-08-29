@@ -4,7 +4,7 @@ import { message, Modal } from '../message.js';
 
 const tareas = async () => {
     await listTareas()
-    inicialar()
+    inicializar()
 }
 
 const tareasIngresar = async () => {
@@ -66,7 +66,7 @@ const desasignarTarea = async (id) => {
     }
 }
 
-const inicialar = () => {
+const inicializar = () => {
     const btn = document.querySelector('#filas')
     btn.addEventListener('click', e => {
         const id = e.target.parentElement.parentElement.getAttribute('data-id')

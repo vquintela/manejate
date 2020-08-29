@@ -4,7 +4,7 @@ import { eliminarMoto, changeState, insertarMoto } from './dataMoto.js'
 
 const motos = async () => {
     await listarMotos()
-    inicialar()
+    inicializar()
 }
 
 const ingresar = () => {
@@ -23,12 +23,8 @@ const deleteMoto = async (id, imagen) => {
 }
 
 const editar = async (id, imagen) => {
-    const modal = new Modal('EDITAR MOTO', '¿Seguro desea editar este vehiculo?')
-    const acept = await modal.confirm();
-    if (acept) {
         await editarMoto(id)
         botonesIngreso(id, imagen)
-    }
 }
 
 const estado = async (id, estado) => {
@@ -41,7 +37,7 @@ const estado = async (id, estado) => {
     }
 }
 
-const inicialar = () => {
+const inicializar = () => {
     const btn = document.querySelector('#filas')
     btn.addEventListener('click', e => {
         const id = e.target.parentElement.parentElement.getAttribute('data-id')
