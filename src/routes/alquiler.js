@@ -5,6 +5,7 @@ const path = require("path");
 const errorMessage = require("../lib/errorMessageValidation");
 const moment = require('moment');
 const { logAdmin, logueado } = require('../lib/auth');
+const mailer = require("../lib/mailer");
 
 router.get("/", logAdmin, async (req, res) => {
   moment.locale('es')
@@ -27,6 +28,7 @@ router.post("/nuevo", async (req, res) => {
     fechaEntrega: req.body.fechaEntrega,
     fechaDevolucion: req.body.fechaDevolucion,
     motocicleta: req.body.motocicleta,
+    usuario: req.user._id, //Agrego para poder seguir con las pruebas
   });
 
   const mensaje = {
@@ -35,7 +37,7 @@ router.post("/nuevo", async (req, res) => {
   }
 
   alquiler = await alquiler.save();
-
+  await mailer.reserva(alquiler, req.user)
   res.json({mensaje, alquiler});
 });
 
@@ -63,13 +65,19 @@ router.delete('/eliminar/:id', async (req, res) => {
     res.json(alquiler);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', logueado, async (req, res) => {
+  moment.locale('es')
   const { id } = req.params;
-  // Falta que el cliente reserve
-  const alquiler = await Alquiler.find({usuario: id});
-  console.log('aca')
-  res.json(alquiler);
-  // if(!alquiler) return status(404);
+  const alquiler = await Alquiler.find({usuario: id}).lean().exec();
+  const alquileres = []; 
+  alquiler.map(alq =>{
+    alq.fechaEntrega = moment(alq.fechaEntrega).format('l');
+    alq.fechaDevolucion = moment(alq.fechaDevolucion).format('l');
+    alq.fechaReserva = moment(alq.fechaReserva).format('l');
+    alq.fechaCancelacion = moment(alq.fechaCancelacion).format('l');
+    alquileres.push(alq)
+  })
+  res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 
 module.exports = router;
