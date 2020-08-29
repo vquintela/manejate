@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 const mailer = {}
 
 mailer.signup = async (email, nombre, apellido, numberId) => {
-    const link = `http://localhost:3000/auth/verifica?email=${email}&id=${numberId}`;
+    const link = `https://manejate-app.herokuapp.com/auth/verifica?email=${email}&id=${numberId}`;
     
     const ret = await transporter.sendMail({
         from: direccion,
