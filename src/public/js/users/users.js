@@ -4,7 +4,7 @@ import { eliminarUser, estadoUser, insertarUsuario } from './dataUser.js'
 
 const users = async () => {
     await listUsers()
-    inicialar()
+    inicializar()
 }
 
 const ingresar = () => {

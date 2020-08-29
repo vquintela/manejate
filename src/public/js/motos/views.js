@@ -112,7 +112,7 @@ const insertData = async (moto) => {
     preview.append(image);
     document.getElementById('modelo').value = moto.modelo
     document.getElementById('descripcion').value = moto.descripcion
-    document.getElementById('ubicacion').value = moto.ubicacion.domicilio
+    document.getElementById('ubicActual').innerText = moto.ubicacion.domicilio
     document.getElementById('marca').value = moto.marca
     document.getElementById('precio').value = moto.precio
     const patente = document.getElementById('patente')

@@ -34,7 +34,7 @@ const ingresarText = `
                 </div>
                 <div class="form-group">
                     <select id="ubicacion" class="form-control">
-                        <option>Ubicacion</option>
+                        <option id="ubicActual">Ubicacion</option>
                     </select>
                     <span id="ubicacionError" class="text-danger"></span>
                 </div>
