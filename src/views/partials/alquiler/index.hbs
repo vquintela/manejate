@@ -6,18 +6,19 @@
                     <th scope="col">Fecha de reserva</th>
                     <th scope="col">Fecha de entrega</th>
                     <th scope="col">Fecha de devolución</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Acción</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each this}}
                 <tr>
-                    <td scope="col">{{fechaReserva}}</td>
-                    <td scope="col">{{fechaEntrega}}</td>
-                    <td scope="col">{{fechaDevolucion}}</td>
-                    <td scope="col">
-                        <button class="btn btn-sm btn-primary">Editar</button>
-                        <button class="btn btn-sm btn-danger">Eliminar</button>
+
+                    <td>{{fechaReserva}}</td>
+                    <td>{{fechaEntrega}}</td>
+                    <td>{{fechaDevolucion}}</td>
+                    <td>
+                        <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="{{_id}}"></i>
+                        <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="{{_id}}"></i>
                     </td>
                 </tr>
                 {{/each}}
