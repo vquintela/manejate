@@ -19,6 +19,11 @@ router.get("/todos", async (req, res) => {
   res.json(motos);
 });
 
+router.get('/marcas', (req, res) => {
+  const marcas = Moto.schema.path('marca').enumValues;
+  res.json(marcas);
+})
+
 router.post("/insertar", async (req, res) => {
   const values = req.body;
   const moto = new Moto({ ...values });

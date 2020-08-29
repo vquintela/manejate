@@ -24,11 +24,7 @@ const ingresarText = `
                 </div>
                 <div class="form-group">
                     <select id="marca" class="form-control">
-                        <option>marca</option>
-                        <option>honda</option>
-                        <option>yamaha</option>
-                        <option>zanella</option>
-                        <option>beta</option>
+                        <option id="marcaActual">marca</option>
                     </select>
                     <span id="marcaError" class="text-danger"></span>
                 </div>

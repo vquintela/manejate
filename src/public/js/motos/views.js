@@ -1,4 +1,4 @@
-import { getMotos, getmoto, getSedes } from './dataMoto.js'
+import { getMotos, getmoto, getSedes, getMarcas } from './dataMoto.js'
 import { ingresarText, textoFilas } from './dataText.js'
 
 const ingresarMoto = async () => {
@@ -6,7 +6,8 @@ const ingresarMoto = async () => {
     const insert = document.getElementById('insertar-filas')
     contenedor.removeChild(insert)
     contenedor.insertAdjacentHTML('beforeend', ingresarText)
-    await insertarSedes()
+    await insertarSedes();
+    await insertarMarcas();
     document.getElementById("imagen").onchange = function (e) {
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
@@ -19,6 +20,18 @@ const ingresarMoto = async () => {
             preview.append(image);
         };
     }
+}
+
+const insertarMarcas = async () => {
+    const marcas = await getMarcas()
+    const fragment = new DocumentFragment()
+    marcas.map(marca => {
+        const fila = document.createElement('option')
+        fila.setAttribute('value', marca)
+        fila.innerText = marca
+        fragment.appendChild(fila)
+    })
+    document.getElementById('marca').appendChild(fragment)
 }
 
 const insertarSedes = async () => {
@@ -113,7 +126,7 @@ const insertData = async (moto) => {
     document.getElementById('modelo').value = moto.modelo
     document.getElementById('descripcion').value = moto.descripcion
     document.getElementById('ubicActual').innerText = moto.ubicacion.domicilio
-    document.getElementById('marca').value = moto.marca
+    document.getElementById('marcaActual').innerText = moto.marca
     document.getElementById('precio').value = moto.precio
     const patente = document.getElementById('patente')
     patente.value = moto.patente
