@@ -1,12 +1,14 @@
 const nodemailer = require('nodemailer');
 
-const direccion = 'mastercarrentalMCR@gmail.com';
-const pass = 'M4st3rc4r';
+// const direccion = 'mastercarrentalMCR@gmail.com';
+// const pass = 'M4st3rc4r';
+const direccion = 'manejate@dantevaweb.com';
+const pass = 'ORgeJgk7%TAm';
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, 
+    host: "mail.dantevaweb.com",
+    port: 465,
+    secure: true, 
     auth: {
         user: direccion,
         pass: pass
