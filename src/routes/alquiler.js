@@ -24,11 +24,25 @@ router.get("/", logAdmin, async (req, res) => {
 router.post("/nuevo", async (req, res) => {
   const fechaReserva = Date.now();
 
+  const entrega = new Date(req.body.fechaEntrega);
+  const devolucion = new Date(req.body.fechaDevolucion);
+
+  const a = devolucion.getTime() - entrega.getTime();
+
   // Validación de fechas de entrega y devolución
-  if(req.body.fechaEntrega > req.body.fechaDevolucion){
+  if(entrega > devolucion){
     let mensaje = {
       titulo: 'ERROR',
       cuerpo: 'La fecha de entrega no puese ser superior a la de devolución'
+    }
+
+    return res.json({ mensaje });
+  }
+
+  if((devolucion.getTime() - entrega.getTime()) / (1000 * 3600 * 24) > 14){
+    let mensaje = {
+      titulo: 'ATENCION',
+      cuerpo: 'Para alquilar una motocicleta más de dos semanas debe contactarse con la empresa'
     }
 
     return res.json({ mensaje });
