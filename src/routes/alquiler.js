@@ -24,6 +24,16 @@ router.get("/", logAdmin, async (req, res) => {
 router.post("/nuevo", async (req, res) => {
   const fechaReserva = Date.now();
 
+  // Validación de fechas de entrega y devolución
+  if(req.body.fechaEntrega > req.body.fechaDevolucion){
+    let mensaje = {
+      titulo: 'ERROR',
+      cuerpo: 'La fecha de entrega no puese ser superior a la de devolución'
+    }
+
+    return res.json({ mensaje });
+  }
+
   let alquiler = new Alquiler({
     fechaEntrega: req.body.fechaEntrega,
     fechaDevolucion: req.body.fechaDevolucion,
@@ -31,7 +41,7 @@ router.post("/nuevo", async (req, res) => {
     usuario: req.user._id, //Agrego para poder seguir con las pruebas
   });
 
-  const mensaje = {
+  let mensaje = {
     titulo: 'FELICITACIONES',
     cuerpo: 'Alquiler realizado correctamente'
   }
