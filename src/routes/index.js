@@ -38,7 +38,10 @@ router.get(
     }
 
     const ubicacion = req.params.ubicacion;
-    // motos.find( { ubicacion: ubicacion });
+
+    if(ubicacion !== 'all')
+      motos = motos.filter(m => m.ubicacion == ubicacion);
+
     res.json(motos);
   }
 );
