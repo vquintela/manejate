@@ -99,7 +99,7 @@ const generarFila = (moto, index) => {
     btnEditar.setAttribute('imagen', `${moto.imagen}`)
     tdAcciones.appendChild(btnEditar)
     //Agrego los elementos td al elemento tr
-    tr.appendChild(tdIndex)
+ //   tr.appendChild(tdIndex)
     tr.appendChild(tdPatente)
     tr.appendChild(tdPrecio)
     tr.appendChild(tdMarca)

@@ -3,7 +3,6 @@ const texto = `
         <table class="table" id="filas">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Email</th>

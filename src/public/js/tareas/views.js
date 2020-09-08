@@ -65,7 +65,7 @@ const crearFila = (tarea, index) => {
     btnAsignar.innerText = tarea.id_user ? tarea.id_user.apellido : 'Asignarme'
     tdAsignar.appendChild(btnAsignar)
     //Agrego los elementos td al elemento tr
-    tr.appendChild(tdIndex)
+//    tr.appendChild(tdIndex)
     tr.appendChild(tdTitulo)
     tr.appendChild(tdDescripcion)
     tr.appendChild(tdAvances)

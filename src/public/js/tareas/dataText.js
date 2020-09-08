@@ -3,7 +3,6 @@ const textoFilas = `
         <table class="table" id="insertar-filas">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Avance</th>

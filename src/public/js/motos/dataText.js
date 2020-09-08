@@ -51,7 +51,6 @@ const textoFilas = `
         <table class="table" id="insertar-filas">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Patente</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Marca</th>

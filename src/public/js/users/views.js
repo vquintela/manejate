@@ -74,7 +74,7 @@ const generarFila = (user, index) => {
     btnEditar.setAttribute('class', 'btn btn-outline-primary btn-sm border-0 fas fa-pen-alt usuario-editar')
     tdAcciones.appendChild(btnEditar)
     //Agrego los elementos td al elemento tr
-    tr.appendChild(tdIndex)
+//    tr.appendChild(tdIndex)
     tr.appendChild(tdNombre)
     tr.appendChild(tdApellido)
     tr.appendChild(tdEmail)

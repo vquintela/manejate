@@ -10,7 +10,6 @@ static async  obtenerSede ()  {
             <table class="table" id="insertar-filas">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Direccion</th>
                     <th scope="col">Codigo Postal</th>
                     <th scope="col">Provincia</th>
@@ -27,7 +26,6 @@ static async  obtenerSede ()  {
         sedes.map((sede,index) =>{
             const texto = `
 
-            <td scope="row">${index + 1}</td>
             <td>${sede.domicilio}</td>
             <td>${sede.codigoPostal}</td>
             <td>${sede.provincia}</td>
