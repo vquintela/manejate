@@ -50,6 +50,7 @@ const signin = async () => {
     }, 1500);
   } else {
     document.getElementById("error-sgn").innerText = resp.message;
+    document.getElementById("btn-signin").disabled = false;
   }
 };
 

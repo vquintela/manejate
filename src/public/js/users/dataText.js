@@ -43,9 +43,7 @@ const formIngreso =`
             </div>
             <div class="form-group">
                 <select name="rol" id="rol" class="form-control">
-                    <option>rol</option>
-                    <option>administrador</option>
-                    <option>cliente</option>
+                    <option id="rolActual">rol</option>
                 </select>
                 <span id="rolError" class="text-danger"></span>
             </div>

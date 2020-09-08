@@ -1,12 +1,15 @@
 const nodemailer = require('nodemailer');
+const moment = require('moment');
 
-const direccion = 'mastercarrentalMCR@gmail.com';
-const pass = 'M4st3rc4r';
+// const direccion = 'mastercarrentalMCR@gmail.com';
+// const pass = 'M4st3rc4r';
+const direccion = 'manejate@dantevaweb.com';
+const pass = 'ORgeJgk7%TAm';
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, 
+    host: "mail.dantevaweb.com",
+    port: 465,
+    secure: true, 
     auth: {
         user: direccion,
         pass: pass
@@ -16,7 +19,7 @@ const transporter = nodemailer.createTransport({
 const mailer = {}
 
 mailer.signup = async (email, nombre, apellido, numberId) => {
-    const link = `http://localhost:3000/auth/verifica?email=${email}&id=${numberId}`;
+    const link = `https://manejate-app.herokuapp.com/auth/verifica?email=${email}&id=${numberId}`;
     
     const ret = await transporter.sendMail({
         from: direccion,
@@ -63,6 +66,26 @@ mailer.contacto = async (mail) => {
         `
     })
     return ret
+}
+
+mailer.reserva = async (reserva, user, moto, sede) => {
+    moment.locale('es')
+    const ret = await transporter.sendMail({
+        from: direccion,
+        to: user.email,
+        subject: 'Confirmacion de Reserva',
+        html: `
+            <h3><b>Gracias por confiar en MANEJATE</b></h3><br><br>
+            <h3><b>Confirmamos la reserva para:</b>${user.nombre} ${user.apellido}</h3><br><br>
+            <p>¡Recuerde no tomar cuando maneja!</p><br><br><br>
+            <p>Fecha de reserva: ${moment(reserva.fechaReserva).format('l')}</p>
+            <p>Fecha de entrega: ${moment(reserva.fechaEntrega).format('l')}</p>
+            <p>Fecha de devolución: ${moment(reserva.fechaDevolucion).format('l')}</p>
+            <p>Motocicleta: FALTA CONFIGURAR</p>
+            <p>Sede de entrega: FALTA CONFIGURAR</p>
+            <p>Sede de devolución: FALTA CONFIGURAR</p>
+        `
+    });
 }
 
 module.exports = mailer;

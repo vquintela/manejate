@@ -23,8 +23,8 @@ const deleteMoto = async (id, imagen) => {
 }
 
 const editar = async (id, imagen) => {
-        await editarMoto(id)
-        botonesIngreso(id, imagen)
+    await editarMoto(id)
+    botonesIngreso(id, imagen)
 }
 
 const estado = async (id, estado) => {

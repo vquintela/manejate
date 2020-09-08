@@ -49,4 +49,9 @@ const insertarUsuario = async (id) => {
     }
 }
 
-export { getUsers, eliminarUser, estadoUser, insertarUsuario, getUser }
+const getRoles = async () => {
+    const roles = await fetch("/users/roles", { method: "GET" });
+    return JSON.parse(await roles.text());
+}
+
+export { getUsers, eliminarUser, estadoUser, insertarUsuario, getUser, getRoles }

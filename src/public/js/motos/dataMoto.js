@@ -90,4 +90,9 @@ const getSedes = async () => {
   return JSON.parse(await sedes.text());
 };
 
-export { getMotos, eliminarMoto, changeState, insertarMoto, getmoto, getSedes };
+const getMarcas = async () => {
+  const marcas = await fetch("/motos/marcas", { method: "GET" });
+  return JSON.parse(await marcas.text());
+}
+
+export { getMotos, eliminarMoto, changeState, insertarMoto, getmoto, getSedes, getMarcas };
