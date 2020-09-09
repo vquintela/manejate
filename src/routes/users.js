@@ -8,7 +8,8 @@ const mailer = require('../lib/mailer');
 const { logAdmin, logueado } = require('../lib/auth');
 
 router.get('/', logAdmin, (req, res) => {
-    res.render('users/users');
+    const roles = User.schema.path('rol').enumValues;
+    res.render('users/users', {roles});
 });
 
 router.get('/roles', logAdmin, (req, res) => {

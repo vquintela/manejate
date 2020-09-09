@@ -20,24 +20,18 @@
 
 <body>
     {{>navigation}}
-    <div class="container-fluid">
-        <div class="row">
-            {{#if user}}
-            {{>sidebar}}
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                {{{ body }}}
-                {{>modal}}
-            </main>
-            {{else}}
-            <main role="main" class="container">
-                {{{ body }}}
-                {{>modal}}
-            </main>
-            {{/if}}
+    {{>modal}}
+    {{#if user}}
+    <div class="row w-100">
+        {{>sidebar}}
+        <div class="col-md-10 p-0 mb-5">
+            {{{ body }}}
         </div>
     </div>
-
-    {{!-- {{>footer}} --}}
+    {{else}}
+        {{{ body }}}
+    {{/if}}
+    {{>footer}}
     {{!-- SCRIPTS --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

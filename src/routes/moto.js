@@ -8,7 +8,8 @@ const errorMessage = require('../lib/errorMessageValidation');
 const { logAdmin } = require('../lib/auth');
 
 router.get('/', logAdmin, async (req, res) => {
-    res.render('./motos/motos')
+  const marcas = Moto.schema.path('marca').enumValues;
+  res.render('./motos/motos', {marcas: marcas})
 });
 
 router.get("/todos", async (req, res) => {
