@@ -1,8 +1,8 @@
-<div class="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-3">MANEJATE</h1>
-    <p class="lead">Ya es hora que decidas vos como querés moverte...</p>
+<div class="masthead">
+    <h1 class="display-3 text-white">MANEJATE</h1>
+    <p class="lead text-white">Ya es hora que decidas vos como querés moverte...</p>
 </div>
-<div class="container d-flex">
+<div class="container mt-5">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <label class="input-group-text" for="inputGroupSelect01" style="width:6rem;">Precio</label>
@@ -103,33 +103,33 @@
 <div class="bg-secondary pb-5">
     <div class="container text-center">
         <h1 class="font-weight-bold font-italic pt-5">Contactanos</h1>
-        <div class="row mt-5 justify-content-md-center">
-            <div class="col-md-4">
-                <form>
+        <form id="form-contacto"
+            <div class="row mt-5 justify-content-md-center">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <input type="text" class="form-control border-0" id="nombre" placeholder="Nombre y Apellido">
-                        <span id="errorNombre"></span>
+                        <input type="text" class="form-control border-0" id="nombreEmail" placeholder="Nombre y Apellido">
+                        <span id="nombreEmailError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control border-0" id="contacto" placeholder="Motivo Contacto">
-                        <span id="errorContacto"></span>
+                        <input type="text" class="form-control border-0" id="contactoEmail" placeholder="Motivo Contacto">
+                        <span id="contactoEmailError" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control border-0" id="email" aria-describedby="emailHelp"
+                        <input type="email" class="form-control border-0" id="emailEmail" aria-describedby="emailHelp"
                             placeholder="Email">
-                        <span id="errorEmail"></span>
+                        <span id="emailEmailError" class="text-danger"></span>
                     </div>
-                    <input value="Contactar" onclick="Index.contacto();" class="btn btn-primary border-0 btn-block mb-3" readonly/>
-                </form>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <textarea class="form-control border-0" rows="8" id="comentario" name="comentario" aria-describedby="comentario"
-                        placeholder="Comentario" required></textarea>
-                        <span id="errorComentario"></span>
+                    <button id="contactar" class="btn btn-primary border-0 btn-block mb-3">Contactar</button>
                 </div>
-            </div>
-        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <textarea class="form-control border-0" rows="8" id="comentarioEmail"
+                            aria-describedby="comentario" placeholder="Comentario" required></textarea>
+                        <span id="comentarioEmailError" class="text-danger"></span>
+                    </div>
+                </div>
+        </form>
+    </div>
     </div>
 </div>
 

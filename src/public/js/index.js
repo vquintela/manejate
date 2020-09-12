@@ -153,6 +153,11 @@ window.onload = async () => {
       renewPass();
     });
   }
+
+  document.getElementById('contactar').addEventListener('click', e => {
+    e.preventDefault();
+    contacto();
+  })
 };
 
 const registroUsuario = () => {
@@ -219,4 +224,23 @@ const mensajeOk = (message) => {
   btnAceptar.addEventListener("click", () => {
       document.getElementById('lamascara').style.display = "none";
   });
+}
+
+const contacto = async () => {
+  const nombre = document.getElementById('nombreEmail').value;
+  const contacto = document.getElementById('contactoEmail').value;
+  const email = document.getElementById('emailEmail').value;
+  const comentario = document.getElementById('comentarioEmail').value;
+  const res = await fetch("/contacto", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({nombre, contacto, email, comentario})
+  });
+  const resp = JSON.parse(await res.text());
+  if (resp.type) {
+    mensajeOk(resp.message);
+    document.getElementById('form-contacto').reset();
+  } else {
+    mensajeError(resp.error)
+  }
 }
