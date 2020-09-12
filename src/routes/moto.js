@@ -27,43 +27,10 @@ router.get('/marcas', (req, res) => {
 
 router.post("/insertar", async (req, res) => {
   const values = req.body;
-  const moto = new Moto({ ...values });
-  // let imagePath;
-
-  // if (req.file) {
-  //   imagePath = req.file.path;
-
-    // const data = new FormData();
-    // data.append('image', req.file);
-
-    // subirImagen(`https://api.imgur.com/3/image`, {
-    //     method: "POST",
-    //     body: data,
-    //     headers: {
-    //       Authorization: `Client-ID' ${CLIENT_ID}`,
-    //     },
-    //   })
-    //     .then(console.log)
-    //     .catch(console.error);
-
-    // const ext = path.extname(req.file.originalname).toLowerCase();
-    // const targetPath = path.resolve(`src/public/img/${moto._id}${ext}`);
-    // if (
-    //   ext === ".png" ||
-    //   ext === ".jpg" ||
-    //   ext === ".jpeg" ||
-    //   ext === ".webp"
-    // ) {
-    //   await fs.rename(imagePath, targetPath);
-    //   const nombArch = moto._id + ext;
-    //   moto.imagen = nombArch;
-    // } else {
-    //   await fs.unlink(imagePath);
-    // }
-  // }
+  const moto = new Moto({...values });
   try {
     const resp = await moto.save();
-    if (resp.imagen !== "sinimagen.png") {
+    if (resp.imagen !== "https://imgur.com/S1p3HSo.png") {
       res.json({
         message: "Moto ingresada de forma correcta",
         css: "success",
@@ -77,12 +44,9 @@ router.post("/insertar", async (req, res) => {
       });
         }
     } catch (error) {
-        if(moto.imagen !== 'sinimagen.png'){
-            await fs.unlink(path.resolve('./src/public/img/' + moto.imagen));
-        }
-        const mensaje = errorMessage.crearMensaje(error);
-        res.json({message: mensaje, type: false})
-        return;
+      const mensaje = errorMessage.crearMensaje(error);
+      res.json({message: mensaje, type: false})
+      return;
     }
 })
 
@@ -94,48 +58,18 @@ router.get('/editar/:id', logAdmin, async (req, res) => {
 
 router.post('/editar/:id', logAdmin, async (req, res) => {
   let { precio, marca, descripcion, modelo, imagen, ubicacion } = req.body;
-  if(req.file){
-      const imagePath = req.file.path;
-      const ext = path.extname(req.file.originalname).toLowerCase();
-      const targetPath = path.resolve(`src/public/img/${req.params.id}${ext}`);
-      if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
-          if(imagen !== 'sinimagen.png'){
-              try {
-                  await fs.unlink(path.resolve('./src/public/img/' + imagen));
-              } catch (error) {
-                  res.json({message: 'La imagen no encontrada', css: 'danger', type: true});
-              }
-          }
-          await fs.rename(imagePath, targetPath);
-          imagen = req.params.id + ext;
-      } else {
-          await fs.unlink(imagePath);
-      }
-  }
   try {
-      await Moto.findByIdAndUpdate({_id: req.params.id}, { precio, marca, descripcion, modelo, imagen, ubicacion }, { runValidators: true });
-      res.json({message: 'Moto actualizada de forma correcta', css: 'success', type: true});
+    await Moto.findByIdAndUpdate({_id: req.params.id}, { precio, marca, descripcion, modelo, imagen, ubicacion }, { runValidators: true });
+    res.json({message: 'Moto actualizada de forma correcta', css: 'success', type: true});
   } catch (error) {
-      const mensaje = errorMessage.crearMensaje(error);
-      res.json({message: mensaje, type: false})
-      return
+    const mensaje = errorMessage.crearMensaje(error);
+    res.json({message: mensaje, type: false})
+    return
   }
 });
 
 router.post("/delete/:id", async (req, res) => {
   const { id } = req.params;
-  const { imagen } = req.body;
-  if (imagen !== "sinimagen.png") {
-    try {
-      await fs.unlink(path.resolve("./src/public/img/" + imagen));
-    } catch (error) {
-      res.json({
-        message: "La imagen no se pudo eliminar",
-        css: "danger",
-        type: true,
-      });
-    }
-  }
   await Moto.findByIdAndDelete(id);
   res.json({
     message: "Moto eliminada de forma correcta",

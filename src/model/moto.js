@@ -38,7 +38,7 @@ const motoSchema = new Schema ({
     },
     imagen: {
         type: String,
-        default: 'sinimagen.png'
+        default: 'https://imgur.com/S1p3HSo.png'
     },
     service: {
         type: Boolean,
