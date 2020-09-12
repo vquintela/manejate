@@ -84,7 +84,7 @@ const generarFila = (moto, index) => {
     const btnEstado = document.createElement('i')
     btnEstado.setAttribute('class', `estado-moto btn btn-sm border-0 btn-outline-${moto.service ? "success fas fa-wrench" : "danger fas fa-motorcycle"}`)
     btnEstado.setAttribute('estado', `${moto.service}`)
-    btnEstado.innerText = `${moto.service ? ' Reparacion' : ' Activa'}`
+    btnEstado.innerText = `${moto.service ? ' Alquilada' : ' Disponible'}`
     tdEstado.appendChild(btnEstado)
     //tdAcciones
     // boton Eliminar

@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const Moto = require('../model/moto')
-const path = require('path');
-const fs = require('fs-extra');
 const errorMessage = require('../lib/errorMessageValidation');
 const { logAdmin } = require('../lib/auth');
 
