@@ -27,7 +27,7 @@ const motoSchema = new Schema ({
     marca: {
         type: String,
         enum: {
-            values: ['honda', 'yamaha', 'zanella', 'beta'],
+            values: ['BAJAJ','BETA','CORVEN','HONDA','KYMCO','YAMAHA','ZANELLA'],
             message: '¡Debe elegir una marca!'
         },
         required: [true, '¡Campo requerido!']
