@@ -1,24 +1,34 @@
-<div class="container d-flex align-items-center">
-    <div>
-        <h1>USUARIOS</h1>
-    </div>
-    <div class="d-flex ml-auto">
-        <button class="btn btn-primary mr-2 btn-block" type="button" id="buscar-ingresar"><i class="fas fa-tasks"></i> Usuario</button>
-        <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
-            <option value="true">Activos</option>
-            <option value="false">Bloqueados</option>
-        </select>
-        <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
-            <option>todos</option>
-            <option>administrador</option>
-            <option>cliente</option>
-        </select>
-        <button type="button" class="btn btn-outline-success" id="buscar-usuarios"><i class="fas fa-search"></i></button>
-    </div>
-</div>
-<div class="container" id="contenedor">
-    <div class="row pt-5" id="App">
-        <div class="col-md-12 text-center" id="insertar"></div>
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="container d-flex align-items-center">
+            <div class="container d-flex align-items-center pt-3 pb-3">
+                <h3 class="display-5">Usuarios</h3>
+                <div class="d-flex ml-auto align-items-center col-md-8">
+                    <button class="btn btn-primary mr-2 btn-block" type="button" id="buscar-ingresar">
+                        <i class="fas fa-tasks"></i>
+                        Agregar Usuario
+                    </button>
+                    <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
+                        <option value="true">Activos</option>
+                        <option value="false">Bloqueados</option>
+                    </select>
+                    <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
+                        <option>todos</option>
+                        {{#each roles as |item|}}
+                        <option>{{item}}</option>
+                        {{/each}}
+                    </select>
+                    <button type="button" class="btn btn-outline-success" id="buscar-usuarios"><i
+                            class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="contenedor">
+            <div class="row" id="App">
+                <div class="col-md-12 text-center" id="insertar"></div>
+            </div>
+        </div>
     </div>
 </div>
 <script type="module" src="js/users/users.js"></script>

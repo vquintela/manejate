@@ -1,25 +1,28 @@
-<div class="container d-flex align-items-center">
-    <h1 class="display-4">Motocicletas</h1>
-    <div class="d-flex ml-auto align-items-center">
-        <button type="button" class="btn btn-block btn-primary mr-2" id="ingresar-moto"><i class="fas fa-tasks"></i>
-            Ingresar motocicleta
-            </button>
-        <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
-            <option>TODOS</option>
-            <option>BAJAJ</option>
-            <option>BETA</option>
-            <option>CORVEN</option>
-            <option>HONDA</option>
-            <option>KYMCO</option>
-            <option>YAMAHA</option>
-            <option>ZANELLA</option>
-        </select>
-        <i class="fas fa-search btn text-success" id="buscar"></i>
-    </div>
-</div>
-<div class="container" id="contenedor">
-    <div class="row" id="App">
-        <div class="col-md-12 text-center" id="insertar"></div>
+
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="container d-flex align-items-center pt-3 pb-3">
+            <h3 class="display-5">Motocicletas</h3>
+            <div class="d-flex ml-auto align-items-center col-md-6">
+                <button type="button" class="btn btn-block btn-primary mr-2" id="ingresar-moto">
+                    <i class="fas fa-tasks"></i>
+                    Agregar Motocicleta
+                </button>
+                <select name="rol" id="rol-buscar" class="form-control mr-sm-2">
+                    <option>todos</option>
+                    {{#each marcas as |item|}}
+                    <option>{{item}}</option>
+                    {{/each}}
+                </select>
+                <i class="fas fa-search btn text-success" id="buscar"></i>
+            </div>
+        </div>
+        <div class="container" id="contenedor">
+            <div class="row" id="App">
+                <div class="col-md-12 text-center" id="insertar"></div>
+            </div>
+        </div>
     </div>
 </div>
 <script type="module" src="js/motos/motos.js""></script>

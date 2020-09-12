@@ -1,13 +1,17 @@
-<div class="container d-flex align-items-center">
-    <h1 class="display-4">Sedes</h1>
-    <div class="d-flex ml-auto">
-        <input class="btn btn-primary mr-2" value="Ingresar Sede" onclick="Sede.ingresarSede()" readonly />
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="container d-flex align-items-center pt-3 pb-3">
+            <h3 class="display-5">Sedes</h3>
+            <div class="d-flex ml-auto">
+                <input class="btn btn-primary mr-2" value="Ingresar Sede" onclick="Sede.ingresarSede()" readonly />
+            </div>
+        </div>
+        <div class="container" id="contenedor">
+            <div class="row" id="App">
+                <div class="col-md-12 text-center" id="insertar"></div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="container" id="contenedor">
-    <div class="row" id="App">
-        <div class="col-md-12 text-center" id="insertar"></div>
-    </div>
-</div>
-
 <script type="module" src="js/sedes.js"></script>

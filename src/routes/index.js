@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const sedeSchema = require("../model/sede");
 const motoSchema = require("../model/moto");
+const mailer = require("../lib/mailer");
 
 router.get("/", async (req, res) => {
   const data = {};
@@ -45,5 +46,23 @@ router.get(
     res.json(motos);
   }
 );
+
+router.post('/contacto', async (req, res) => {
+  const {nombre, contacto, email, comentario} = req.body;
+  if (nombre === '' || contacto === '' || email === '' || comentario === '') {
+    const error = [];
+    if (nombre === '') error.push('nombreEmail: Nombre Incompleto') 
+    if (contacto === '') error.push('contactoEmail: Contacto Incompleto') 
+    if (email === '') error.push('emailEmail: Email Incompleto') 
+    if (comentario === '') error.push('comentarioEmail: Comentario Incompleto') 
+    return res.json({error, type: false})
+  }
+  try {
+    await mailer.contacto({nombre, contacto, email, comentario})
+    res.json({message: 'Consulta enviada correctamente', type: true})
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = router;
