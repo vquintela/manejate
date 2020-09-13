@@ -22,7 +22,7 @@ const motoSchema = new Schema ({
     modelo: {
         type: String,
         required: [true, '¡Campo requerido!'],
-        maxlength:[15,"¡Modelo muy largo maximo 15 caracteres!"]
+        maxlength:[50,"¡Modelo muy largo maximo 50 caracteres!"]
     },
     marca: {
         type: String,
