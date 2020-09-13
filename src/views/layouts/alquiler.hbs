@@ -1,11 +1,25 @@
 <div class="row w-100">
     {{>sidebar}}
-    <div class="col-md-10">
+    <div class="col-md-10 filas-detalles">
         <div class="container" id="contenedor">
             <h3 class="display-5 pt-3 mb-3">Alquileres</h3>
             <div class="row" id="App">
                 {{> alquiler/index alquileres }}
             </div>
+        </div>
+    </div>
+</div>
+{{!-- MODAL DETALLE MOTO --}}
+<div class="contenedor-modal">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="img/motorcycle-solid.svg" alt="moto">
+            <h4>Detalle Moto</h4>
+            <span class="cerrar" id="cerrarRegistro">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+
         </div>
     </div>
 </div>

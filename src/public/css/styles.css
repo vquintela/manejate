@@ -105,6 +105,11 @@
 	height: 150px;
 }
 
+/* VISTAS ADMIN */
+.filas-detalles {
+    min-height: 80vh;
+}
+
 /*FOOTER*/
 .footer-basic-centered{
 	background-color: #292c2f;
