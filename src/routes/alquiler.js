@@ -16,9 +16,11 @@ router.get("/", logAdmin, async (req, res) => {
     alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alq.rol = req.user.rol;
     alquileres.push(alq);
   });
-  res.render("./layouts/alquiler", { alquileres: alquileres });
+  const estados = Alquiler.schema.path("estado").enumValues;
+  res.render("./layouts/alquiler", { alquileres: alquileres, estados: estados });
 });
 
 router.post("/nuevo", async (req, res) => {
@@ -109,9 +111,11 @@ router.get("/:id", logueado, async (req, res) => {
     alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alq.rol = req.user.rol;
     alquileres.push(alq);
   });
-  res.render("./layouts/alquiler", { alquileres: alquileres });
+  const estados = Alquiler.schema.path("estado").enumValues;
+  res.render("./layouts/alquiler", { alquileres: alquileres, estados: estados });
 });
 
 module.exports = router;

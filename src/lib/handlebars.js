@@ -1,5 +1,6 @@
 const helpers = {};
 
+// HELPER BOTONES SIDEBAR
 helpers.sidebar = (user) => {
     if(user.rol === 'administrador') {
         return(`
@@ -66,6 +67,41 @@ helpers.sidebar = (user) => {
             </li>
         `
         )
+    }
+}
+
+// HELPER ESTADOS EN LISTADO DE ALQUILERES
+helpers.estados = (estado) => {
+    let estados
+    switch (estado) {
+      case "pendiente":
+          estados = 'text-primary';
+        break;
+      case "en curso":
+          estados = 'text-warning';
+        break;
+      case "finalizado":
+          estados = 'text-success';
+        break;
+      case "cancelado":
+          estados = 'text-danger';
+        break;
+    }
+    return estados
+}
+
+// HELPER ACCIONES ALQUILER SEGUN ROL DEL USUARIO
+helpers.acciones = (alq) => {
+    if(alq.rol === 'administrador') {
+        return (`
+            <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>
+            <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
+        `)
+    }
+    if(alq.rol === 'cliente') {
+        return (`
+            <button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>
+        `)
     }
 }
 

@@ -7,6 +7,7 @@
                     <th scope="col">Fecha de entrega</th>
                     <th scope="col">Fecha de devolución</th>
                     <th scope="col">Detalle Moto</th>
+                    <th scope="col">Estado Alquiler</th>
                     <th scope="col">Acción</th>
                 </tr>
             </thead>
@@ -22,9 +23,9 @@
                             Ver Moto
                         </button>
                     </td>
+                    <td class="{{#estados estado}}{{/estados}} text-uppercase">{{estado}}</td>
                     <td>
-                        <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="{{_id}}"></i>
-                        <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="{{_id}}"></i>
+                        {{#acciones this}}{{/acciones}}
                     </td>
                 </tr>
                 {{/each}}

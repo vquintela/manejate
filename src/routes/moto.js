@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Moto = require("../model/moto");
 const errorMessage = require("../lib/errorMessageValidation");
-const { logAdmin } = require("../lib/auth");
+const { logAdmin, logueado } = require("../lib/auth");
 
 router.get("/", logAdmin, async (req, res) => {
   const marcas = Moto.schema.path("marca").enumValues;
@@ -49,7 +49,7 @@ router.post("/insertar", async (req, res) => {
   }
 });
 
-router.get("/editar/:id", logAdmin, async (req, res) => {
+router.get("/editar/:id", logueado, async (req, res) => {
   const { id } = req.params;
   const moto = await Moto.findById(id).populate({
     path: "ubicacion",
