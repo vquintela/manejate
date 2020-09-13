@@ -41,7 +41,7 @@ const ingresarText = `
             </form>
         </div>
         <div class="col-md-4" id="preview">
-            <img src="img/sinimagen.png" class="img-fluid" alt=""/>
+            <img src="https://imgur.com/S1p3HSo.png" class="img-fluid" alt=""/>
         </div>
     </div>
 `
