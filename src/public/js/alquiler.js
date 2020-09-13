@@ -8,8 +8,25 @@ const cancelarAlquiler = () => {
 
 const verMoto = async (id) => {
   const motoJSON = await fetch("/motos/editar/" + id, { method: "GET" });
-  const res = await JSON.parse(await motoJSON.text());
-  console.log(res)
+  const res = JSON.parse(await motoJSON.text());
+  mostrarMoto(res);
+}
+
+const mostrarMoto = (res) => {
+  const contenedor = document.querySelector('.contenedor-modal');
+  const body = document.querySelector('body');
+  contenedor.style.display = 'block';
+  body.style.overflowY = 'hidden';
+  document.getElementById('marca').innerText = res.marca;
+  document.getElementById('modelo').innerText = res.modelo;
+  document.getElementById('precio').innerText = res.precio;
+  document.getElementById('descripcion').innerText = res.descripcion;
+  document.getElementById('ubicacion').innerText = res.ubicacion.domicilio;
+  document.getElementById('img-modal').src = res.imagen;
+  document.getElementById('cerrarRegistro').addEventListener('click', () => {
+    contenedor.style.display = 'none';
+    body.style.overflowY = 'visible';
+  })
 }
 
 document
