@@ -3,25 +3,34 @@ const router = express.Router();
 const Alquiler = require("../model/alquiler");
 const path = require("path");
 const errorMessage = require("../lib/errorMessageValidation");
-const moment = require('moment');
-const { logAdmin, logueado } = require('../lib/auth');
+const moment = require("moment");
+const { logAdmin, logueado } = require("../lib/auth");
 const mailer = require("../lib/mailer");
 
 router.get("/", logAdmin, async (req, res) => {
-  moment.locale('es')
+  moment.locale("es");
   const alquiler = await Alquiler.find().lean().exec();
-  const alquileres = []; 
-  alquiler.map(alq =>{
-    alq.fechaEntrega = moment(alq.fechaEntrega).format('l');
-    alq.fechaDevolucion = moment(alq.fechaDevolucion).format('l');
-    alq.fechaReserva = moment(alq.fechaReserva).format('l');
-    alq.fechaCancelacion = moment(alq.fechaCancelacion).format('l');
-    alquileres.push(alq)
-  })
+  const alquileres = [];
+  alquiler.map((alq) => {
+    alq.fechaEntrega = moment(alq.fechaEntrega).format("l");
+    alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
+    alq.fechaReserva = moment(alq.fechaReserva).format("l");
+    alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alquileres.push(alq);
+  });
   res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 
 router.post("/nuevo", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    let mensaje = {
+      titulo: "ATENCION",
+      cuerpo: "Para realizar alquileres debe ingresar al sistema y registrarse previamente si aún no lo ha hecho.",
+    };
+
+    return res.json({ mensaje });
+  }
+
   const fechaReserva = Date.now();
 
   const entrega = new Date(req.body.fechaEntrega);
@@ -30,20 +39,21 @@ router.post("/nuevo", async (req, res) => {
   const a = devolucion.getTime() - entrega.getTime();
 
   // Validación de fechas de entrega y devolución
-  if(entrega > devolucion){
+  if (entrega > devolucion) {
     let mensaje = {
-      titulo: 'ERROR',
-      cuerpo: 'La fecha de entrega no puese ser superior a la de devolución'
-    }
+      titulo: "ERROR",
+      cuerpo: "La fecha de entrega no puese ser superior a la de devolución",
+    };
 
     return res.json({ mensaje });
   }
 
-  if((devolucion.getTime() - entrega.getTime()) / (1000 * 3600 * 24) > 14){
+  if ((devolucion.getTime() - entrega.getTime()) / (1000 * 3600 * 24) > 14) {
     let mensaje = {
-      titulo: 'ATENCION',
-      cuerpo: 'Para alquilar una motocicleta más de dos semanas debe contactarse con la empresa'
-    }
+      titulo: "ATENCION",
+      cuerpo:
+        "Para alquilar una motocicleta más de dos semanas debe contactarse con la empresa",
+    };
 
     return res.json({ mensaje });
   }
@@ -56,16 +66,16 @@ router.post("/nuevo", async (req, res) => {
   });
 
   let mensaje = {
-    titulo: 'FELICITACIONES',
-    cuerpo: 'Alquiler realizado correctamente'
-  }
+    titulo: "FELICITACIONES",
+    cuerpo: "Alquiler realizado correctamente",
+  };
 
   alquiler = await alquiler.save();
-  await mailer.reserva(alquiler, req.user)
-  res.json({mensaje, alquiler});
+  await mailer.reserva(alquiler, req.user);
+  res.json({ mensaje, alquiler });
 });
 
-router.put('/editar/:id', async (req, res) => {
+router.put("/editar/:id", async (req, res) => {
   const alquiler = await Alquiler.findByIdAndUpdate(
     req.params.id,
     {
@@ -76,31 +86,31 @@ router.put('/editar/:id', async (req, res) => {
     { new: true }
   );
 
-  if(!alquiler) return status(404);
+  if (!alquiler) return status(404);
 
   res.json(alquiler);
 });
 
-router.delete('/eliminar/:id', async (req, res) => {
-    const alquiler = await Alquiler.findByIdAndDelete(req.params.id);
+router.delete("/eliminar/:id", async (req, res) => {
+  const alquiler = await Alquiler.findByIdAndDelete(req.params.id);
 
-    if(!alquiler) return status(404);
+  if (!alquiler) return status(404);
 
-    res.json(alquiler);
+  res.json(alquiler);
 });
 
-router.get('/:id', logueado, async (req, res) => {
-  moment.locale('es')
+router.get("/:id", logueado, async (req, res) => {
+  moment.locale("es");
   const { id } = req.params;
-  const alquiler = await Alquiler.find({usuario: id}).lean().exec();
-  const alquileres = []; 
-  alquiler.map(alq =>{
-    alq.fechaEntrega = moment(alq.fechaEntrega).format('l');
-    alq.fechaDevolucion = moment(alq.fechaDevolucion).format('l');
-    alq.fechaReserva = moment(alq.fechaReserva).format('l');
-    alq.fechaCancelacion = moment(alq.fechaCancelacion).format('l');
-    alquileres.push(alq)
-  })
+  const alquiler = await Alquiler.find({ usuario: id }).lean().exec();
+  const alquileres = [];
+  alquiler.map((alq) => {
+    alq.fechaEntrega = moment(alq.fechaEntrega).format("l");
+    alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
+    alq.fechaReserva = moment(alq.fechaReserva).format("l");
+    alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alquileres.push(alq);
+  });
   res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 

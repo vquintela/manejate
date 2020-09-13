@@ -28,39 +28,6 @@ router.get('/marcas', (req, res) => {
 router.post("/insertar", async (req, res) => {
   const values = req.body;
   const moto = new Moto({ ...values });
-  // let imagePath;
-
-  // if (req.file) {
-  //   imagePath = req.file.path;
-
-    // const data = new FormData();
-    // data.append('image', req.file);
-
-    // subirImagen(`https://api.imgur.com/3/image`, {
-    //     method: "POST",
-    //     body: data,
-    //     headers: {
-    //       Authorization: `Client-ID' ${CLIENT_ID}`,
-    //     },
-    //   })
-    //     .then(console.log)
-    //     .catch(console.error);
-
-    // const ext = path.extname(req.file.originalname).toLowerCase();
-    // const targetPath = path.resolve(`src/public/img/${moto._id}${ext}`);
-    // if (
-    //   ext === ".png" ||
-    //   ext === ".jpg" ||
-    //   ext === ".jpeg" ||
-    //   ext === ".webp"
-    // ) {
-    //   await fs.rename(imagePath, targetPath);
-    //   const nombArch = moto._id + ext;
-    //   moto.imagen = nombArch;
-    // } else {
-    //   await fs.unlink(imagePath);
-    // }
-  // }
   try {
     const resp = await moto.save();
     if (resp.imagen !== "sinimagen.png") {
