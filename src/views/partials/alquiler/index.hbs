@@ -26,11 +26,11 @@
                     <td class="{{#estados estado}}{{/estados}} text-uppercase">{{estado}}</td>
                     <td>
                         {{#acciones this}}{{/acciones}}
-                        {{#if cancelable}}
+                        {{!-- {{#if cancelable}}
                         <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt"
                             cancelar-alquiler="{{_id}}"></i>
                         {{/if}}
-                        <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="{{_id}}"></i>
+                        <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="{{_id}}"></i> --}}
                     </td>
                 </tr>
                 {{/each}}
@@ -59,4 +59,4 @@
 </div>
 {{! MODAL CANCELACION }}
 
-<script type="module" src="js/alquiler.js"></script>
+<script type="module" src="/js/alquiler.js"></script>

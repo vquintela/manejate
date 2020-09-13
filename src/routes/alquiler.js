@@ -116,6 +116,7 @@ router.get("/:id", logueado, async (req, res) => {
     alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alq.cancelable = alq.estado == 'pendiente';
     alq.rol = req.user.rol;
     alquileres.push(alq);
   });

@@ -94,13 +94,13 @@ helpers.estados = (estado) => {
 helpers.acciones = (alq) => {
     if(alq.rol === 'administrador') {
         return (`
-            <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>
+            ${(alq.cancelable) ? `<i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>` : ''}
             <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
         `)
     }
     if(alq.rol === 'cliente') {
         return (`
-            <button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>
+            ${(alq.cancelable) ? `<button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>` : ''}
         `)
     }
 }
