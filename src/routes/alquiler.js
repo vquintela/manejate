@@ -16,6 +16,7 @@ router.get("/", logAdmin, async (req, res) => {
     alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alq.cancelable = alq.estado == 'pendiente';
     alquileres.push(alq);
   });
   res.render("./layouts/alquiler", { alquileres: alquileres });
@@ -91,13 +92,17 @@ router.put("/editar/:id", async (req, res) => {
   res.json(alquiler);
 });
 
-router.delete("/eliminar/:id", async (req, res) => {
-  const alquiler = await Alquiler.findByIdAndDelete(req.params.id);
+router.put("/cancelar/:id", async (req, res) => {
+  const alquiler = await Alquiler.findByIdAndUpdate(
+    req.params.id,
+    {
+      estado: 'cancelado'
+    }
+  );
 
-  if (!alquiler) return status(404);
-
-  res.json(alquiler);
+  res.status(200).send();
 });
+
 
 router.get("/:id", logueado, async (req, res) => {
   moment.locale("es");
