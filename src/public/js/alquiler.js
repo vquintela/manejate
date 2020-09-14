@@ -49,3 +49,27 @@ document
   .forEach((e) =>
     e.addEventListener("click", () => verMoto(e.getAttribute("moto-id")))
   );
+
+const inputEstado = document.getElementById('estado-buscar');
+if (inputEstado) {
+  inputEstado.addEventListener('change', e => {
+    const estado = e.target.value;
+    let usuario = document.getElementById('usuario-busqueda').value;
+    if(usuario === '') usuario = 'todos';
+    datosAlquileres(estado, usuario);
+  });
+}
+
+const inputUser = document.getElementById('usuario-busqueda');
+if (inputUser) {
+  inputUser.addEventListener('change', e => {
+    let usuario = e.target.value;
+    let estado = document.getElementById('estado-buscar').value;
+    if(usuario === '') usuario = 'todos';
+    datosAlquileres(estado, usuario);
+  });
+}
+
+const datosAlquileres = async (estado, usuario) => {
+  location.href = `/alquileres/buscar/${estado}/${usuario}`;
+};

@@ -9,7 +9,7 @@ const mailer = require("../lib/mailer");
 
 router.get("/", logAdmin, async (req, res) => {
   moment.locale("es");
-  const alquiler = await Alquiler.find().lean().exec();
+  const alquiler = await Alquiler.find().populate({path: 'usuario', select: 'email'}).lean().exec();
   const alquileres = [];
   alquiler.map((alq) => {
     alq.fechaEntrega = moment(alq.fechaEntrega).format("l");
@@ -21,7 +21,11 @@ router.get("/", logAdmin, async (req, res) => {
     alquileres.push(alq);
   });
   const estados = Alquiler.schema.path("estado").enumValues;
-  res.render("./layouts/alquiler", { alquileres: alquileres, estados: estados });
+  const select = []
+  estados.forEach(element => {
+    select.push({nombre: element, select: false})
+  });
+  res.render("./layouts/alquiler", { alquileres: alquileres, estados: select, mostrar: req.user.rol == 'administrador' });
 });
 
 router.post("/nuevo", async (req, res) => {
@@ -117,11 +121,54 @@ router.get("/:id", logueado, async (req, res) => {
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
     alq.cancelable = alq.estado == 'pendiente';
+    alq.usuario.email = req.user.email;
     alq.rol = req.user.rol;
     alquileres.push(alq);
   });
-  const estados = Alquiler.schema.path("estado").enumValues;
-  res.render("./layouts/alquiler", { alquileres: alquileres, estados: estados });
+  res.render("./layouts/alquiler", { alquileres: alquileres, mostrar: req.user.rol == 'administrador' });
 });
+
+router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
+  const estado = req.params.estado;
+  const usuario = req.params.usuario;
+  let alquiler
+  if (estado !== 'todos') {
+    alquiler = await Alquiler.find({estado: estado}).populate({path: 'usuario', select: 'email'}).lean().exec();
+  } else {
+    alquiler = await Alquiler.find().populate({path: 'usuario', select: 'email'}).lean().exec();
+  }
+  if (usuario !== 'todos') alquiler = alquiler.filter(alq => alq.usuario.email == usuario);
+  const alquileres = [];
+  alquiler.map((alq) => {
+    alq.fechaEntrega = moment(alq.fechaEntrega).format("l");
+    alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
+    alq.fechaReserva = moment(alq.fechaReserva).format("l");
+    alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
+    alq.rol = req.user.rol;
+    alq.cancelable = alq.estado == 'pendiente';
+    alquileres.push(alq);
+  });
+  const estados = Alquiler.schema.path("estado").enumValues;
+  const select = []
+  estados.forEach(element => {
+    if(element === estado) {
+      select.push({
+        nombre: element,
+        select: true
+      })
+    } else {
+      select.push({
+        nombre: element,
+        select: false
+      })
+    }
+  });
+  res.render("./layouts/alquiler", { 
+    alquileres: alquileres,
+    estados: select,
+    usuario: (usuario === 'todos') ? '' : usuario,
+    mostrar: req.user.rol == 'administrador'
+  });
+})
 
 module.exports = router;
