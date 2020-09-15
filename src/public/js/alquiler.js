@@ -13,12 +13,13 @@ function cancelarAlquiler() {
   });
 }
 
+// Muestra Informacion de la moto alquilada
 const verMoto = async (id) => {
   const motoJSON = await fetch("/motos/editar/" + id, { method: "GET" });
   const res = JSON.parse(await motoJSON.text());
   mostrarMoto(res);
 };
-
+// Inserta la Informacion de la moto alquilada
 const mostrarMoto = (res) => {
   const contenedor = document.querySelector(".contenedor-modal");
   const body = document.querySelector("body");
@@ -43,6 +44,14 @@ document
 document
   .querySelectorAll("[cancelar-alquiler]")
   .forEach((e) => e.addEventListener("click", cancelarAlquiler));
+
+document
+  .querySelectorAll("[entregar-moto]")
+  .forEach((e) => e.addEventListener("click", () => entregarMoto(e.getAttribute("entregar-moto"))));
+
+document
+  .querySelectorAll("[finalizar-alquiler]")
+  .forEach((e) => e.addEventListener("click", () => finalizarAlquiler(e.getAttribute("finalizar-alquiler"))));
 
 document
   .querySelectorAll(".ver-moto")
@@ -73,3 +82,16 @@ if (inputUser) {
 const datosAlquileres = async (estado, usuario) => {
   location.href = `/alquileres/buscar/${estado}/${usuario}`;
 };
+
+const entregarMoto = async (id) => {
+  const res = await fetch(`/alquileres/entregar/${id}`, { method: 'PUT' });
+  const resp = JSON.parse(await res.text());
+  console.log(resp)
+}
+
+const finalizarAlquiler = async (id) => {
+  const res = await fetch(`/alquileres/finalizar/${id}`, { method: 'PUT' });
+  const resp = JSON.parse(await res.text());
+  console.log(resp)
+}
+

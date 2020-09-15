@@ -17,7 +17,7 @@ router.get("/", logAdmin, async (req, res) => {
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
     alq.rol = req.user.rol;
-    alq.cancelable = alq.estado == 'pendiente';
+    // alq.cancelable = alq.estado == 'pendiente';
     alquileres.push(alq);
   });
   const estados = Alquiler.schema.path("estado").enumValues;
@@ -120,7 +120,7 @@ router.get("/:id", logueado, async (req, res) => {
     alq.fechaDevolucion = moment(alq.fechaDevolucion).format("l");
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
-    alq.cancelable = alq.estado == 'pendiente';
+    // alq.cancelable = alq.estado == 'pendiente';
     alq.usuario.email = req.user.email;
     alq.rol = req.user.rol;
     alquileres.push(alq);
@@ -145,7 +145,7 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
     alq.rol = req.user.rol;
-    alq.cancelable = alq.estado == 'pendiente';
+    // alq.cancelable = alq.estado == 'pendiente';
     alquileres.push(alq);
   });
   const estados = Alquiler.schema.path("estado").enumValues;
@@ -170,5 +170,27 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
     mostrar: req.user.rol == 'administrador'
   });
 })
+
+router.put("/entregar/:id", async (req, res) => {
+  const alquiler = await Alquiler.findByIdAndUpdate(
+    req.params.id,
+    {
+      estado: 'curso'
+    }
+  );
+
+  res.status(200).json('ok');
+});
+
+router.put("/finalizar/:id", async (req, res) => {
+  const alquiler = await Alquiler.findByIdAndUpdate(
+    req.params.id,
+    {
+      estado: 'finalizado'
+    }
+  );
+
+  res.status(200).json('ok');
+});
 
 module.exports = router;

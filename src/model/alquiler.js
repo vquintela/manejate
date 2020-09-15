@@ -33,7 +33,7 @@ module.exports = model(
     estado: {
       type: String,
       enum: {
-          values: ['pendiente', 'en curso', 'finalizado', 'cancelado'],
+          values: ['pendiente', 'curso', 'finalizado', 'cancelado'],
           message: '¡Debe elegir un estado!'
       },
       default: 'pendiente'
