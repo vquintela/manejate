@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Alquiler = require("../model/alquiler");
 const path = require("path");
-const errorMessage = require("../lib/errorMessageValidation");
 const moment = require("moment");
 const { logAdmin, logueado } = require("../lib/auth");
 const mailer = require("../lib/mailer");
@@ -22,6 +21,11 @@ router.get("/", logAdmin, async (req, res) => {
   res.render("./layouts/alquiler", { alquileres: alquileres });
 });
 
+router.get("/obtenerFechasReservadas/:id", async (req, res) => {
+  const alquileres = await Alquiler.find({ motocicleta: req.params.id }, {_id: 0, fechaEntrega:1, fechaDevolucion:1}).lean().exec();
+  res.json(alquileres);
+});
+
 router.post("/nuevo", async (req, res) => {
   if (!req.isAuthenticated()) {
     let mensaje = {
@@ -32,12 +36,8 @@ router.post("/nuevo", async (req, res) => {
     return res.json({ mensaje });
   }
 
-  const fechaReserva = Date.now();
-
-  const entrega = new Date(req.body.fechaEntrega);
-  const devolucion = new Date(req.body.fechaDevolucion);
-
-  const a = devolucion.getTime() - entrega.getTime();
+  const entrega = moment(req.body.fechaEntrega, "DD/MM/YYYY").toDate();
+  const devolucion = moment(req.body.fechaDevolucion, "DD/MM/YYYY").toDate();
 
   // Validación de fechas de entrega y devolución
   if (entrega > devolucion) {
@@ -49,7 +49,7 @@ router.post("/nuevo", async (req, res) => {
     return res.json({ mensaje });
   }
 
-  if ((devolucion.getTime() - entrega.getTime()) / (1000 * 3600 * 24) > 14) {
+  if ((devolucion - entrega) / (1000 * 3600 * 24) > 14) {
     let mensaje = {
       titulo: "ATENCION",
       cuerpo:
@@ -60,8 +60,8 @@ router.post("/nuevo", async (req, res) => {
   }
 
   let alquiler = new Alquiler({
-    fechaEntrega: req.body.fechaEntrega,
-    fechaDevolucion: req.body.fechaDevolucion,
+    fechaEntrega: entrega,
+    fechaDevolucion: devolucion,
     motocicleta: req.body.motocicleta,
     usuario: req.user._id, //Agrego para poder seguir con las pruebas
   });
@@ -102,7 +102,6 @@ router.put("/cancelar/:id", async (req, res) => {
 
   res.status(200).send();
 });
-
 
 router.get("/:id", logueado, async (req, res) => {
   moment.locale("es");
