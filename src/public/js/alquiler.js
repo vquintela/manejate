@@ -13,12 +13,13 @@ function cancelarAlquiler() {
   });
 }
 
+// Muestra Informacion de la moto alquilada
 const verMoto = async (id) => {
   const motoJSON = await fetch("/motos/editar/" + id, { method: "GET" });
   const res = JSON.parse(await motoJSON.text());
   mostrarMoto(res);
 };
-
+// Inserta la Informacion de la moto alquilada
 const mostrarMoto = (res) => {
   const contenedor = document.querySelector(".contenedor-modal");
   const body = document.querySelector("body");
@@ -45,7 +46,52 @@ document
   .forEach((e) => e.addEventListener("click", cancelarAlquiler));
 
 document
+  .querySelectorAll("[entregar-moto]")
+  .forEach((e) => e.addEventListener("click", () => entregarMoto(e.getAttribute("entregar-moto"))));
+
+document
+  .querySelectorAll("[finalizar-alquiler]")
+  .forEach((e) => e.addEventListener("click", () => finalizarAlquiler(e.getAttribute("finalizar-alquiler"))));
+
+document
   .querySelectorAll(".ver-moto")
   .forEach((e) =>
     e.addEventListener("click", () => verMoto(e.getAttribute("moto-id")))
   );
+
+const inputEstado = document.getElementById('estado-buscar');
+if (inputEstado) {
+  inputEstado.addEventListener('change', e => {
+    const estado = e.target.value;
+    let usuario = document.getElementById('usuario-busqueda').value;
+    if(usuario === '') usuario = 'todos';
+    datosAlquileres(estado, usuario);
+  });
+}
+
+const inputUser = document.getElementById('usuario-busqueda');
+if (inputUser) {
+  inputUser.addEventListener('change', e => {
+    let usuario = e.target.value;
+    let estado = document.getElementById('estado-buscar').value;
+    if(usuario === '') usuario = 'todos';
+    datosAlquileres(estado, usuario);
+  });
+}
+
+const datosAlquileres = async (estado, usuario) => {
+  location.href = `/alquileres/buscar/${estado}/${usuario}`;
+};
+
+const entregarMoto = async (id) => {
+  const res = await fetch(`/alquileres/entregar/${id}`, { method: 'PUT' });
+  const resp = JSON.parse(await res.text());
+  console.log(resp)
+}
+
+const finalizarAlquiler = async (id) => {
+  const res = await fetch(`/alquileres/finalizar/${id}`, { method: 'PUT' });
+  const resp = JSON.parse(await res.text());
+  console.log(resp)
+}
+

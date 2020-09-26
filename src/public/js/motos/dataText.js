@@ -5,19 +5,19 @@ const ingresarText = `
             <form class="card-body" id="formulario" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="text" id="patente" placeholder="Patente" class="form-control">
-                    <span id="patenteError" class="text-danger"></span>
+                    <span id="patenteError" class="text-danger mensaje-error"></span>
                 </div>
                 <div class="form-group">
                     <input type="number" id="precio" placeholder="Precio" class="form-control">
-                    <span id="precioError" class="text-danger"></span>
+                    <span id="precioError" class="text-danger mensaje-error"></span>
                 </div>
                 <div class="form-group">
                     <input type="text" id="descripcion" placeholder="Descripcion" class="form-control">
-                    <span id="descripcionError" class="text-danger"></span>
+                    <span id="descripcionError" class="text-danger mensaje-error"></span>
                 </div>
                 <div class="form-group">
                     <input type="text" id="modelo" placeholder="Modelo" class="form-control">
-                    <span id="modeloError" class="text-danger"></span>
+                    <span id="modeloError" class="text-danger mensaje-error"></span>
                 </div>
                 <div class="form-group">
                     <input type="file" id="imagen" class="form-control-file">
@@ -26,13 +26,13 @@ const ingresarText = `
                     <select id="marca" class="form-control">
                         <option id="marcaActual">marca</option>
                     </select>
-                    <span id="marcaError" class="text-danger"></span>
+                    <span id="marcaError" class="text-danger mensaje-error"></span>
                 </div>
                 <div class="form-group">
                     <select id="ubicacion" class="form-control">
                         <option id="ubicActual">Ubicacion</option>
                     </select>
-                    <span id="ubicacionError" class="text-danger"></span>
+                    <span id="ubicacionError" class="text-danger mensaje-error"></span>
                 </div>
                 <button type="button" class="btn btn-primary btn-block" id="btn-insertar"></button>
                 <button type="button" class="btn btn-light btn-sm btn-block mt-2" id="btn-cancelar">

@@ -1,5 +1,6 @@
 const helpers = {};
 
+// HELPER BOTONES SIDEBAR
 helpers.sidebar = (user) => {
     if(user.rol === 'administrador') {
         return(`
@@ -68,5 +69,98 @@ helpers.sidebar = (user) => {
         )
     }
 }
+
+// HELPER ESTADOS EN LISTADO DE ALQUILERES
+// helpers.estados = (estado) => {
+//     let estados
+//     switch (estado) {
+//       case "pendiente":
+//           estados = 'text-primary';
+//         break;
+//       case "en curso":
+//           estados = 'text-warning';
+//         break;
+//       case "finalizado":
+//           estados = 'text-success';
+//         break;
+//       case "cancelado":
+//           estados = 'text-danger';
+//         break;
+//     }
+//     return estados
+// }
+
+// HELPER ACCIONES ALQUILER SEGUN ROL DEL USUARIO
+helpers.acciones = (alq) => {
+  if (alq.rol === "administrador") {
+    let estados;
+    switch (alq.estado) {
+      case "pendiente":
+        estados = `
+            <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>
+            <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
+            <i class="btn btn-outline-success btn-sm border-0 fas fa-motorcycle" entregar-moto="${alq._id}"></i>
+        `;
+        break;
+      case "curso":
+        estados = `
+            <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
+            <i class="btn btn-outline-warning btn-sm border-0 fas fa-warehouse" finalizar-alquiler="${alq._id}"></i>
+        `;
+        break;
+      case "finalizado":
+        estados = `
+            <h6 class="text-success">Finalizado</h6>
+        `;
+        break;
+      case "cancelado":
+        estados = `
+            <h6 class="text-danger">Cancelado</h6>
+        `;
+        break;
+    }
+    return estados;
+  }
+  if (alq.rol === "cliente") {
+    let estados
+    switch (alq.estado) {
+        case "pendiente":
+            estados = `<button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>`;
+        break;
+        case "curso":
+            estados = `<h6 class="text-primary">En curso</h6>`;
+        break;
+        case "finalizado":
+            estados = `<h6 class="text-success">Finalizado</h6>`;
+        break;
+        case "cancelado":
+            estados = `<h6 class="text-danger">Cancelado</h6>`;
+        break;
+    }
+    return estados
+  }
+};
+//   if (alq.rol === "cliente") {
+//     return `
+//             ${
+//               alq.cancelable
+//                 ? `<button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>`
+//                 : ""
+//             }
+//         `;
+//   }
+// helpers.acciones = (alq) => {
+//     if(alq.rol === 'administrador') {
+//         return (`
+//             ${(alq.cancelable) ? `<i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>` : ''}
+//             <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
+//         `)
+//     }
+//     if(alq.rol === 'cliente') {
+//         return (`
+//             ${(alq.cancelable) ? `<button class="btn btn-outline-danger btn-sm" cancelar-alquiler="${alq._id}">Cancelar Reserva</button>` : ''}
+//         `)
+//     }
+// }
 
 module.exports = helpers;

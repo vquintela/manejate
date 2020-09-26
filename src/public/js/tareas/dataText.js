@@ -25,11 +25,11 @@ const textoTareas =`
                 <form class="card-body" id="formulario">
                     <div class="form-group">
                         <input type="text" id="titulo" placeholder="Titulo" class="form-control">
-                        <span id="tituloError" class="text-danger"></span>
+                        <span id="tituloError" class="text-danger mensaje-error"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" id="descripcion" placeholder="Descripcion" class="form-control">
-                        <span id="descripcionError" class="text-danger"></span>
+                        <span id="descripcionError" class="text-danger mensaje-error"></span>
                     </div>
                     <button type="button" class="btn btn-primary btn-block" id="ingresartarea"></button>
                     <button type="button" class="btn btn-light btn-sm btn-block mt-2" id="cancelar-tarea">
