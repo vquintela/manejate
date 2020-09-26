@@ -50,19 +50,19 @@ static async  obtenerSede ()  {
                     </div>
                     <div class="form-group mt-4">
                         <input type="text" id="domicilio" ${sede ? `value="${sede.domicilio}"` : 'placeholder="Domiclio"'} class="form-control">
-                        <span id="domicilioError" class="text-danger"></span>
+                        <span id="domicilioError" class="text-danger mensaje-error"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" id="codigoPostal" ${sede ? `value="${sede.codigoPostal}"` : 'placeholder="Codigo Postal"'} class="form-control">
-                        <span id="codigoPostalError" class="text-danger"></span>
+                        <span id="codigoPostalError" class="text-danger mensaje-error"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" id="provincia" ${sede ? `value="${sede.provincia}"` : 'placeholder="Provincia"'} class="form-control">
-                        <span id="provinciaError" class="text-danger"></span>
+                        <span id="provinciaError" class="text-danger mensaje-error"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" id="ciudad" ${sede ? `value="${sede.ciudad}"` : 'placeholder="Ciudad"'} class="form-control">
-                        <span id="ciudadError" class="text-danger"></span>
+                        <span id="ciudadError" class="text-danger mensaje-error"></span>
                     </div>
                     <button type="button" class="btn btn-primary btn-block" ${sede ? `onclick="Sede.editarSede('${sede._id}');"` : `onclick="Sede.editarSede();"`}>
                         ${sede ? 'Editar' : 'Ingresar'}

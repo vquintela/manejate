@@ -52,7 +52,7 @@ const listarMotos = async () => {
     const insert = document.getElementById('insertar')
     contenedor.removeChild(insert)
     contenedor.insertAdjacentHTML('beforeend', textoFilas)
-    const motos = await getMotos()
+    let motos = await getMotos()
     if(filtro !== 'todos') {
         motos = motos.filter(moto => moto.marca === filtro)
     } 

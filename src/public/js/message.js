@@ -13,7 +13,7 @@ class message {
     }
 
     static errorMessage(errors) {
-        document.querySelectorAll('.text-danger').forEach(span => span.innerText = '');
+        document.querySelectorAll('.mensaje-error').forEach(span => span.innerText = '');
         errors.forEach(error => {
             const [key, value] = error.split(':').map(err => err.trim())
             document.getElementById(`${key}Error`).innerText = value
