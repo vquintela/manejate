@@ -16,6 +16,7 @@ router.get("/", logAdmin, async (req, res) => {
     alq.fechaReserva = moment(alq.fechaReserva).format("l");
     alq.fechaCancelacion = moment(alq.fechaCancelacion).format("l");
     alq.rol = req.user.rol;
+    alq.mostrar = req.user.rol == 'administrador'
     // alq.cancelable = alq.estado == 'pendiente';
     alquileres.push(alq);
   });

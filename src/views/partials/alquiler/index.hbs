@@ -15,11 +15,18 @@
             <tbody>
                 {{#each this}}
                 <tr>
-
                     <td>{{fechaReserva}}</td>
                     <td>{{fechaEntrega}}</td>
                     <td>{{fechaDevolucion}}</td>
-                    <td>{{usuario.email}}</td>
+                    <td>
+                        {{#if mostrar}}
+                        <button type="button" moto-id="{{usuario._id}}" class="btn btn-link ver-user">
+                            {{usuario.email}}
+                        </button>
+                        {{else}}
+                        {{usuario.email}}
+                        {{/if}}
+                    </td>
                     <td>
                         <button type="button" moto-id="{{motocicleta}}" class="btn btn-sm btn-outline-success ver-moto">
                             Ver Moto

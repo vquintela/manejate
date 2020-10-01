@@ -95,3 +95,30 @@ const finalizarAlquiler = async (id) => {
   console.log(resp)
 }
 
+// ACCION LINK MOSTRAR DETALLE USUARIO
+document
+  .querySelectorAll(".ver-user")
+  .forEach((e) =>
+    e.addEventListener("click", () => verUser(e.getAttribute("moto-id")))
+  );
+
+// OBTIENE LOS DATOS DEL USUARIO
+const verUser = async (id) => {
+  const user = await fetch(`/users/editar/${id}`, {method: 'GET'});
+  const res = JSON.parse(await user.text());
+  mostraUser(res);
+};
+// Inserta la Informacion de la moto alquilada
+const mostraUser = (res) => {
+  const contenedor = document.getElementById("modal-user");
+  const body = document.querySelector("body");
+  contenedor.style.display = "block";
+  body.style.overflowY = "hidden";
+  document.getElementById("nombre").innerText = `${res.nombre} ${res.apellido}` ;
+  document.getElementById("email").innerText = res.email;
+  document.getElementById("telefono").innerText = res.telefono;
+  document.getElementById("cerrarRegistro-user").addEventListener("click", () => {
+    contenedor.style.display = "none";
+    body.style.overflowY = "visible";
+  });
+};

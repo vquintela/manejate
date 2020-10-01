@@ -81,9 +81,6 @@ mailer.reserva = async (reserva, user, moto, sede) => {
             <p>Fecha de reserva: ${moment(reserva.fechaReserva).format('l')}</p>
             <p>Fecha de entrega: ${moment(reserva.fechaEntrega).format('l')}</p>
             <p>Fecha de devolución: ${moment(reserva.fechaDevolucion).format('l')}</p>
-            <p>Motocicleta: FALTA CONFIGURAR</p>
-            <p>Sede de entrega: FALTA CONFIGURAR</p>
-            <p>Sede de devolución: FALTA CONFIGURAR</p>
         `
     });
 }
