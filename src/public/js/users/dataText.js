@@ -12,7 +12,7 @@ const texto = `
                 <th scope="col">Accion</th>
                 </tr>
             </thead>
-            <tbody  id="insertar-filas">
+            <tbody class="table table-sm text-center" id="insertar-filas">
             </tbody>
         </table>
     </div>

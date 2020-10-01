@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Alquiler = require("../model/alquiler");
+const Moto = require('../model/moto');
+const Sede = require('../model/sede');
 const path = require("path");
 const moment = require("moment");
 const { logAdmin, logueado } = require("../lib/auth");
@@ -25,7 +27,8 @@ router.get("/", logAdmin, async (req, res) => {
   estados.forEach(element => {
     select.push({nombre: element, select: false})
   });
-  res.render("./layouts/alquiler", { alquileres: alquileres, estados: select, mostrar: req.user.rol == 'administrador' });
+  const sedes = await Sede.find().lean();
+  res.render("./layouts/alquiler", { alquileres: alquileres, estados: select, mostrar: req.user.rol == 'administrador', sedes: sedes });
 });
 
 router.get("/obtenerFechasReservadas/:id", async (req, res) => {
@@ -83,21 +86,21 @@ router.post("/nuevo", async (req, res) => {
   res.json({ mensaje, alquiler });
 });
 
-router.put("/editar/:id", async (req, res) => {
-  const alquiler = await Alquiler.findByIdAndUpdate(
-    req.params.id,
-    {
-      fechaEntrega: req.body.fechaEntrega,
-      fechaDevolucion: req.body.fechaDevolucion,
-      motocicleta: req.body.motocicleta,
-    },
-    { new: true }
-  );
+// router.put("/editar/:id", async (req, res) => {
+//   const alquiler = await Alquiler.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       fechaEntrega: req.body.fechaEntrega,
+//       fechaDevolucion: req.body.fechaDevolucion,
+//       motocicleta: req.body.motocicleta,
+//     },
+//     { new: true }
+//   );
 
-  if (!alquiler) return status(404);
+//   if (!alquiler) return status(404);
 
-  res.json(alquiler);
-});
+//   res.json(alquiler);
+// });
 
 router.put("/cancelar/:id", async (req, res) => {
   const alquiler = await Alquiler.findByIdAndUpdate(
@@ -106,8 +109,7 @@ router.put("/cancelar/:id", async (req, res) => {
       estado: 'cancelado'
     }
   );
-
-  res.status(200).send();
+  res.status(200).json('ok');
 });
 
 router.get("/:id", logueado, async (req, res) => {
@@ -178,8 +180,13 @@ router.put("/entregar/:id", async (req, res) => {
       estado: 'curso'
     }
   );
-
-  res.status(200).json('ok');
+  await Moto.findByIdAndUpdate(
+    alquiler.motocicleta,
+    {
+      service: true
+    }
+  )
+  res.status(200).json(true);
 });
 
 router.put("/finalizar/:id", async (req, res) => {
@@ -189,8 +196,14 @@ router.put("/finalizar/:id", async (req, res) => {
       estado: 'finalizado'
     }
   );
-
-  res.status(200).json('ok');
+  await Moto.findByIdAndUpdate(
+    alquiler.motocicleta,
+    {
+      service: false,
+      ubicacion: req.body.ubicacion
+    }
+  )
+  res.status(200).json(true);
 });
 
 module.exports = router;

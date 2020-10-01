@@ -11,7 +11,7 @@ const textoFilas = `
                     <th scope="col">Asignada</th>
                 </tr>
             </thead>
-            <tbody id="filas">
+            <tbody id="filas" class="table table-sm text-center">
             </tbody>
         </table>
     </div>

@@ -86,13 +86,28 @@ const datosAlquileres = async (estado, usuario) => {
 const entregarMoto = async (id) => {
   const res = await fetch(`/alquileres/entregar/${id}`, { method: 'PUT' });
   const resp = JSON.parse(await res.text());
-  console.log(resp)
+  if(resp) location.reload();
 }
 
 const finalizarAlquiler = async (id) => {
-  const res = await fetch(`/alquileres/finalizar/${id}`, { method: 'PUT' });
-  const resp = JSON.parse(await res.text());
-  console.log(resp)
+  const contenedor = document.getElementById("modal-ubicacion");
+  const body = document.querySelector("body");
+  contenedor.style.display = "block";
+  body.style.overflowY = "hidden";
+  document.getElementById("cerrarRegistro-ubicacion").addEventListener("click", () => {
+    contenedor.style.display = "none";
+    body.style.overflowY = "visible";
+  });
+  document.getElementById('ubicacion-nueva-moto').addEventListener('click', async () => {
+    const ubicacion = document.getElementById('sede-nueva').value;
+    const res = await fetch(`/alquileres/finalizar/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ubicacion}),
+    });
+    const resp = JSON.parse(await res.text());
+    if(resp) location.reload();
+  })
 }
 
 // ACCION LINK MOSTRAR DETALLE USUARIO

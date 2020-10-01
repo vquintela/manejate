@@ -60,7 +60,7 @@ const textoFilas = `
                 <th scope="col">Accion</th>
             </tr>
             </thead>
-            <tbody id="filas">
+            <tbody id="filas" class="table table-sm text-center">
             </tbody>
         </table>
     </div>

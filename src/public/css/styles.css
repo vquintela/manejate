@@ -1,3 +1,12 @@
+/* ESTILO TABLA CENTRADA VERTICALMENTE */
+.table td {
+	vertical-align: middle !important;
+}
+
+tbody tr {
+    height: 50px;
+}
+
 /* NAVBAR */
 .btn-sidebar {
     cursor: pointer;

@@ -95,4 +95,29 @@
         </div>
     </div>
 </div>
+
+{{!-- MODAL FINALIZACION ALQUILER --}}
+<div class="contenedor-modal" id="modal-ubicacion">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="/img/motorcycle-solid.svg" alt="moto">
+            <h4>Ingrese la nueva ubicacion</h4>
+            <span class="cerrar" id="cerrarRegistro-ubicacion">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+            <div class="col-md-12">
+               <select name="rol" id="sede-nueva" class="form-control mr-sm-2">
+                    <option>Ubicacion</option>
+                    {{#each sedes as |item|}}
+                    <option value="{{item._id}}">{{item.domicilio}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn btn-primary" id="ubicacion-nueva-moto">Confirmar</button>
+        </div>
+    </div>
+</div>
 <script type="module" src="/js/alquiler.js"></script>

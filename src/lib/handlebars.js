@@ -97,15 +97,13 @@ helpers.acciones = (alq) => {
     switch (alq.estado) {
       case "pendiente":
         estados = `
-            <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"></i>
-            <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
-            <i class="btn btn-outline-success btn-sm border-0 fas fa-motorcycle" entregar-moto="${alq._id}"></i>
+            <i class="btn btn-outline-danger btn-sm border-0 far fa-trash-alt" cancelar-alquiler="${alq._id}"> Cancelar</i>
+            <i class="btn btn-outline-success btn-sm border-0 fas fa-motorcycle" entregar-moto="${alq._id}"> Entregar</i>
         `;
         break;
       case "curso":
         estados = `
-            <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
-            <i class="btn btn-outline-warning btn-sm border-0 fas fa-warehouse" finalizar-alquiler="${alq._id}"></i>
+            <i class="btn btn-outline-warning btn-sm border-0 fas fa-warehouse" finalizar-alquiler="${alq._id}"> Finalizar</i>
         `;
         break;
       case "finalizado":
@@ -164,3 +162,7 @@ helpers.acciones = (alq) => {
 // }
 
 module.exports = helpers;
+
+
+// BOTON EDICION ALQUILER, LO SACAMOS
+// <i class="btn btn-outline-primary btn-sm border-0 fas fa-pen-alt" editar-alquiler="${alq._id}"></i>
