@@ -12,7 +12,7 @@ const texto = `
                 <th scope="col">Accion</th>
                 </tr>
             </thead>
-            <tbody  id="insertar-filas">
+            <tbody class="table table-sm text-center" id="insertar-filas">
             </tbody>
         </table>
     </div>
@@ -26,25 +26,25 @@ const formIngreso =`
             </div>
             <div class="form-group mt-4">
                 <input type="text" id="nombre" placeholder="Nombre" class="form-control">
-                <span id="nombreError" class="text-danger"></span>
+                <span id="nombreError" class="text-danger mensaje-error"></span>
             </div>
             <div class="form-group">
                 <input type="text" id="apellido" placeholder="Apellido" class="form-control">
-                <span id="apellidoError" class="text-danger"></span>
+                <span id="apellidoError" class="text-danger mensaje-error"></span>
             </div>
             <div class="form-group">
                 <input type="text" id="email" placeholder="Email" class="form-control">
-                <span id="emailError" class="text-danger"></span>
+                <span id="emailError" class="text-danger mensaje-error"></span>
             </div>
             <div class="form-group">
                 <input type="text" id="telefono" placeholder="Telefono" class="form-control">
-                <span id="telefonoError" class="text-danger"></span>
+                <span id="telefonoError" class="text-danger mensaje-error"></span>
             </div>
             <div class="form-group">
                 <select name="rol" id="rol" class="form-control">
                     <option id="rolActual">rol</option>
                 </select>
-                <span id="rolError" class="text-danger"></span>
+                <span id="rolError" class="text-danger mensaje-error"></span>
             </div>
             <button type="button" class="btn btn-primary btn-block" id="btn-insertar"></button>
             <button type="button" class="btn btn-light btn-sm btn-block mt-2" id="btn-cancelar">

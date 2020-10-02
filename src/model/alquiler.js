@@ -30,14 +30,14 @@ module.exports = model(
       type: Schema.Types.ObjectId,
       ref: "moto",
     },
-    sedeEntrega: {
-      type: Schema.Types.ObjectId,
-      ref: "sede",
-    },
-    sedeDevolucion: {
-      type: Schema.Types.ObjectId,
-      ref: "sede",
-    },
+    estado: {
+      type: String,
+      enum: {
+          values: ['pendiente', 'curso', 'finalizado', 'cancelado'],
+          message: '¡Debe elegir un estado!'
+      },
+      default: 'pendiente'
+    }
   }),
   "alquileres"
 );

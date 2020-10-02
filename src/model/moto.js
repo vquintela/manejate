@@ -22,12 +22,12 @@ const motoSchema = new Schema ({
     modelo: {
         type: String,
         required: [true, '¡Campo requerido!'],
-        maxlength:[15,"¡Modelo muy largo maximo 15 caracteres!"]
+        maxlength:[50,"¡Modelo muy largo maximo 50 caracteres!"]
     },
     marca: {
         type: String,
         enum: {
-            values: ['honda', 'yamaha', 'zanella', 'beta'],
+            values: ['BAJAJ','BETA','CORVEN','HONDA','KYMCO','YAMAHA','ZANELLA'],
             message: '¡Debe elegir una marca!'
         },
         required: [true, '¡Campo requerido!']
@@ -38,7 +38,7 @@ const motoSchema = new Schema ({
     },
     imagen: {
         type: String,
-        default: 'sinimagen.png'
+        default: 'https://imgur.com/S1p3HSo.png'
     },
     service: {
         type: Boolean,

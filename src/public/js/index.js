@@ -91,13 +91,36 @@ const renewPass = async () => {
   }
 };
 
+const bloquearFechasReservadas = (id) => {
+  fetch(`/alquileres/obtenerFechasReservadas/${id}`)
+  .then(res => res.json().then(data => {
+    let fechasReservadas = data.flatMap(x => [moment(x.fechaEntrega), moment(x.fechaDevolucion)]);
+
+    $('#fechaEntrega').datetimepicker("destroy");
+    $('#fechaEntrega').datetimepicker({
+      format: 'L',
+      locale: 'es',
+      disabledDates: fechasReservadas
+    });
+
+    $('#fechaDevolucion').datetimepicker("destroy");
+    $('#fechaDevolucion').datetimepicker({
+      format: 'L',
+      locale: 'es',
+      disabledDates: fechasReservadas
+    });
+  }));
+}
+
 window.onload = async () => {
+
   filtrar(); //trae todas las motocicletas al cargar la página
 
   //registra al evento de mostrar el modal de alquiler la la función de adaptar
   //los datos de dicho modal según la motocicleta
   $("#modal-alquiler").on("show.bs.modal", function (event) {
     const target = $(event.relatedTarget);
+    bloquearFechasReservadas(target[0].id);
     const modal = $(this);
     modal.find(".modal-title").text(`Alquilar ${target[0].innerText}`);
     modal.find("input[name='motocicleta']").val(target[0].id);
@@ -158,6 +181,12 @@ window.onload = async () => {
     e.preventDefault();
     contacto();
   })
+
+  //ANIMACION BTN SIDEBAR
+  const btnSidebar = document.getElementById('btn-sidebar');
+  if (btnSidebar) btnSidebar.addEventListener('click', () => {
+    document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
+  })
 };
 
 const registroUsuario = () => {
@@ -169,11 +198,11 @@ const registroUsuario = () => {
     document.querySelector('body').style.overflowY = 'visible';
   })
   document.querySelector('.contenido-footer').addEventListener('click', e => {
-    if(e.target.classList.contains('cancelar')) {
+    if (e.target.classList.contains('cancelar')) {
       modal.style.display = 'none';
       document.querySelector('body').style.overflowY = 'visible';
     }
-    if(e.target.classList.contains('registrarse')) {
+    if (e.target.classList.contains('registrarse')) {
       registrar()
     }
   })
@@ -188,9 +217,9 @@ const registrar = async () => {
   const verificarPassword = document.getElementById('verificar-password').value;
 
   const add = await fetch('auth/signup', {
-    method: 'POST', 
-    headers: {'Content-Type': 'application/json'}, 
-    body: JSON.stringify({nombre, apellido, email, telefono, password, verificarPassword})
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nombre, apellido, email, telefono, password, verificarPassword })
   });
   const res = JSON.parse(await add.text());
   if (res.type) {
@@ -198,7 +227,7 @@ const registrar = async () => {
     mensajeOk(res.message)
   } else if (res.passW) {
     document.getElementById('passW').innerText = res.message;
-  }else {
+  } else {
     mensajeError(res.message)
   }
 }
@@ -218,11 +247,11 @@ const mensajeOk = (message) => {
   document.querySelector('#panelResultados').innerText = message;
   const btnCerrar = document.getElementById('cerrarModal');
   btnCerrar.addEventListener("click", () => {
-      document.getElementById('lamascara').style.display = "none";
+    document.getElementById('lamascara').style.display = "none";
   });
   const btnAceptar = document.getElementById('aceptarModal');
   btnAceptar.addEventListener("click", () => {
-      document.getElementById('lamascara').style.display = "none";
+    document.getElementById('lamascara').style.display = "none";
   });
 }
 
@@ -234,7 +263,7 @@ const contacto = async () => {
   const res = await fetch("/contacto", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({nombre, contacto, email, comentario})
+    body: JSON.stringify({ nombre, contacto, email, comentario })
   });
   const resp = JSON.parse(await res.text());
   if (resp.type) {

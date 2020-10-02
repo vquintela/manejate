@@ -1,3 +1,13 @@
+{{#if user}}
+<div class="sidebar-index">
+    {{>sidebar}}
+</div>
+<div class="btn-sidebar" id="btn-sidebar">
+    <div class="menu-btn" id="btn-menu">
+        <i class="fas fa-bars fa-2x"></i>
+    </div>
+</div>
+{{/if}}
 <div class="masthead">
     <h1 class="display-3 text-white">MANEJATE</h1>
     <p class="lead text-white">Ya es hora que decidas vos como querés moverte...</p>
@@ -27,12 +37,13 @@
         </select>
     </div>
 </div>
+
 <div class="container">
     <div id="moto-card-columns" class="card-columns">
     </div>
 </div>
 
-    {{!-- TEXTOS NOSOTROS Y DEMASES --}}
+{{!-- TEXTOS NOSOTROS Y DEMASES --}}
 <div class="bg-secondary">
     <div class="container text-center pt-5 pb-5">
         <h1 class="font-weight-bold font-italic">Servicios</h1>
@@ -45,12 +56,14 @@
             <div class="col-md-3">
                 <img src="img/map.svg" class="img-fluid mb-2 w-50 h-50">
                 <h5 class="mt-3">Servicio de Mapas</h5>
-                <p class="text-center">Encontrate con los mejores mapas y las rutas mas seguras. Para que el viajar sea un verdadero placer</p>
+                <p class="text-center">Encontrate con los mejores mapas y las rutas mas seguras. Para que el viajar sea
+                    un verdadero placer</p>
             </div>
             <div class="col-md-3">
                 <img src="img/street.svg" class="img-fluid mb-2 w-50 h-50">
                 <h5 class="mt-3">Servicio Exclusivo</h5>
-                <p class="text-center">Sentite un usuario premiun y accede a los mejores beneficios que solo MANEJATE te puede dar</p>
+                <p class="text-center">Sentite un usuario premiun y accede a los mejores beneficios que solo MANEJATE te
+                    puede dar</p>
             </div>
         </div>
     </div>
@@ -59,13 +72,15 @@
     <h1 class="font-weight-bold font-italic pt-5 pb-5">Nosotros</h1>
     <div class="row justify-content-md-end mb-3 mt-5">
         <div class="col-md-4">
-            <img src="img/buenos-aires.jpg" class="rounded-circle border img-fluid mb-2 w-75">
+            <img src="https://imgur.com/x6XBRH9.jpg" class="rounded-circle border img-fluid mb-2 w-75">
         </div>
         <div class="col-md-4 align-self-center text-left">
             <h5>Calidad y Confianza</h5>
-            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor, and structures
-            considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of predefined text with
-            a limited choice of words.
+            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor,
+                and structures
+                considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of
+                predefined text with
+                a limited choice of words.
             </p>
         </div>
     </div>
@@ -75,13 +90,15 @@
     <div class="row justify-content-md-start mb-3 mt-3">
         <div class="col-md-4 align-self-center text-right">
             <h5>Pensamos en la Familia</h5>
-            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor, and structures
-            considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of predefined text with
-            a limited choice of words.
+            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor,
+                and structures
+                considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of
+                predefined text with
+                a limited choice of words.
             </p>
         </div>
         <div class="col-md-4">
-            <img src="img/familia3.jpg" class="rounded-circle border img-fluid mb-2 w-75">
+            <img src="https://imgur.com/eknyO2J.jpg" class="rounded-circle border img-fluid mb-2 w-75">
         </div>
     </div>
     <div class="row">
@@ -89,13 +106,15 @@
     </div>
     <div class="row justify-content-md-end mb-5 mt-3">
         <div class="col-md-4">
-            <img src="img/turista2.jpg" class="rounded-circle border img-fluid mb-2 w-75">
+            <img src="https://imgur.com/XvzvOHi.jpg" class="rounded-circle border img-fluid mb-2 w-75">
         </div>
         <div class="col-md-4 align-self-center text-left">
             <h5>Servicio pensado en vos</h5>
-            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor, and structures
-            considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of predefined text with
-            a limited choice of words.
+            <p>Lorem Ipsum: Quality typographic filler text for webmasters This avoids repetitions, unintentional humor,
+                and structures
+                considered non-idiomatic for standard lipsum filler text. This generator doesn't just add chunks of
+                predefined text with
+                a limited choice of words.
             </p>
         </div>
     </div>
@@ -103,34 +122,33 @@
 <div class="bg-secondary pb-5">
     <div class="container text-center">
         <h1 class="font-weight-bold font-italic pt-5">Contactanos</h1>
-        <form id="form-contacto"
-            <div class="row mt-5 justify-content-md-center">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <input type="text" class="form-control border-0" id="nombreEmail" placeholder="Nombre y Apellido">
-                        <span id="nombreEmailError" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control border-0" id="contactoEmail" placeholder="Motivo Contacto">
-                        <span id="contactoEmailError" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control border-0" id="emailEmail" aria-describedby="emailHelp"
-                            placeholder="Email">
-                        <span id="emailEmailError" class="text-danger"></span>
-                    </div>
-                    <button id="contactar" class="btn btn-primary border-0 btn-block mb-3">Contactar</button>
+        <form id="form-contacto" <div class="row mt-5 justify-content-md-center">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control border-0" id="nombreEmail" placeholder="Nombre y Apellido">
+                    <span id="nombreEmailError" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <textarea class="form-control border-0" rows="8" id="comentarioEmail"
-                            aria-describedby="comentario" placeholder="Comentario" required></textarea>
-                        <span id="comentarioEmailError" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <input type="text" class="form-control border-0" id="contactoEmail" placeholder="Motivo Contacto">
+                    <span id="contactoEmailError" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <input type="email" class="form-control border-0" id="emailEmail" aria-describedby="emailHelp"
+                        placeholder="Email">
+                    <span id="emailEmailError" class="text-danger"></span>
+                </div>
+                <button id="contactar" class="btn btn-primary border-0 btn-block mb-3">Contactar</button>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <textarea class="form-control border-0" rows="8" id="comentarioEmail" aria-describedby="comentario"
+                        placeholder="Comentario" required></textarea>
+                    <span id="comentarioEmailError" class="text-danger"></span>
+                </div>
+            </div>
         </form>
     </div>
-    </div>
+</div>
 </div>
 
 
@@ -147,14 +165,35 @@
             <div class="modal-body">
                 <input type="hidden" name="motocicleta" />
                 <div class="row align-items-end">
-                    <div class="col-6 form-group">
+
+                    <div class="col-sm-6">
                         <label for="fechaEntrega">Fecha de entrega</label>
-                        <input class="form-control" type="date" min="{{data.fechaMinima}}" name="fechaEntrega" />
+                        <div class="form-group">
+                            <div id="fechaEntrega" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#fechaEntrega"
+                                    name="fechaEntrega" />
+                                <div class="input-group-append" data-target="#fechaEntrega"
+                                    data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6 form-group">
+
+                    <div class="col-sm-6">
                         <label for="fechaDevolucion">Fecha de devolución</label>
-                        <input class="form-control" type="date" name="fechaDevolucion" />
+                        <div class="form-group">
+                            <div id="fechaDevolucion" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input"
+                                    data-target="#fechaDevolucion" name="fechaDevolucion" />
+                                <div class="input-group-append" data-target="#fechaDevolucion"
+                                    data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -199,11 +238,13 @@
             <form action="">
                 <span class="text-warning" id="passW"></span>
                 <div class="form-group">
-                    <input type="type" name="nombre" id="nombre" placeholder="Nombre" class="form-control bg-transparent" autofocus>
+                    <input type="type" name="nombre" id="nombre" placeholder="Nombre"
+                        class="form-control bg-transparent" autofocus>
                     <span id="nombreError" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="type" name="apellido" id="apellido" placeholder="Apellido" class="form-control bg-transparent">
+                    <input type="type" name="apellido" id="apellido" placeholder="Apellido"
+                        class="form-control bg-transparent">
                     <span id="apellidoError" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -211,15 +252,18 @@
                     <span id="emailError" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="telefono" id="telefono" placeholder="Telefono" class="form-control bg-transparent">
+                    <input type="text" name="telefono" id="telefono" placeholder="Telefono"
+                        class="form-control bg-transparent">
                     <span id="telefonoError" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" id="password" placeholder="Password" class="form-control bg-transparent">
+                    <input type="password" name="password" id="password" placeholder="Password"
+                        class="form-control bg-transparent">
                     <span id="passwordError" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="verificar-password" id="verificar-password" placeholder="Reingrese el Password" class="form-control bg-transparent">
+                    <input type="password" name="verificar-password" id="verificar-password"
+                        placeholder="Reingrese el Password" class="form-control bg-transparent">
                 </div>
             </form>
         </div>

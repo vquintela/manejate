@@ -1,12 +1,123 @@
 <div class="row w-100">
     {{>sidebar}}
-    <div class="col-md-10">
+    <div class="col-md-10 filas-detalles">
+        <div class="container d-flex align-items-center pt-3 pb-3">
+            <h3 class="display-5">Alquileres</h3>
+            <div class="d-flex ml-auto align-items-center col-md-6">
+                {{#if mostrar}}
+                <input type="text" class="form-control" value="{{usuario}}" placeholder="Usuario" id="usuario-busqueda">
+                <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
+                    <option>todos</option>
+                    {{#each estados as |item|}}
+                    <option {{#if item.select}}selected{{/if}}>{{item.nombre}}</option>
+                    {{/each}}
+                </select>
+                <i class="fas fa-search btn text-success" id="buscar"></i>
+                {{/if}}
+            </div>
+        </div>
         <div class="container" id="contenedor">
-            <h3 class="display-5 pt-3 mb-3">Alquileres</h3>
             <div class="row" id="App">
-                {{> alquiler/index alquileres }}
+                {{> alquiler/index alquileres}}
             </div>
         </div>
     </div>
 </div>
-<script type="module" src="js/alquiler.js"></script>
+{{!-- MODAL DETALLE MOTO --}}
+<div class="contenedor-modal">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="/img/motorcycle-solid.svg" alt="moto">
+            <h4>Detalle Moto</h4>
+            <span class="cerrar" id="cerrarRegistro">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+            <div class="col-md-4 mx-auto">
+                <img src="" alt="img" class="img-fluid" id="img-modal">
+            </div>
+            <hr>
+            <div class="col-md-12">
+                <div class="d-flex">
+                    <p class="my-auto">Marca:</p>
+                    <p class="text-muted ml-2 my-auto" id="marca"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Modelo:</p>
+                    <p class="text-muted ml-2 my-auto" id="modelo"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Precio:</p>
+                    <p class="text-muted ml-2 my-auto" id="precio"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Descripcion:</p>
+                    <p class="text-muted ml-2 my-auto" id="descripcion"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Ubicacion:</p>
+                    <p class="text-muted ml-2 my-auto" id="ubicacion"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- MODAL DETALLE USUARIO --}}
+<div class="contenedor-modal" id="modal-user">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="/img/motorcycle-solid.svg" alt="moto">
+            <h4>Datos Usuario</h4>
+            <span class="cerrar" id="cerrarRegistro-user">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+            <div class="col-md-12">
+                <div class="d-flex">
+                    <p class="my-auto">Nombre:</p>
+                    <p class="text-muted ml-2 my-auto" id="nombre"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Email:</p>
+                    <p class="text-muted ml-2 my-auto" id="email"></p>
+                </div>
+                <hr class="text-muted mt-2 mb-2">
+                <div class="d-flex">
+                    <p class="my-auto">Telefono:</p>
+                    <p class="text-muted ml-2 my-auto" id="telefono"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- MODAL FINALIZACION ALQUILER --}}
+<div class="contenedor-modal" id="modal-ubicacion">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="/img/motorcycle-solid.svg" alt="moto">
+            <h4>Ingrese la nueva ubicacion</h4>
+            <span class="cerrar" id="cerrarRegistro-ubicacion">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+            <div class="col-md-12">
+               <select name="rol" id="sede-nueva" class="form-control mr-sm-2">
+                    <option>Ubicacion</option>
+                    {{#each sedes as |item|}}
+                    <option value="{{item._id}}">{{item.domicilio}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn btn-primary" id="ubicacion-nueva-moto">Confirmar</button>
+        </div>
+    </div>
+</div>
+<script type="module" src="/js/alquiler.js"></script>

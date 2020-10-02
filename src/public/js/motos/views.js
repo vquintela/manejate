@@ -52,7 +52,7 @@ const listarMotos = async () => {
     const insert = document.getElementById('insertar')
     contenedor.removeChild(insert)
     contenedor.insertAdjacentHTML('beforeend', textoFilas)
-    const motos = await getMotos()
+    let motos = await getMotos()
     if(filtro !== 'todos') {
         motos = motos.filter(moto => moto.marca === filtro)
     } 
@@ -84,7 +84,7 @@ const generarFila = (moto, index) => {
     const btnEstado = document.createElement('i')
     btnEstado.setAttribute('class', `estado-moto btn btn-sm border-0 btn-outline-${moto.service ? "success fas fa-wrench" : "danger fas fa-motorcycle"}`)
     btnEstado.setAttribute('estado', `${moto.service}`)
-    btnEstado.innerText = `${moto.service ? ' Reparacion' : ' Activa'}`
+    btnEstado.innerText = `${moto.service ? ' Entregada' : ' Disponible'}`
     tdEstado.appendChild(btnEstado)
     //tdAcciones
     // boton Eliminar
