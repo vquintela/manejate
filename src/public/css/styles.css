@@ -80,9 +80,7 @@ tbody tr {
         transform: translateY(-150%);
     }
 }
-body{
-    margin-bottom: 120px;
-}
+
 
 /* MODAL SIGNUP */
 .contenido-title {
@@ -131,9 +129,6 @@ body{
 	text-align: center;
 	font: normal 18px sans-serif;
     padding: 25px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
 }
 
 .footer-basic-centered .footer-company-motto{
