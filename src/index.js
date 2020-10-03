@@ -53,6 +53,7 @@ app.use('/tareas', require('./routes/tareas'));
 app.use('/sedes', require('./routes/sede'));
 app.use('/alquileres', require('./routes/alquiler'));
 app.use('/sedes', require('./routes/sede'));
+app.use('/perfil', require('./routes/perfil'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));
