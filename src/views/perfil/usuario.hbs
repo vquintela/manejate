@@ -1,0 +1,35 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10 filas-detalles">
+        <div class="d-flex align-items-center pt-3 pb-3">
+            <h3 class="display-5">Perfil</h3>
+            <h1>hola {{user.nombre}} {{user.apellido}}</h1>
+            <div class="d-flex ml-auto align-items-center col-md-6">
+                <button type="button" class="btn btn-primary mr-2 btn-block" id="ingresar-tarea">
+                    <i class="fas fa-tasks"></i>
+                    Agregar Tarea
+                </button>
+                <select name="rol" id="estado-buscar" class="form-control mr-sm-2">
+                    <option>todos</option>
+                    <option value="true">En Curso</option>
+                    <option value="false">Terminadas</option>
+                </select>
+                <button type="button" class="btn btn-outline-success" id="buscar-tarea"><i
+                        class="fas fa-search"></i></button>
+            </div>
+            {{#each alquileres}}
+            <h1>{{fechaEntrega}}</h1>
+            <h1>{{fechaDevolucion}}</h1>
+            <h1>{{estado}}</h1>
+            <h1>{{motocicleta.marca}}</h1>
+            {{else}}
+            <h1>No hay alquileres</h1>
+            {{/each}}
+        </div>
+        <div class="container" id="contenedor">
+            <div class="row" id="App">
+                <div class="col-md-12 text-center" id="insertar"></div>
+            </div>
+        </div>
+    </div>
+</div>
