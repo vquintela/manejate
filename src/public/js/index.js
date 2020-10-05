@@ -94,7 +94,8 @@ const renewPass = async () => {
 const bloquearFechasReservadas = (id) => {
   fetch(`/alquileres/obtenerFechasReservadas/${id}`)
   .then(res => res.json().then(data => {
-    let fechasReservadas = data.flatMap(x => [moment(x.fechaEntrega), moment(x.fechaDevolucion)]);
+    // let fechasReservadas = data.flatMap(x => [moment(x.fechaEntrega), moment(x.fechaDevolucion)]);
+    let fechasReservadas = data.map(x => moment(x));
 
     $('#fechaEntrega').datetimepicker("destroy");
     $('#fechaEntrega').datetimepicker({

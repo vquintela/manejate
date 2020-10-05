@@ -10,7 +10,7 @@ const mailer = require("../lib/mailer");
 
 router.get("/", logAdmin, async (req, res) => {
   moment.locale("es");
-  const alquiler = await Alquiler.find().populate({path: 'usuario', select: 'email'}).lean().exec();
+  const alquiler = await Alquiler.find().populate({ path: 'usuario', select: 'email' }).lean().exec();
   const alquileres = [];
   alquiler.map((alq) => {
     alq.fechaEntrega = moment(alq.fechaEntrega).format("l");
@@ -25,15 +25,30 @@ router.get("/", logAdmin, async (req, res) => {
   const estados = Alquiler.schema.path("estado").enumValues;
   const select = []
   estados.forEach(element => {
-    select.push({nombre: element, select: false})
+    select.push({ nombre: element, select: false })
   });
   const sedes = await Sede.find().lean();
   res.render("./layouts/alquiler", { alquileres: alquileres, estados: select, mostrar: req.user.rol == 'administrador', sedes: sedes });
 });
 
-router.get("/obtenerFechasReservadas/:id", async (req, res) => {
-  const alquileres = await Alquiler.find({ motocicleta: req.params.id }, {_id: 0, fechaEntrega:1, fechaDevolucion:1}).lean().exec();
-  res.json(alquileres);
+router.get("/obtenerFechasReservadas/:id", (req, res) => {
+  Alquiler.find({ motocicleta: req.params.id }, { _id: 0, fechaEntrega: 1, fechaDevolucion: 1 }).lean()
+    .then((data, err) => {
+      return new Promise((resolve, reject) => {
+        var retVal = [];
+        data.forEach(e => {
+          let current = new Date(e.fechaEntrega);
+          while (current.getDate() <= new Date(e.fechaDevolucion).getDate()) {
+            current = new Date(current.setDate(current.getDate() + 1));
+            retVal.push(current);
+          }
+        });
+        resolve(retVal);
+      });
+    })
+    .then((newData, err) => {
+      res.json(newData);
+    });
 });
 
 router.post("/nuevo", async (req, res) => {
@@ -135,9 +150,9 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
   const usuario = req.params.usuario;
   let alquiler
   if (estado !== 'todos') {
-    alquiler = await Alquiler.find({estado: estado}).populate({path: 'usuario', select: 'email'}).lean().exec();
+    alquiler = await Alquiler.find({ estado: estado }).populate({ path: 'usuario', select: 'email' }).lean().exec();
   } else {
-    alquiler = await Alquiler.find().populate({path: 'usuario', select: 'email'}).lean().exec();
+    alquiler = await Alquiler.find().populate({ path: 'usuario', select: 'email' }).lean().exec();
   }
   if (usuario !== 'todos') alquiler = alquiler.filter(alq => alq.usuario.email == usuario);
   const alquileres = [];
@@ -153,7 +168,7 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
   const estados = Alquiler.schema.path("estado").enumValues;
   const select = []
   estados.forEach(element => {
-    if(element === estado) {
+    if (element === estado) {
       select.push({
         nombre: element,
         select: true
@@ -165,7 +180,7 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
       })
     }
   });
-  res.render("./layouts/alquiler", { 
+  res.render("./layouts/alquiler", {
     alquileres: alquileres,
     estados: select,
     usuario: (usuario === 'todos') ? '' : usuario,
