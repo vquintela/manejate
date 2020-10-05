@@ -1,6 +1,13 @@
 <div class="row w-100">
+    <div class="sidebar-index">
     {{>sidebar}}
-    <div class="col-md-10 filas-detalles">
+    </div>
+    <div class="btn-sidebar" id="btn-sidebar">
+        <div class="menu-btn" id="btn-menu">
+            <i class="fas fa-bars fa-2x"></i>
+        </div>
+    </div>
+    <div class="col-md-12 filas-detalles">
         <div class="container d-flex align-items-center pt-3 pb-3">
             <h3 class="display-5">Alquileres</h3>
             <div class="d-flex ml-auto align-items-center col-md-6">
@@ -16,11 +23,7 @@
                 {{/if}}
             </div>
         </div>
-        <div class="container" id="contenedor">
-            <div class="row" id="App">
-                {{> alquiler/index alquileres}}
-            </div>
-        </div>
+        {{> alquiler/index alquileres}}
     </div>
 </div>
 {{!-- MODAL DETALLE MOTO --}}
@@ -117,6 +120,25 @@
         </div>
         <div class="modal-footer">
             <button class="btn-sm btn btn-primary" id="ubicacion-nueva-moto">Confirmar</button>
+        </div>
+    </div>
+</div>
+{{!-- MODAL MOTO EN SEDE DE ENTREGA --}}
+<div class="contenedor-modal" id="modal-moto-sede">
+    <div class="contenido-modal">
+        <div class="contenido-title">
+            <img src="/img/motorcycle-solid.svg" alt="moto">
+            <h4>MOTO EN SEDE DE ENTREGA</h4>
+            <span class="cerrar" id="cerrarRegistro-sede">&times;</span>
+        </div>
+        <hr>
+        <div class="contenido-body">
+            <div class="col-md-12">
+               <h6>¿Confirma que la moto ya esta en la sede?</h6>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn btn-primary" id="moto-en-sede">Confirmar</button>
         </div>
     </div>
 </div>

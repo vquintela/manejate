@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   data.motocicletas = await motoSchema.find().lean();
   data.sedes = await sedeSchema.find().lean();
 
-  res.render("./index", { data });
+  res.render("./index", { data, sucursales: data.sedes });
 });
 
 router.get(

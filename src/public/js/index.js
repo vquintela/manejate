@@ -28,6 +28,7 @@ const obtenerDatos = () => {
   elements.map((e) => {
     obj[e.name] = e.value;
   });
+  obj.sede = document.getElementById('sucursal').value;
   return obj;
 };
 

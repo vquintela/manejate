@@ -1,46 +1,70 @@
 <div class="col-md-12 text-center" id="insertar">
-    <div class="col-md-12 text-center" id="insertar">
-        <table class="table" id="insertar-filas">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Fecha de reserva</th>
-                    <th scope="col">Fecha de entrega</th>
-                    <th scope="col">Fecha de devolución</th>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Detalle Moto</th>
-                    {{!-- <th scope="col">Estado Alquiler</th> --}}
-                    <th scope="col">Acción</th>
-                </tr>
-            </thead>
-            <tbody class="table table-sm text-center">
-                {{#each this}}
-                <tr>
-                    <td>{{fechaReserva}}</td>
-                    <td>{{fechaEntrega}}</td>
-                    <td>{{fechaDevolucion}}</td>
-                    <td>
-                        {{#if mostrar}}
-                        <button type="button" moto-id="{{usuario._id}}" class="btn btn-link ver-user">
-                            {{usuario.email}}
-                        </button>
-                        {{else}}
+    <table class="table" id="insertar-filas">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">F. reserva</th>
+                <th scope="col">F. entrega</th>
+                <th scope="col">F. devolución</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Moto</th>
+                <th scope="col">S. Entrega</th>
+                <th scope="col">S. Devolución</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody class="table table-sm text-center">
+            {{#each this}}
+            <tr>
+                <td>{{fechaReserva}}</td>
+                <td>{{fechaEntrega}}</td>
+                <td>{{fechaDevolucion}}</td>
+                <td>
+                    {{#if mostrar}}
+                    <button type="button" moto-id="{{usuario._id}}" class="btn btn-link ver-user">
                         {{usuario.email}}
+                    </button>
+                    {{else}}
+                    {{usuario.email}}
+                    {{/if}}
+                </td>
+                <td>
+                    <button type="button" moto-id="{{motocicleta._id}}" class="btn btn-link text-success ver-moto">
+                        Ver Moto
+                    </button>
+                </td>
+                <td>
+                    {{#if mostrar}}
+                        {{#if sedeMotoMostrar}}
+                            {{sedeEntrega.domicilio}}
+                        {{else}}
+                            {{#if sedeMoto}}
+                            <h6 class="text-primary">
+                                {{sedeEntrega.domicilio}}
+                            </h6>
+                            {{else}}
+                            <button type="button" sede-entrega="{{sedeEntrega._id}}" moto-alquiler="{{motocicleta._id}}" id-alquiler={{_id}} class="btn btn-link text-danger sedeMoto">
+                                {{sedeEntrega.domicilio}}
+                            </button>
+                            {{/if}}
                         {{/if}}
-                    </td>
-                    <td>
-                        <button type="button" moto-id="{{motocicleta}}" class="btn btn-sm btn-outline-success ver-moto">
-                            Ver Moto
-                        </button>
-                    </td>
-                    {{!-- <td class="{{#estados estado}}{{/estados}}">{{estado}}</td> --}}
-                    <td>
-                        {{#acciones this}}{{/acciones}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
+                    {{else}}
+                    {{sedeEntrega.domicilio}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if sedeDevolucion}}
+                    {{sedeDevolucion.domicilio}}
+                    {{else}}
+                    Sin Sede
+                    {{/if}}
+                </td>
+                <td>
+                    {{#acciones this}}{{/acciones}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
 
 {{! MODAL CANCELACION }}
