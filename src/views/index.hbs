@@ -194,6 +194,18 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-8">
+                        <label for="fechaDevolucion">Sucursal donde retira el vehiculo:</label>
+                        <div class="form-group">
+                            <select name="sucursal" id="sucursal" class="form-control mr-sm-2">
+                                <option>Sucursales</option>
+                                {{#each sucursales as |item|}}
+                                <option value="{{item._id}}">{{item.domicilio}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">

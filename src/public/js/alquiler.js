@@ -1,3 +1,9 @@
+//ANIMACION BTN SIDEBAR
+const btnSidebar = document.getElementById('btn-sidebar');
+if (btnSidebar) btnSidebar.addEventListener('click', () => {
+  document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
+})
+
 const editarAlquiler = function () {
   console.log(this.attributes["editar-alquiler"].value);
 };
@@ -47,7 +53,7 @@ document
 
 document
   .querySelectorAll("[entregar-moto]")
-  .forEach((e) => e.addEventListener("click", () => entregarMoto(e.getAttribute("entregar-moto"))));
+  .forEach((e) => e.addEventListener("click", () => entregarMoto(e.getAttribute("entregar-moto"), e.getAttribute("moto-id"))));
 
 document
   .querySelectorAll("[finalizar-alquiler]")
@@ -83,10 +89,14 @@ const datosAlquileres = async (estado, usuario) => {
   location.href = `/alquileres/buscar/${estado}/${usuario}`;
 };
 
-const entregarMoto = async (id) => {
-  const res = await fetch(`/alquileres/entregar/${id}`, { method: 'PUT' });
+const entregarMoto = async (id, idMoto, idAlquiler) => {
+  const res = await fetch(`/alquileres/entregar/${id}`, { 
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({idMoto}),
+  });
   const resp = JSON.parse(await res.text());
-  if(resp) location.reload();
+  resp ? location.reload() : alert('No se puede anticipar la entrega de la moto')
 }
 
 const finalizarAlquiler = async (id) => {
@@ -137,3 +147,38 @@ const mostraUser = (res) => {
     body.style.overflowY = "visible";
   });
 };
+
+// ACCION MOTO EN LUGAR DE ENTREGA
+document.querySelectorAll('.sedeMoto').forEach( e => {
+  e.addEventListener('click', () => { 
+    const idMoto = e.getAttribute('moto-alquiler');
+    const sedeEntrega = e.getAttribute('sede-entrega');
+    const idAlquiler = e.getAttribute("id-alquiler");
+    motoEnSede(idMoto, sedeEntrega, idAlquiler);
+  });
+});
+// Envio de datos
+const motoEnSede = async (idMoto, sedeEntrega, idAlquiler) => {
+  const contenedor = document.getElementById("modal-moto-sede");
+  const body = document.querySelector("body");
+  contenedor.style.display = "block";
+  body.style.overflowY = "hidden";
+  document.getElementById("cerrarRegistro-sede").addEventListener("click", () => {
+    contenedor.style.display = "none";
+    body.style.overflowY = "visible";
+  });
+  document.getElementById('moto-en-sede').addEventListener('click', async () => {
+    const res = await fetch(`/alquileres/motoensede/${idMoto}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({sedeEntrega, idAlquiler}),
+    });
+    const resp = JSON.parse(await res.text());
+    if (resp) {
+      location.reload();
+    } else {
+      alert('El vehiculo tiene entregas en proceso');
+      location.reload();
+    } 
+  })
+}
