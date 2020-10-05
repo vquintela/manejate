@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const moment = require("moment");
 const Alquiler = require('../model/alquiler');
+const MotoSchema = require('../model/moto');
 
 router.get('/', async (req, res) => {
     if(req.user.rol === 'administrador') {
@@ -9,12 +10,18 @@ router.get('/', async (req, res) => {
                 .or([{ estado: 'pendiente' }, { estado: 'curso' }])
                 .populate({path: 'motocicleta', select: 'precio modelo marca ubicacion'})
                 .populate({path: 'usuario', select: 'nombre apellido telefono email'})
-                .lean();
+                .lean();      
         const fecha = moment().format('YYYY-MM-DD 00:00:01');
         const count = await Alquiler.countDocuments().where('fechaReserva').gte(fecha);
         res.render('perfil/admin', {
             alquileres: alqUsers,
             count: count
+        });
+        const motoOk = await MotoSchema.find();
+//        const motoD = await MotoSchema.countDocuments().where('service');
+        res.render('perfil/admin', {
+            motos: motoOk,
+            count: motoD
         });
     } else {
         const alqUser = await Alquiler.find()

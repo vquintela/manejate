@@ -1,2 +1,37 @@
-<h1>perfil admin</h1>
-<h1>{{count}}</h1>
+<div class="row w-70">
+    {{>sidebar}}
+    <div class="col-md-10 filas-detalles">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bienvenido {{user.nombre}} {{user.apellido}} !</h1>
+        </div>
+            <div class="container-fluid"></div>
+                
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card  border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-primary text-uppercase mb-1">Alquileres realizados Hoy:</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{count}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-primary text-uppercase mb-1">Motos no disponibles:</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{motoD}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>    
+            </div> 
+        </div>
+    </div>
+</div>
