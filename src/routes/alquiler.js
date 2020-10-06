@@ -48,12 +48,12 @@ router.get("/obtenerFechasReservadas/:id", (req, res) => {
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]).lean()
     .then((data, err) => {
       return new Promise((resolve, reject) => {
-        var retVal = [];
+        let retVal = [];
         data.forEach(e => {
-          let current = new Date(e.fechaEntrega);
-          while (current.getDate() <= new Date(e.fechaDevolucion).getDate()) {
-            current = new Date(current.setDate(current.getDate() + 1));
+          let current = e.fechaEntrega;
+          while (current <= e.fechaDevolucion) {
             retVal.push(current);
+            current = moment(current).add(1, 'd');
           }
         });
         resolve(retVal);
@@ -86,12 +86,17 @@ router.post("/nuevo", async (req, res) => {
   const entrega = moment(req.body.fechaEntrega, "DD/MM/YYYY").toDate();
   const devolucion = moment(req.body.fechaDevolucion, "DD/MM/YYYY").toDate();
   
-  const alquileres = await Alquiler.find()
+  const alquileres = await Alquiler.countDocuments()
     .where('motocicleta').equals(req.body.motocicleta)
-    .and([{fechaEntrega: {$gte: entrega}},{fechaDevolucion: {$lte: devolucion}}])
+    .or([
+      { $and: [{fechaEntrega: {$gte: entrega}},{fechaDevolucion: {$lte: devolucion}}] },
+      { $and: [{fechaEntrega: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] },
+      { $and: [{fechaEntrega: {$lte: entrega}},{fechaEntrega: {$gte: devolucion}}] },
+      { $and: [{fechaDevolucion: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] }
+    ])
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
- 
-  if (alquileres.length > 0) {
+
+  if (alquileres > 0) {
     let mensaje = {
       titulo: "ERROR",
       cuerpo: "No sea picaron elija bien la fecha",
@@ -133,7 +138,9 @@ router.post("/nuevo", async (req, res) => {
   };
 
   alquiler = await alquiler.save();
-  await mailer.reserva(alquiler, req.user);
+  const moto = await Moto.findById(alquiler.motocicleta).select('marca modelo');
+  const sede = await Sede.findById(alquiler.sedeEntrega).select('domicilio');
+  await mailer.reserva(alquiler, req.user, moto, sede);
   res.json({ mensaje, alquiler });
 });
 
@@ -169,6 +176,7 @@ router.get("/:id", logueado, async (req, res) => {
   const alquiler = await Alquiler.find({ usuario: id })
     .populate({path: 'sedeEntrega', select: 'domicilio'})
     .populate({path: 'sedeDevolucion', select: 'domicilio'})  
+    .populate({path: 'motocicleta', select: 'ubicacion'})  
     .lean().exec();
   const alquileres = [];
   alquiler.map((alq) => {
@@ -244,12 +252,12 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
 
 router.put("/entregar/:id", async (req, res) => {
   const alquiler = await Alquiler.findById(req.params.id).select('fechaEntrega');
-  const alquileresMoto = await Alquiler.find()
+  const alquileresMoto = await Alquiler.countDocuments()
     .where('_id').ne(req.params.id)
     .where('motocicleta').equals(req.body.idMoto)
     .where('fechaEntrega').lte(alquiler.fechaEntrega)
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
-  if(alquileresMoto.length > 0) {
+  if(alquileresMoto > 0) {
     res.status(200).json(false);
   } else {
     const alquiler = await Alquiler.findByIdAndUpdate(
@@ -291,12 +299,12 @@ router.put("/finalizar/:id", async (req, res) => {
 
 router.put('/motoensede/:id', async (req, res) => {
   const alquiler = await Alquiler.findById(req.body.idAlquiler).select('fechaEntrega');
-  const alquileres = await Alquiler.find()
+  const alquileres = await Alquiler.countDocuments()
     .where('_id').ne(req.body.idAlquiler)
     .where('motocicleta').equals(req.params.id)
     .where('fechaEntrega').lte(alquiler.fechaEntrega)
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
-  if (alquileres.length > 0) {
+  if (alquileres > 0) {
     res.status(200).json(false);
   } else {
     await Moto.findByIdAndUpdate(
