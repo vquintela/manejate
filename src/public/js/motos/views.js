@@ -126,6 +126,7 @@ const insertData = async (moto) => {
     document.getElementById('modelo').value = moto.modelo
     document.getElementById('descripcion').value = moto.descripcion
     document.getElementById('ubicActual').innerText = moto.ubicacion.domicilio
+    document.getElementById('ubicActual').value = moto.ubicacion._id
     document.getElementById('marcaActual').innerText = moto.marca
     document.getElementById('precio').value = moto.precio
     const patente = document.getElementById('patente')
