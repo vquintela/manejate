@@ -164,7 +164,8 @@ router.put("/cancelar/:id", async (req, res) => {
   const alquiler = await Alquiler.findByIdAndUpdate(
     req.params.id,
     {
-      estado: 'cancelado'
+      estado: 'cancelado',
+      fechaCancelacion: Date.now()
     }
   );
   res.status(200).json('ok');
