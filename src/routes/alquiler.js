@@ -44,7 +44,8 @@ router.get("/", logAdmin, async (req, res) => {
 });
 
 router.get("/obtenerFechasReservadas/:id", (req, res) => {
-  Alquiler.find({ motocicleta: req.params.id }, { _id: 0, fechaEntrega: 1, fechaDevolucion: 1 }).lean()
+  Alquiler.find({ motocicleta: req.params.id }, { _id: 0, fechaEntrega: 1, fechaDevolucion: 1 })
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]).lean()
     .then((data, err) => {
       return new Promise((resolve, reject) => {
         var retVal = [];
@@ -73,9 +74,31 @@ router.post("/nuevo", async (req, res) => {
     return res.json({ mensaje });
   }
 
+  if(req.body.sede === 'Sucursales') {
+    let mensaje = {
+      titulo: "ATENCION",
+      cuerpo: "Debe elegir una sede valida para realizar el alquiler.",
+    };
+
+    return res.json({ mensaje });
+  }
+
   const entrega = moment(req.body.fechaEntrega, "DD/MM/YYYY").toDate();
   const devolucion = moment(req.body.fechaDevolucion, "DD/MM/YYYY").toDate();
+  
+  const alquileres = await Alquiler.find()
+    .where('motocicleta').equals(req.body.motocicleta)
+    .and([{fechaEntrega: {$gte: entrega}},{fechaDevolucion: {$lte: devolucion}}])
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
+ 
+  if (alquileres.length > 0) {
+    let mensaje = {
+      titulo: "ERROR",
+      cuerpo: "No sea picaron elija bien la fecha",
+    };
 
+    return res.json({ mensaje });
+  }
   // Validación de fechas de entrega y devolución
   if (entrega > devolucion) {
     let mensaje = {
@@ -220,19 +243,15 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
 })
 
 router.put("/entregar/:id", async (req, res) => {
-  let disponible = true;
   const alquiler = await Alquiler.findById(req.params.id).select('fechaEntrega');
   const alquileresMoto = await Alquiler.find()
+    .where('_id').ne(req.params.id)
     .where('motocicleta').equals(req.body.idMoto)
+    .where('fechaEntrega').lte(alquiler.fechaEntrega)
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
-  alquileresMoto.forEach(alquilerMoto => {
-    if(alquilerMoto.estado === 'curso') disponible = false;
-    if(alquilerMoto._id.toString() != req.params.id.toString() &&
-      alquiler.fechaEntrega > alquilerMoto.fechaEntrega) {
-        disponible = false;
-      }
-  });
-  if(disponible) {
+  if(alquileresMoto.length > 0) {
+    res.status(200).json(false);
+  } else {
     const alquiler = await Alquiler.findByIdAndUpdate(
       req.params.id,
       {
@@ -248,8 +267,6 @@ router.put("/entregar/:id", async (req, res) => {
       }
     )
     res.status(200).json(true);
-  } else {
-    res.status(200).json(false);
   }
 });
 
@@ -258,7 +275,8 @@ router.put("/finalizar/:id", async (req, res) => {
     req.params.id,
     {
       estado: 'finalizado',
-      sedeDevolucion: req.body.ubicacion
+      sedeDevolucion: req.body.ubicacion,
+      fechaDevolucion: Date.now()
     }
   );
   await Moto.findByIdAndUpdate(
@@ -272,19 +290,15 @@ router.put("/finalizar/:id", async (req, res) => {
 });
 
 router.put('/motoensede/:id', async (req, res) => {
-  let disponible = true;
-  const alquileres = await Alquiler.find()
-    .where('motocicleta').equals(req.params.id)
-    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
   const alquiler = await Alquiler.findById(req.body.idAlquiler).select('fechaEntrega');
-  alquileres.forEach(alquilerMoto => {
-    if(alquilerMoto.estado === 'curso') disponible = false;
-    if(alquilerMoto._id.toString() != req.body.idAlquiler.toString() &&
-      alquiler.fechaEntrega > alquilerMoto.fechaEntrega) {
-        disponible = false;
-      }
-  });
-  if(disponible) {
+  const alquileres = await Alquiler.find()
+    .where('_id').ne(req.body.idAlquiler)
+    .where('motocicleta').equals(req.params.id)
+    .where('fechaEntrega').lte(alquiler.fechaEntrega)
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
+  if (alquileres.length > 0) {
+    res.status(200).json(false);
+  } else {
     await Moto.findByIdAndUpdate(
       req.params.id,
       {
@@ -292,8 +306,6 @@ router.put('/motoensede/:id', async (req, res) => {
       }
     );
     res.status(200).json(true);
-  } else {
-    res.status(200).json(false);
   }
 });
 
