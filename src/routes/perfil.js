@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const moment = require("moment");
-const { where } = require('../model/alquiler');
 const Alquiler = require('../model/alquiler');
 const MotoSchema = require('../model/moto');
 const UserSchema = require('../model/user')
