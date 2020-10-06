@@ -16,6 +16,7 @@ function cancelarAlquiler() {
     modal.find(".modal-title").text(`CANCELADO`);
     modal.find(".modal-body").text('Alquiler cancelado correctamente');
     modal.modal('show');
+    location.reload();
   });
 }
 
@@ -110,6 +111,7 @@ const finalizarAlquiler = async (id) => {
   });
   document.getElementById('ubicacion-nueva-moto').addEventListener('click', async () => {
     const ubicacion = document.getElementById('sede-nueva').value;
+    if (ubicacion === 'Ubicacion') return alert('Debe seleccionar una sede valida');
     const res = await fetch(`/alquileres/finalizar/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

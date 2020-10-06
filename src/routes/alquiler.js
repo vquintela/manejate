@@ -44,15 +44,16 @@ router.get("/", logAdmin, async (req, res) => {
 });
 
 router.get("/obtenerFechasReservadas/:id", (req, res) => {
-  Alquiler.find({ motocicleta: req.params.id }, { _id: 0, fechaEntrega: 1, fechaDevolucion: 1 }).lean()
+  Alquiler.find({ motocicleta: req.params.id }, { _id: 0, fechaEntrega: 1, fechaDevolucion: 1 })
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]).lean()
     .then((data, err) => {
       return new Promise((resolve, reject) => {
-        var retVal = [];
+        let retVal = [];
         data.forEach(e => {
-          let current = new Date(e.fechaEntrega);
-          while (current.getDate() <= new Date(e.fechaDevolucion).getDate()) {
-            current = new Date(current.setDate(current.getDate() + 1));
+          let current = e.fechaEntrega;
+          while (current <= e.fechaDevolucion) {
             retVal.push(current);
+            current = moment(current).add(1, 'd');
           }
         });
         resolve(retVal);
@@ -73,9 +74,36 @@ router.post("/nuevo", async (req, res) => {
     return res.json({ mensaje });
   }
 
+  if(req.body.sede === 'Sucursales') {
+    let mensaje = {
+      titulo: "ATENCION",
+      cuerpo: "Debe elegir una sede valida para realizar el alquiler.",
+    };
+
+    return res.json({ mensaje });
+  }
+
   const entrega = moment(req.body.fechaEntrega, "DD/MM/YYYY").toDate();
   const devolucion = moment(req.body.fechaDevolucion, "DD/MM/YYYY").toDate();
+  
+  const alquileres = await Alquiler.countDocuments()
+    .where('motocicleta').equals(req.body.motocicleta)
+    .or([
+      { $and: [{fechaEntrega: {$gte: entrega}},{fechaDevolucion: {$lte: devolucion}}] },
+      { $and: [{fechaEntrega: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] },
+      { $and: [{fechaEntrega: {$lte: entrega}},{fechaEntrega: {$gte: devolucion}}] },
+      { $and: [{fechaDevolucion: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] }
+    ])
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
 
+  if (alquileres > 0) {
+    let mensaje = {
+      titulo: "ERROR",
+      cuerpo: "No sea picaron elija bien la fecha",
+    };
+
+    return res.json({ mensaje });
+  }
   // Validación de fechas de entrega y devolución
   if (entrega > devolucion) {
     let mensaje = {
@@ -110,7 +138,9 @@ router.post("/nuevo", async (req, res) => {
   };
 
   alquiler = await alquiler.save();
-  await mailer.reserva(alquiler, req.user);
+  const moto = await Moto.findById(alquiler.motocicleta).select('marca modelo');
+  const sede = await Sede.findById(alquiler.sedeEntrega).select('domicilio');
+  await mailer.reserva(alquiler, req.user, moto, sede);
   res.json({ mensaje, alquiler });
 });
 
@@ -134,7 +164,8 @@ router.put("/cancelar/:id", async (req, res) => {
   const alquiler = await Alquiler.findByIdAndUpdate(
     req.params.id,
     {
-      estado: 'cancelado'
+      estado: 'cancelado',
+      fechaCancelacion: Date.now()
     }
   );
   res.status(200).json('ok');
@@ -146,6 +177,7 @@ router.get("/:id", logueado, async (req, res) => {
   const alquiler = await Alquiler.find({ usuario: id })
     .populate({path: 'sedeEntrega', select: 'domicilio'})
     .populate({path: 'sedeDevolucion', select: 'domicilio'})  
+    .populate({path: 'motocicleta', select: 'ubicacion'})  
     .lean().exec();
   const alquileres = [];
   alquiler.map((alq) => {
@@ -220,19 +252,15 @@ router.get('/buscar/:estado/:usuario', logAdmin, async (req, res) => {
 })
 
 router.put("/entregar/:id", async (req, res) => {
-  let disponible = true;
   const alquiler = await Alquiler.findById(req.params.id).select('fechaEntrega');
-  const alquileresMoto = await Alquiler.find()
+  const alquileresMoto = await Alquiler.countDocuments()
+    .where('_id').ne(req.params.id)
     .where('motocicleta').equals(req.body.idMoto)
+    .where('fechaEntrega').lte(alquiler.fechaEntrega)
     .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
-  alquileresMoto.forEach(alquilerMoto => {
-    if(alquilerMoto.estado === 'curso') disponible = false;
-    if(alquilerMoto._id.toString() != req.params.id.toString() &&
-      alquiler.fechaEntrega > alquilerMoto.fechaEntrega) {
-        disponible = false;
-      }
-  });
-  if(disponible) {
+  if(alquileresMoto > 0) {
+    res.status(200).json(false);
+  } else {
     const alquiler = await Alquiler.findByIdAndUpdate(
       req.params.id,
       {
@@ -248,8 +276,6 @@ router.put("/entregar/:id", async (req, res) => {
       }
     )
     res.status(200).json(true);
-  } else {
-    res.status(200).json(false);
   }
 });
 
@@ -258,7 +284,8 @@ router.put("/finalizar/:id", async (req, res) => {
     req.params.id,
     {
       estado: 'finalizado',
-      sedeDevolucion: req.body.ubicacion
+      sedeDevolucion: req.body.ubicacion,
+      fechaDevolucion: Date.now()
     }
   );
   await Moto.findByIdAndUpdate(
@@ -272,19 +299,15 @@ router.put("/finalizar/:id", async (req, res) => {
 });
 
 router.put('/motoensede/:id', async (req, res) => {
-  let disponible = true;
-  const alquileres = await Alquiler.find()
-    .where('motocicleta').equals(req.params.id)
-    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
   const alquiler = await Alquiler.findById(req.body.idAlquiler).select('fechaEntrega');
-  alquileres.forEach(alquilerMoto => {
-    if(alquilerMoto.estado === 'curso') disponible = false;
-    if(alquilerMoto._id.toString() != req.body.idAlquiler.toString() &&
-      alquiler.fechaEntrega > alquilerMoto.fechaEntrega) {
-        disponible = false;
-      }
-  });
-  if(disponible) {
+  const alquileres = await Alquiler.countDocuments()
+    .where('_id').ne(req.body.idAlquiler)
+    .where('motocicleta').equals(req.params.id)
+    .where('fechaEntrega').lte(alquiler.fechaEntrega)
+    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
+  if (alquileres > 0) {
+    res.status(200).json(false);
+  } else {
     await Moto.findByIdAndUpdate(
       req.params.id,
       {
@@ -292,8 +315,6 @@ router.put('/motoensede/:id', async (req, res) => {
       }
     );
     res.status(200).json(true);
-  } else {
-    res.status(200).json(false);
   }
 });
 

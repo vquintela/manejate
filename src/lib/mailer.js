@@ -75,12 +75,15 @@ mailer.reserva = async (reserva, user, moto, sede) => {
         to: user.email,
         subject: 'Confirmacion de Reserva',
         html: `
-            <h3><b>Gracias por confiar en MANEJATE</b></h3><br><br>
-            <h3><b>Confirmamos la reserva para:</b>${user.nombre} ${user.apellido}</h3><br><br>
-            <p>¡Recuerde no tomar cuando maneja!</p><br><br><br>
+            <h3><b>Gracias por confiar en MANEJATE</b></h3><br>
+            <h3><b>Confirmamos la reserva para:</b>${user.nombre} ${user.apellido}</h3><br>
+            <p>¡Recuerde no tomar cuando maneja!</p><br>
             <p>Fecha de reserva: ${moment(reserva.fechaReserva).format('l')}</p>
             <p>Fecha de entrega: ${moment(reserva.fechaEntrega).format('l')}</p>
             <p>Fecha de devolución: ${moment(reserva.fechaDevolucion).format('l')}</p>
+            <p>Sede de Retiro: ${sede.domicilio}</p>
+            <p>Moto Marca: ${moto.marca}</p>
+            <p>Modelo: ${moto.modelo}</p>
         `
     });
 }

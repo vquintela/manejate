@@ -1,3 +1,5 @@
+const moment = require('moment');
+moment.locale("es");
 const helpers = {};
 
 // HELPER BOTONES SIDEBAR
@@ -122,7 +124,7 @@ helpers.acciones = (alq) => {
         break;
       case "cancelado":
         estados = `
-            <h6 class="text-danger">Cancelado</h6>
+            <h6 class="text-danger">Cancelado: ${moment(alq.fechaCancelacion).format('l')}</h6>
         `;
         break;
     }
@@ -141,7 +143,7 @@ helpers.acciones = (alq) => {
             estados = `<h6 class="text-success">Finalizado</h6>`;
         break;
         case "cancelado":
-            estados = `<h6 class="text-danger">Cancelado</h6>`;
+            estados = `<h6 class="text-danger">Cancelado: ${moment(alq.fechaCancelacion).format('l')}</h6>`;
         break;
     }
     return estados
