@@ -12,7 +12,8 @@
                 <th scope="col">Fecha de Entrega</th>
                 <th scope="col">Fecha de Devolucion</th> 
                 <th scope="col">Estado de la Reserva</th> 
-                <th scope="col">Marca </th>    
+                <th scope="col">Marca </th>
+                <th scope="col">Ir Alquiler </th>    
                 </tr>
                 </thead>
                 <tbody>
@@ -20,10 +21,11 @@
                 <tr>
                 <td>{{fechaEntrega}}</td>
                 <td>{{fechaDevolucion}}</td>
-                <td>{{estado}}</td>
+                <td class="text-uppercase">{{estado}}</td>
                 <td>{{motocicleta.marca}}</td>
+                <td><a class="far fa-arrow-alt-circle-right" href="/alquileres"></a></td>   
                 {{else}}
-                <td>No hay alquileres</td>                
+                <td>No hay alquileres</td>      
                 </tr>
                 {{/each}}
                 </tbody>
