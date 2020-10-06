@@ -24,9 +24,9 @@ mailer.signup = async (email, nombre, apellido, numberId) => {
     const ret = await transporter.sendMail({
         from: direccion,
         to: email,
-        subject: 'MCR Validacion de Email',
+        subject: 'MANEJATE Validacion de Email',
         html: `
-                <h3><b>Bienvenido a Master Car Rental</b></h3><br><br>
+                <h3><b>Bienvenido a Manejate</b></h3><br><br>
                 <h3><b>¡Gracias por elegirnos:</b>${nombre} ${apellido}</h3><br><br>
                 <p>Para terminar con el proceso de registro ingrese al siguiente vinculo</p><br><br><br>
                 <br><a href="${link}">Haga click AQUI para verificar</a>"
