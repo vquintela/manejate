@@ -88,14 +88,16 @@ router.post("/nuevo", async (req, res) => {
   
   const alquileres = await Alquiler.countDocuments()
     .where('motocicleta').equals(req.body.motocicleta)
-    .or([
-      { $and: [{fechaEntrega: {$gte: entrega}},{fechaDevolucion: {$lte: devolucion}}] },
-      { $and: [{fechaEntrega: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] },
-      { $and: [{fechaEntrega: {$lte: entrega}},{fechaEntrega: {$gte: devolucion}}] },
-      { $and: [{fechaDevolucion: {$lte: entrega}},{fechaDevolucion: {$gte: devolucion}}] }
+    .and([
+      { $or: [
+        {fechaEntrega: {$gte: entrega, $lte: devolucion}},
+        {fechaDevolucion: {$gte: entrega, $lte: devolucion}}, 
+        {$and: [{fechaEntrega: {$lte: entrega}}, {fechaDevolucion: {$gte: devolucion}}]},
+        {$and: [{fechaEntrega: {$gte: entrega}}, {fechaDevolucion: {$lte: devolucion}}]}
+      ]},
+      { $or: [{ estado: 'pendiente' }, { estado: 'curso' }]}
     ])
-    .or([{ estado: 'pendiente' }, { estado: 'curso' }]);
-
+    
   if (alquileres > 0) {
     let mensaje = {
       titulo: "ERROR",
